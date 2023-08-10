@@ -39,7 +39,7 @@ class Aplicacion(tk.Tk):
         reviews = Review.cargar_reviews("data/reviews.json")
 
         # "Login"
-        usuario_logueado = usuarios[1]
+        usuario_logueado = usuarios[0]
 
         controlador_inicio = ControladorInicio(self)
         controlador_eventos = ControladorEventos(self, eventos, ubicaciones)

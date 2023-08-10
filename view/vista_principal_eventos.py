@@ -16,6 +16,10 @@ class VistaPrincipalEventos(ttk.Frame):
         self.master = master
         self.controlador = controlador
 
+        self.listbox = tk.Listbox(self)
+        self.listbox.config(width=50)
+        self.listbox.bind("<Double-Button-1>", self.seleccionar_evento)
+
     def actualizar_eventos(self):
         eventos = self.obtener_eventos()
         self.listbox.delete(0, tk.END)

@@ -60,9 +60,7 @@ class VistaBusqueda(VistaPrincipalEventos):
 
         self.frame_entry_box.pack(pady=5)
 
-        self.listbox = tk.Listbox(self, width=50)
-        self.listbox.config(width=50)
-        self.listbox.bind("<Double-Button-1>", self.seleccionar_evento)
+        # Listbox en la clase padre
         self.listbox.pack(padx=10, pady=5)
 
         self.actualizar_eventos()
