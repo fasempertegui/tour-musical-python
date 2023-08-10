@@ -1,6 +1,3 @@
-from datetime import datetime
-
-
 class ControladorReviews:
     def __init__(self, app, lista_reviews, lista_usuarios):
         self.app = app
