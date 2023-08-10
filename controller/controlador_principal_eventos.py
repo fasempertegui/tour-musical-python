@@ -33,11 +33,14 @@ class ControladorPrincipalEventos:
                 if ubicacion.id == evento.id_ubicacion:
                     ubicacion_evento = ubicacion
                     break
-            # Aca debo preguntar si el evento esta en la lista de proximos o no para determinar a que info llamar
-            self.app.vista_info.mostrar_info_evento(evento, ubicacion_evento)
-            self.app.vista_mapa.agregar_marcador(ubicacion_evento)
-            #
-            self.app.cambiar_frame(self.app.vista_info)
+            if evento in self.lista_eventos_proximos:
+                vista = self.app.vista_info_proximos
+                vista.mostrar_info_evento(evento, ubicacion_evento)
+                self.app.vista_mapa.agregar_marcador(ubicacion_evento)
+            else:
+                vista = self.app.vista_info_anteriores
+                vista.mostrar_info_evento(evento)
+            self.app.cambiar_frame(vista)
 
     def obtener_eventos(self):
         return self.lista_eventos

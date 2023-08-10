@@ -1,11 +1,13 @@
 from controller.controlador_mapa import ControladorMapa
-from controller.controlador_info import ControladorInfo
+from controller.controlador_info_anteriores import ControladorInfoAnteriores
+from controller.controlador_info_proximos import ControladorInfoProximos
 from controller.controlador_eventos import ControladorEventos
 from controller.controlador_inicio import ControladorInicio
 from controller.controlador_busqueda import ControladorBusqueda
 from controller.controlador_asistidos import ControladorAsistidos
 from view.vista_mapa import VistaMapa
-from view.vista_info import VistaInfo
+from view.vista_info_anteriores import VistaInfoAnteriores
+from view.vista_info_proximos import VistaInfoProximos
 from view.vista_eventos import VistaEventos
 from view.vista_inicio import VistaInicio
 from view.vista_busqueda import VistaBusqueda
@@ -35,21 +37,24 @@ class Aplicacion(tk.Tk):
 
         controlador_inicio = ControladorInicio(self)
         controlador_eventos = ControladorEventos(self, eventos, ubicaciones)
-        controlador_info = ControladorInfo(self)
+        controlador_info_anteriores = ControladorInfoAnteriores(self)
+        controlador_info_proximos = ControladorInfoProximos(self)
         controlador_mapa = ControladorMapa(self)
         controlador_busqueda = ControladorBusqueda(self, eventos, ubicaciones)
         controlador_asistidos = ControladorAsistidos(self, eventos, ubicaciones, usuario_logueado)
 
         self.vista_inicio = VistaInicio(self, controlador_inicio)
         self.vista_eventos = VistaEventos(self, controlador_eventos)
-        self.vista_info = VistaInfo(self, controlador_info)
+        self.vista_info_anteriores = VistaInfoAnteriores(self, controlador_info_anteriores)
+        self.vista_info_proximos = VistaInfoProximos(self, controlador_info_proximos)
         self.vista_mapa = VistaMapa(self, controlador_mapa)
         self.vista_busqueda = VistaBusqueda(self, controlador_busqueda)
         self.vista_asistidos = VistaAsistidos(self, controlador_asistidos)
 
         self.ajustar_frame(self.vista_inicio)
         self.ajustar_frame(self.vista_eventos)
-        self.ajustar_frame(self.vista_info)
+        self.ajustar_frame(self.vista_info_anteriores)
+        self.ajustar_frame(self.vista_info_proximos)
         self.ajustar_frame(self.vista_mapa)
         self.ajustar_frame(self.vista_busqueda)
         self.ajustar_frame(self.vista_asistidos)
