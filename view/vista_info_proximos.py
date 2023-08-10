@@ -27,7 +27,7 @@ class VistaInfoProximos(VistaPrincipalInfo):
         
         self.boton_atras.pack(padx=10, pady=5)
 
-    def mostrar_info_evento(self, evento, ubicacion):
+    def establecer_info_evento(self, evento, ubicacion):
         nombre_ubicacion = ubicacion.nombre
         direccion_ubicacion = ubicacion.direccion
         self.titulo_label["text"] = evento.nombre

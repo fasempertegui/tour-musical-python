@@ -35,7 +35,7 @@ class VistaPrincipalInfo(ttk.Frame):
         # El boton para regresar se packea al final de cada subclase
 
 
-    # mostrar_info_evento se implementa en cada subclase ya que cada una recibe diferente cantidad de argumentos
+    # establecer_info_evento se implementa en cada subclase ya que cada una recibe diferente cantidad de argumentos
 
     def regresar(self):
         self.controlador.regresar()

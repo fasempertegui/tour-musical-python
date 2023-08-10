@@ -39,7 +39,7 @@ class VistaReviews(ttk.Frame):
     def _obtener_nombre_usuario(self, id_usuario):
         return self.controlador.obtener_nombre_usuario(id_usuario)
 
-    def mostrar_reviews(self, evento):
+    def establecer_reviews(self, evento):
         # Habilito la edicion del widget de texto
         self.texto.config(state="normal")
         # Borro el contenido del widget de texto
