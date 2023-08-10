@@ -30,9 +30,7 @@ class VistaPrincipalInfo(ttk.Frame):
         self.info_evento_label = ttk.Label(self, text="")
         self.info_evento_label.pack(padx=10, pady=5)
 
-        self.boton_atras = ttk.Button(
-            self, text="Volver", command=self.regresar
-        )
+        self.boton_atras = ttk.Button(self, text="Volver", command=self.regresar)
 
         # El boton para regresar se packea al final de cada subclase
 

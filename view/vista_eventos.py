@@ -10,15 +10,12 @@ class VistaEventos(VistaPrincipalEventos):
 
         super().__init__(master, controlador)
 
-        self.master = master
-
         titulo_fuente = Font(size=13, weight="bold")
-        self.titulo = ttk.Label(
-            self, text="Explorar eventos", font=titulo_fuente)
-        self.titulo.pack(padx=10, pady=5)
+        titulo = ttk.Label(self, text="Explorar eventos", font=titulo_fuente)
+        titulo.pack(padx=10, pady=5)
 
-        self.label_frame = ttk.LabelFrame(self)
-        self.label_frame["text"] = "Mostrar"
+        label_frame = ttk.LabelFrame(self)
+        label_frame["text"] = "Mostrar"
 
         OPCIONES = [
             "Todos",
@@ -32,24 +29,22 @@ class VistaEventos(VistaPrincipalEventos):
         # Crear los radio buttons de manera dinamica
         for index, opcion in enumerate(OPCIONES):
             ttk.Radiobutton(
-                self.label_frame,
+                label_frame,
                 text=opcion,
                 value=index,
                 variable=self.opcion_elegida,
                 command=self.actualizar_eventos
             ).grid(row=0, column=index, padx=3, pady=3)
 
-        self.label_frame.pack()
+        label_frame.pack()
 
         # Listbox en la clase padre
         self.listbox.pack()
 
         self.actualizar_eventos()
 
-        self.boton_atras = ttk.Button(
-            self, text="Volver", command=self.regresar
-        )
-        self.boton_atras.pack(padx=10, pady=5)
+        boton_atras = ttk.Button(self, text="Volver", command=self.regresar)
+        boton_atras.pack(padx=10, pady=5)
 
     # Metodo "privado" utilizado por actualizar_eventos y seleccionar_evento de esta subclase
     def _determinar_eventos(self):

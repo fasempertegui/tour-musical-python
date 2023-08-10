@@ -11,24 +11,22 @@ class VistaInfoFinalizados(VistaPrincipalInfo):
 
         super().__init__(master, controlador)
 
-        self.master = master
-
-        self.frame_reviews = ttk.Frame(self)
+        frame_reviews = ttk.Frame(self)
 
         estado_fuente = Font(size=9, weight="bold")
-        self.estado_label = ttk.Label(self, text="Evento finalizado", font=estado_fuente)
-        self.estado_label.pack(padx=10, pady=5)
+        estado_label = ttk.Label(self, text="Evento finalizado", font=estado_fuente)
+        estado_label.pack(padx=10, pady=5)
 
         self.boton_ver_reviews = ttk.Button(
-            self.frame_reviews, text="Ver reviews", command=self.mostrar_reviews)
+            frame_reviews, text="Ver reviews", command=self.mostrar_reviews)
         self.boton_ver_reviews.pack(side='left')
 
         self.boton_escribir_review = ttk.Button(
-            self.frame_reviews, text="Escribir review")
+            frame_reviews, text="Escribir review")
         self.boton_escribir_review.configure(state="disabled")
         self.boton_escribir_review.pack(side='right')
 
-        self.frame_reviews.pack()
+        frame_reviews.pack()
 
         self.boton_atras.pack(padx=10, pady=5)
 

@@ -6,7 +6,9 @@ from tkinter.font import Font
 class VistaInicio(ttk.Frame):
 
     def __init__(self, master=None, controlador=None):
+
         super().__init__(master)
+        
         self.master = master
         self.controlador = controlador
 
