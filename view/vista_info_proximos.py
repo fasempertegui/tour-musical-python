@@ -39,3 +39,6 @@ class VistaInfoProximos(VistaPrincipalInfo):
         (fecha, hora_inicio) = evento.hora_inicio.split("T")
         info = f"Artista: {evento.artista}\nGenero: {evento.genero}\nFecha: {fecha} {hora_inicio}"
         self.info_evento_label["text"] = info
+
+    def ver_mapa(self):
+        self.controlador.ver_mapa()

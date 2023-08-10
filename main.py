@@ -28,6 +28,7 @@ class Aplicacion(tk.Tk):
         self.geometry("330x330")
         self.resizable(False, False)
         self.inicializar()
+        # Se utiliza una lista para mantener track de los frames visitados para poder regresar de manera correcta.
         self.historial_vistas = []
         self.cambiar_frame(self.vista_inicio)
 
@@ -37,6 +38,7 @@ class Aplicacion(tk.Tk):
         usuarios = Usuario.cargar_usuario("data/usuarios.json")
         reviews = Review.cargar_reviews("data/reviews.json")
 
+        # "Login"
         usuario_logueado = usuarios[1]
 
         controlador_inicio = ControladorInicio(self)
@@ -70,14 +72,18 @@ class Aplicacion(tk.Tk):
         frame.grid(row=0, column=0, sticky='nsew')
 
     def cambiar_frame(self, frame_destino):
+        # Si no controlo que el frame no este en el historial (que podria ocurrir al avanzar dos veces y luego retroceder) el frame se duplicara y no podre regresar
         if frame_destino not in self.historial_vistas:
             self.historial_vistas.append(frame_destino)
         frame_destino.tkraise()
 
     def volver_frame_anterior(self):
         if len(self.historial_vistas) > 1:
+            # Se elimina el frame actual
             self.historial_vistas.pop()
+            # Se recupera el frame anterior
             vista_anterior = self.historial_vistas[-1]
+            # Se cambia a dicho frame
             self.cambiar_frame(vista_anterior)
 
 

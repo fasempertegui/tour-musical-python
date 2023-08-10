@@ -82,6 +82,6 @@ class VistaBusqueda(VistaPrincipalEventos):
         for evento in eventos_filtrados:
             self.listbox.insert(tk.END, evento.nombre)
 
-    # Metodo propio de la subclase
+    # Elimina cualquier texto que pueda contener el campo (placeholder o texto ingresado)
     def limpiar_campo(self, *args):
         self.entry_box.delete(0, "end")

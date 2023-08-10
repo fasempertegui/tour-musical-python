@@ -3,6 +3,13 @@ from tkinter import ttk
 from tkinter.font import Font
 
 
+'''
+
+vista_principal_info y sus subclases comparten widgets (y algunos metodos tambien) por lo que decidi tambien implementar una clase padre.
+
+'''
+
+
 class VistaPrincipalInfo(ttk.Frame):
     def __init__(self, master=None, controlador=None):
 
@@ -27,8 +34,10 @@ class VistaPrincipalInfo(ttk.Frame):
             self, text="Volver", command=self.regresar
         )
 
-    def ver_mapa(self):
-        self.controlador.ver_mapa()
+        # El boton para regresar se packea al final de cada subclase
+
+
+    # mostrar_info_evento se implementa en cada subclase ya que cada una recibe diferente cantidad de argumentos
 
     def regresar(self):
         self.controlador.regresar()

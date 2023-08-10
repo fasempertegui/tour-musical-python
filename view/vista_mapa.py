@@ -23,7 +23,7 @@ class VistaMapa(ttk.Frame):
         self.boton_atras.pack(padx=10, pady=5)
 
     def agregar_marcador(self, ubicacion):
-        (latitud, longitud) = ubicacion.coordenadas.split(",")
+        latitud, longitud = ubicacion.coordenadas.split(",")
         self.mapa.set_position(float(latitud), float(longitud))
         self.mapa.set_marker(float(latitud), float(longitud))
         self.mapa.set_zoom(15)

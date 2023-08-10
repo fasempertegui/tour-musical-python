@@ -11,7 +11,8 @@ class ControladorReviews:
         for usuario in self.lista_usuarios:
             if usuario.id == id_usuario:
                 return usuario.nombre_usuario
-
+        # return None
+    
     def obtener_reviews_evento(self, evento):
         lista = []
         for review in self.lista_reviews:
