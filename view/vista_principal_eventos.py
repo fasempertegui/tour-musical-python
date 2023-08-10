@@ -39,8 +39,8 @@ class VistaPrincipalEventos(ttk.Frame):
     def obtener_eventos_proximos(self):
         return self.controlador.obtener_eventos_proximos()
 
-    def obtener_eventos_anteriores(self):
-        return self.controlador.obtener_eventos_anteriores()
+    def obtener_eventos_finalizados(self):
+        return self.controlador.obtener_eventos_finalizados()
     
     def regresar(self):
         self.controlador.regresar()

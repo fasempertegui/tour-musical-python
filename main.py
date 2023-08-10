@@ -1,5 +1,5 @@
 from controller.controlador_mapa import ControladorMapa
-from controller.controlador_info_anteriores import ControladorInfoAnteriores
+from controller.controlador_info_finalizados import ControladorInfoFinalizados
 from controller.controlador_info_proximos import ControladorInfoProximos
 from controller.controlador_eventos import ControladorEventos
 from controller.controlador_inicio import ControladorInicio
@@ -7,7 +7,7 @@ from controller.controlador_busqueda import ControladorBusqueda
 from controller.controlador_asistidos import ControladorAsistidos
 from controller.controlador_reviews import ControladorReviews
 from view.vista_mapa import VistaMapa
-from view.vista_info_anteriores import VistaInfoAnteriores
+from view.vista_info_finalizados import VistaInfoFinalizados
 from view.vista_info_proximos import VistaInfoProximos
 from view.vista_eventos import VistaEventos
 from view.vista_inicio import VistaInicio
@@ -41,7 +41,7 @@ class Aplicacion(tk.Tk):
 
         controlador_inicio = ControladorInicio(self)
         controlador_eventos = ControladorEventos(self, eventos, ubicaciones)
-        controlador_info_anteriores = ControladorInfoAnteriores(self)
+        controlador_info_finalizados = ControladorInfoFinalizados(self)
         controlador_info_proximos = ControladorInfoProximos(self)
         controlador_mapa = ControladorMapa(self)
         controlador_busqueda = ControladorBusqueda(self, eventos, ubicaciones)
@@ -50,7 +50,7 @@ class Aplicacion(tk.Tk):
 
         self.vista_inicio = VistaInicio(self, controlador_inicio)
         self.vista_eventos = VistaEventos(self, controlador_eventos)
-        self.vista_info_anteriores = VistaInfoAnteriores(self, controlador_info_anteriores)
+        self.vista_info_finalizados = VistaInfoFinalizados(self, controlador_info_finalizados)
         self.vista_info_proximos = VistaInfoProximos(self, controlador_info_proximos)
         self.vista_mapa = VistaMapa(self, controlador_mapa)
         self.vista_busqueda = VistaBusqueda(self, controlador_busqueda)
@@ -59,7 +59,7 @@ class Aplicacion(tk.Tk):
 
         self.ajustar_frame(self.vista_inicio)
         self.ajustar_frame(self.vista_eventos)
-        self.ajustar_frame(self.vista_info_anteriores)
+        self.ajustar_frame(self.vista_info_finalizados)
         self.ajustar_frame(self.vista_info_proximos)
         self.ajustar_frame(self.vista_mapa)
         self.ajustar_frame(self.vista_busqueda)

@@ -14,7 +14,7 @@ class ControladorPrincipalEventos:
         # lista_eventos contiene todos los eventos cargados desde data/eventos.json y no se modifica.
         self.lista_eventos = lista_eventos
         self.lista_eventos_proximos = []
-        self.lista_eventos_anteriores = []
+        self.lista_eventos_finalizados = []
         self._separar_eventos()
 
     def _separar_eventos(self):
@@ -23,7 +23,7 @@ class ControladorPrincipalEventos:
             if evento.hora_inicio > hoy:
                 self.lista_eventos_proximos.append(evento)
             else:
-                self.lista_eventos_anteriores.append(evento)
+                self.lista_eventos_finalizados.append(evento)
 
     # Metodo "privado" utilizado por las subclases.
     def _seleccionar_evento(self, indice, lista):
@@ -38,9 +38,9 @@ class ControladorPrincipalEventos:
                 self.app.vista_mapa.agregar_marcador(ubicacion_evento)
                 self.app.cambiar_frame(self.app.vista_info_proximos)
             else:
-                self.app.vista_info_anteriores.mostrar_info_evento(evento)
+                self.app.vista_info_finalizados.mostrar_info_evento(evento)
                 self.app.vista_reviews.mostrar_reviews(evento)
-                self.app.cambiar_frame(self.app.vista_info_anteriores)
+                self.app.cambiar_frame(self.app.vista_info_finalizados)
     
     def obtener_eventos(self):
         return self.lista_eventos
@@ -48,8 +48,8 @@ class ControladorPrincipalEventos:
     def obtener_eventos_proximos(self):
         return self.lista_eventos_proximos
 
-    def obtener_eventos_anteriores(self):
-        return self.lista_eventos_anteriores
+    def obtener_eventos_finalizados(self):
+        return self.lista_eventos_finalizados
 
     def obtener_ubicaciones(self):
         return self.lista_ubicaciones

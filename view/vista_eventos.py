@@ -23,7 +23,7 @@ class VistaEventos(VistaPrincipalEventos):
         OPCIONES = [
             "Todos",
             "Eventos proximos",
-            "Eventos anteriores"
+            "Eventos finalizados"
         ]
 
         # Con value=0 la primera opcion (todos) estara marcada por default
@@ -62,7 +62,7 @@ class VistaEventos(VistaPrincipalEventos):
             case 1:
                 return self.obtener_eventos_proximos()
             case 2:
-                return self.obtener_eventos_anteriores()
+                return self.obtener_eventos_finalizados()
             case _:
                 return self.obtener_eventos()
 
