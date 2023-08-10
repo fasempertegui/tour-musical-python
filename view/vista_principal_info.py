@@ -5,7 +5,7 @@ from tkinter.font import Font
 
 '''
 
-vista_principal_info y sus subclases comparten widgets (y algunos metodos tambien) por lo que decidi tambien implementar una clase padre.
+vista_principal_info y sus subclases comparten widgets (y algunos metodos tambien) por lo que decidi tambien implementar una clase padre
 
 '''
 

@@ -1,6 +1,6 @@
 '''
 
-Al igual que con las vistas, tanto controlador_eventos como controlador_busqueda compartian varios metodos, por lo que implemente una clase desde la cual ambas heredarian
+Al igual que con las vistas, controlador_eventos, controlador_busqueda y controlador_asistidos comparten varios metodos, por lo que tambien implemente una clase padre
 
 '''
 

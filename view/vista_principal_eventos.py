@@ -3,7 +3,7 @@ from tkinter import ttk
 
 '''
 
-Tanto vista_eventos como vista_busqueda comparten algunos métodos por lo que decidi implementar una clase padre de la cual las vistas heredarian
+vista_eventos, vista_busqueda y vista_asistidos comparten algunos métodos por lo que me parecio conveniente implementar una clase padre
 
 '''
 
