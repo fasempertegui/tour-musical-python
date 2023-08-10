@@ -47,7 +47,10 @@ class VistaReviews(ttk.Frame):
         reviews = self.obtener_reviews_evento(evento)
         for review in reviews:
             usuario = self._obtener_nombre_usuario(review.id_usuario)
-            texto = f"{usuario} escribio:\n{review.comentario}\nCalificacion: {review.calificacion} estrella(s)\n\n"
+            estrellas = ""
+            for i in range(review.calificacion):
+                estrellas += "⭐"
+            texto = f"{usuario} ({estrellas}):\n{review.comentario}\n\n"
             self.texto.insert(tk.END, texto)
         # Deshabilito la edicion del widget de texto   
         self.texto.config(state="disabled")
