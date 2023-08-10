@@ -1,6 +1,5 @@
 from controller.controlador_mapa import ControladorMapa
-from controller.controlador_info_finalizados import ControladorInfoFinalizados
-from controller.controlador_info_proximos import ControladorInfoProximos
+from controller.controlador_principal_info import ControladorPrincipalInfo
 from controller.controlador_eventos import ControladorEventos
 from controller.controlador_inicio import ControladorInicio
 from controller.controlador_busqueda import ControladorBusqueda
@@ -43,8 +42,7 @@ class Aplicacion(tk.Tk):
 
         controlador_inicio = ControladorInicio(self)
         controlador_eventos = ControladorEventos(self, eventos, ubicaciones)
-        controlador_info_finalizados = ControladorInfoFinalizados(self)
-        controlador_info_proximos = ControladorInfoProximos(self)
+        controlador_principal_info = ControladorPrincipalInfo(self)
         controlador_mapa = ControladorMapa(self)
         controlador_busqueda = ControladorBusqueda(self, eventos, ubicaciones)
         controlador_asistidos = ControladorAsistidos(self, eventos, ubicaciones, usuario_logueado)
@@ -52,8 +50,9 @@ class Aplicacion(tk.Tk):
 
         self.vista_inicio = VistaInicio(self, controlador_inicio)
         self.vista_eventos = VistaEventos(self, controlador_eventos)
-        self.vista_info_finalizados = VistaInfoFinalizados(self, controlador_info_finalizados)
-        self.vista_info_proximos = VistaInfoProximos(self, controlador_info_proximos)
+        # Controlador compartido por ambas vistas
+        self.vista_info_finalizados = VistaInfoFinalizados(self, controlador_principal_info)
+        self.vista_info_proximos = VistaInfoProximos(self, controlador_principal_info)
         self.vista_mapa = VistaMapa(self, controlador_mapa)
         self.vista_busqueda = VistaBusqueda(self, controlador_busqueda)
         self.vista_asistidos = VistaAsistidos(self, controlador_asistidos)
@@ -72,7 +71,7 @@ class Aplicacion(tk.Tk):
         frame.grid(row=0, column=0, sticky='nsew')
 
     def cambiar_frame(self, frame_destino):
-        # Si no controlo que el frame no este en el historial (que podria ocurrir al avanzar dos veces y luego retroceder) el frame se duplicara y no podre regresar
+        # Si no controlo que el frame no este en el historial (que puede ocurrir al avanzar dos veces y luego retroceder) el frame se duplicara y no se podra regresar
         if frame_destino not in self.historial_vistas:
             self.historial_vistas.append(frame_destino)
         frame_destino.tkraise()
