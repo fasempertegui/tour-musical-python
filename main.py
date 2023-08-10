@@ -5,6 +5,7 @@ from controller.controlador_eventos import ControladorEventos
 from controller.controlador_inicio import ControladorInicio
 from controller.controlador_busqueda import ControladorBusqueda
 from controller.controlador_asistidos import ControladorAsistidos
+from controller.controlador_reviews import ControladorReviews
 from view.vista_mapa import VistaMapa
 from view.vista_info_anteriores import VistaInfoAnteriores
 from view.vista_info_proximos import VistaInfoProximos
@@ -12,9 +13,11 @@ from view.vista_eventos import VistaEventos
 from view.vista_inicio import VistaInicio
 from view.vista_busqueda import VistaBusqueda
 from view.vista_asistidos import VistaAsistidos
+from view.vista_reviews import VistaReviews
 from model.ubicacion import Ubicacion
 from model.evento import Evento
 from model.usuario import Usuario
+from model.review import Review
 import tkinter as tk
 
 
@@ -32,6 +35,7 @@ class Aplicacion(tk.Tk):
         eventos = Evento.cargar_eventos("data/eventos.json")
         ubicaciones = Ubicacion.cargar_ubicaciones("data/ubicaciones.json")
         usuarios = Usuario.cargar_usuario("data/usuarios.json")
+        reviews = Review.cargar_reviews("data/reviews.json")
 
         usuario_logueado = usuarios[1]
 
@@ -42,6 +46,7 @@ class Aplicacion(tk.Tk):
         controlador_mapa = ControladorMapa(self)
         controlador_busqueda = ControladorBusqueda(self, eventos, ubicaciones)
         controlador_asistidos = ControladorAsistidos(self, eventos, ubicaciones, usuario_logueado)
+        controlador_reviews = ControladorReviews(self, reviews, usuarios)
 
         self.vista_inicio = VistaInicio(self, controlador_inicio)
         self.vista_eventos = VistaEventos(self, controlador_eventos)
@@ -50,6 +55,7 @@ class Aplicacion(tk.Tk):
         self.vista_mapa = VistaMapa(self, controlador_mapa)
         self.vista_busqueda = VistaBusqueda(self, controlador_busqueda)
         self.vista_asistidos = VistaAsistidos(self, controlador_asistidos)
+        self.vista_reviews = VistaReviews(self, controlador_reviews)
 
         self.ajustar_frame(self.vista_inicio)
         self.ajustar_frame(self.vista_eventos)
@@ -58,6 +64,7 @@ class Aplicacion(tk.Tk):
         self.ajustar_frame(self.vista_mapa)
         self.ajustar_frame(self.vista_busqueda)
         self.ajustar_frame(self.vista_asistidos)
+        self.ajustar_frame(self.vista_reviews)
 
     def ajustar_frame(self, frame):
         frame.grid(row=0, column=0, sticky='nsew')

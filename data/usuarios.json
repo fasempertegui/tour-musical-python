@@ -10,13 +10,15 @@
         "id": 1001,
         "nombre_usuario": "carlosrossi",
         "historial_eventos": [
-            1000,
+            1003,
             1005
         ]
     },
     {
         "id": 1002,
         "nombre_usuario": "emiliorossi",
-        "historial_eventos": []
+        "historial_eventos": [
+            1003
+        ]
     }
 ]

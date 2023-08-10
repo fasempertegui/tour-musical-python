@@ -16,12 +16,12 @@ class VistaInfoAnteriores(VistaPrincipalInfo):
         self.frame_reviews = ttk.Frame(self)
 
         self.boton_ver_reviews = ttk.Button(
-            self.frame_reviews, text="Ver reviews")
+            self.frame_reviews, text="Ver reviews", command=self.mostrar_reviews)
         self.boton_ver_reviews.pack(side='left')
 
         self.boton_escribir_review = ttk.Button(
             self.frame_reviews, text="Escribir review")
-        self.boton_escribir_review.configure(state="disabled")
+        # self.boton_escribir_review.configure(state="disabled")
         self.boton_escribir_review.pack(side='right')
 
         self.frame_reviews.pack()
@@ -34,3 +34,6 @@ class VistaInfoAnteriores(VistaPrincipalInfo):
         (fecha, hora_inicio) = evento.hora_inicio.split("T")
         info = f"Artista: {evento.artista}\nGenero: {evento.genero}\nFecha: {fecha} {hora_inicio}"
         self.info_evento_label["text"] = info
+
+    def mostrar_reviews(self):
+        self.controlador.mostrar_reviews()
