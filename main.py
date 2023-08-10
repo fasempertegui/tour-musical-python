@@ -19,6 +19,13 @@ from model.usuario import Usuario
 from model.review import Review
 import tkinter as tk
 
+'''
+El proyecto no esta finalizado. 
+Carece de un diseño moderno y atractivo, aun faltan caracteristicas (como el planificado de rutas) y otras fueron modificadas (como mostrar un mapa -con su respectivo marcador- para cada evento, en vez de un mapa para todos los eventos)
+que personalmente si tuviera que -re-implementarlas no representaria un desafio mayor.
+Simplemente decidi invertir mas tiempo en utilizar e implementar correctamente el patron de diseño MVC, la programacion orientada a objetos y en que todo funcione correctamente como lo pensé desde un principio.
+'''
+
 
 class Aplicacion(tk.Tk):
     def __init__(self):
