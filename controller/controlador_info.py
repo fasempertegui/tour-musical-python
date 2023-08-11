@@ -46,11 +46,14 @@ class ControladorInfo:
     def obtener_reviews_usuario(self):
         return self.lista_reviews_usuario
 
-    def ver_mapa(self):
+    def ir_a_mapa(self):
         self.app.cambiar_frame(self.app.vista_mapa)
 
-    def mostrar_reviews(self):
+    def ir_a_reviews(self):
         self.app.cambiar_frame(self.app.vista_reviews)
+
+    def ir_a_escribir_review(self):
+        self.app.cambiar_frame(self.app.vista_escribir_review)
 
     def regresar(self):
         self.app.volver_frame_anterior()

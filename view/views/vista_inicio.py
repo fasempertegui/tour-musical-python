@@ -20,22 +20,22 @@ class VistaInicio(VistaPrincipal):
 
         frame_botones = ttk.Frame(self)
 
-        boton_explorar = ttk.Button(frame_botones, text="Explorar eventos", command=self.mostrar_eventos)
+        boton_explorar = ttk.Button(frame_botones, text="Explorar eventos", command=self.ir_a_explorar)
         boton_explorar.grid(row=0, column=0, pady=5)
 
-        boton_buscar = ttk.Button(frame_botones, text="Buscar eventos", command=self.busqueda)
+        boton_buscar = ttk.Button(frame_botones, text="Buscar eventos", command=self.ir_a_busqueda)
         boton_buscar.grid(row=1, column=0, pady=5)
 
-        boton_asistidos = ttk.Button(frame_botones, text="Eventos asistidos", command=self.eventos_asistidos)
+        boton_asistidos = ttk.Button(frame_botones, text="Eventos asistidos", command=self.ir_a_asistidos)
         boton_asistidos.grid(row=2, column=0, pady=5)
 
         frame_botones.pack(padx=10, pady=15)
 
-    def mostrar_eventos(self):
-        self.controlador.mostrar_eventos()
+    def ir_a_explorar(self):
+        self.controlador.ir_a_explorar()
 
-    def busqueda(self):
-        self.controlador.busqueda()
+    def ir_a_busqueda(self):
+        self.controlador.ir_a_busqueda()
 
-    def eventos_asistidos(self):
-        self.controlador.eventos_asistidos()
+    def ir_a_asistidos(self):
+        self.controlador.ir_a_asistidos()

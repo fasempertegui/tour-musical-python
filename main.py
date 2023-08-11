@@ -5,6 +5,7 @@ from controller.controlador_inicio import ControladorInicio
 from controller.eventos.controlador_busqueda import ControladorBusqueda
 from controller.eventos.controlador_asistidos import ControladorAsistidos
 from controller.controlador_reviews import ControladorReviews
+from controller.controlador_escribir_review import ControladorEscribirReview
 from view.views.vista_mapa import VistaMapa
 from view.views.info_eventos.vista_finalizados import VistaFinalizados
 from view.views.info_eventos.vista_proximos import VistaProximos
@@ -13,6 +14,7 @@ from view.views.vista_inicio import VistaInicio
 from view.views.eventos.vista_busqueda import VistaBusqueda
 from view.views.eventos.vista_asistidos import VistaAsistidos
 from view.views.vista_reviews import VistaReviews
+from view.views.vista_escribir_review import VistaEscribirReview
 from model.ubicacion import Ubicacion
 from model.evento import Evento
 from model.usuario import Usuario
@@ -55,9 +57,10 @@ class Aplicacion(tk.Tk):
         controlador_busqueda = ControladorBusqueda(self, eventos, ubicaciones)
         controlador_asistidos = ControladorAsistidos(self, eventos, ubicaciones, usuario_logueado)
         controlador_reviews = ControladorReviews(self, usuarios, reviews)
+        controlador_escribir_review = ControladorEscribirReview(self)
 
         self.vista_inicio = VistaInicio(self, controlador_inicio)
-        self.vista_eventos = VistaExplorar(self, controlador_explorar)
+        self.vista_explorar = VistaExplorar(self, controlador_explorar)
         # Controlador compartido por ambas vistas
         self.vista_finalizados = VistaFinalizados(self, controlador_info)
         self.vista_proximos = VistaProximos(self, controlador_info)
@@ -65,15 +68,17 @@ class Aplicacion(tk.Tk):
         self.vista_busqueda = VistaBusqueda(self, controlador_busqueda)
         self.vista_asistidos = VistaAsistidos(self, controlador_asistidos)
         self.vista_reviews = VistaReviews(self, controlador_reviews)
+        self.vista_escribir_review = VistaEscribirReview(self, controlador_escribir_review)
 
         self.ajustar_frame(self.vista_inicio)
-        self.ajustar_frame(self.vista_eventos)
+        self.ajustar_frame(self.vista_explorar)
         self.ajustar_frame(self.vista_finalizados)
         self.ajustar_frame(self.vista_proximos)
         self.ajustar_frame(self.vista_mapa)
         self.ajustar_frame(self.vista_busqueda)
         self.ajustar_frame(self.vista_asistidos)
         self.ajustar_frame(self.vista_reviews)
+        self.ajustar_frame(self.vista_escribir_review)
 
     def ajustar_frame(self, frame):
         frame.grid(row=0, column=0, sticky='nsew')
