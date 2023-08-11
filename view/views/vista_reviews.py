@@ -29,10 +29,7 @@ class VistaReviews(VistaPrincipal):
 
         self.boton_atras.pack(side='bottom', **self.default_padding)
 
-    def _obtener_nombre_usuario(self, id_usuario):
-        return self.controlador.obtener_nombre_usuario(id_usuario)
-
-    def recuperar_reviews(self, evento):
+    def _recuperar_reviews(self, evento):
         # Habilito la edicion del widget de texto
         self.texto.config(state="normal")
         # Borro el contenido del widget de texto
@@ -41,6 +38,6 @@ class VistaReviews(VistaPrincipal):
         self.texto.insert(tk.END, texto)
         # Deshabilito la edicion del widget de texto   
         self.texto.config(state="disabled")
-
-    def obtener_reviews_evento(self, evento):
-        return self.controlador.obtener_reviews_evento(evento)
+    
+    def set_evento(self, evento):
+        self._recuperar_reviews(evento)

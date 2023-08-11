@@ -18,13 +18,13 @@ class VistaProximos(VistaInfoEvento):
         self.direccion_ubicacion_label = ttk.Label(self)
         self.direccion_ubicacion_label.pack()
 
-        boton_ver_mapa = ttk.Button(self, text="Ver en mapa", command=self.ver_mapa)
+        boton_ver_mapa = ttk.Button(self, text="Ver en mapa", command=self.ir_a_mapa)
         boton_ver_mapa.pack(**self.default_padding)
         
         # Boton en la clase padre, padre
         self.boton_atras.pack(side='bottom', **self.default_padding)
 
-    def establecer_info_evento(self, evento, ubicacion):
+    def _establecer_info_evento(self, evento, ubicacion):
         nombre_ubicacion = ubicacion.nombre
         direccion_ubicacion = ubicacion.direccion
         self.titulo_label["text"] = evento.nombre
@@ -35,5 +35,8 @@ class VistaProximos(VistaInfoEvento):
         info = f"Artista: {evento.artista}\nGenero: {evento.genero}\nFecha: {fecha} {hora_inicio}"
         self.info_evento_label["text"] = info
 
-    def ver_mapa(self):
-        self.controlador.ver_mapa()
+    def set_evento(self, evento, ubicacion):
+        self._establecer_info_evento(evento, ubicacion)
+
+    def ir_a_mapa(self):
+        self.controlador.ir_a_mapa()

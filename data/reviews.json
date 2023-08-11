@@ -4,31 +4,27 @@
         "id_evento": 1005,
         "id_usuario": 1000,
         "comentario": "una masa loco",
-        "calificacion": 5,
-        "animo": "Positivo"
+        "calificacion": 5
     },
     {
         "id": 1001,
         "id_evento": 1003,
         "id_usuario": 1001,
         "comentario": "TREMENDO!!!!!",
-        "calificacion": 4,
-        "animo": "Positivo"
+        "calificacion": 4
     },
     {
         "id": 1002,
         "id_evento": 1005,
         "id_usuario": 1001,
         "comentario": "PUDO SER MEJOR!!",
-        "calificacion": 3,
-        "animo": "Positivo"
+        "calificacion": 3
     },
     {
         "id": 1003,
         "id_evento": 1003,
         "id_usuario": 1002,
         "comentario": "Mortal",
-        "calificacion": 4,
-        "animo": "Positivo"
+        "calificacion": 4
     }
 ]

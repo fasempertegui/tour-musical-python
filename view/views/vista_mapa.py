@@ -11,6 +11,8 @@ class VistaMapa(VistaPrincipal):
 
         super().__init__(master, controlador)
 
+        self.ubicacion = None
+
         self.titulo_label["text"] = "Ubicacion del evento"
         self.titulo_label.pack(**self.default_padding)
 
@@ -21,8 +23,13 @@ class VistaMapa(VistaPrincipal):
 
         self.boton_atras.pack(side='bottom', **self.default_padding)
 
-    def agregar_marcador(self, ubicacion):
-        latitud, longitud = ubicacion.coordenadas.split(",")
+    def _agregar_marcador(self, coordenadas):
+        latitud, longitud = coordenadas.split(",")
         self.mapa.set_position(float(latitud), float(longitud))
         self.mapa.set_marker(float(latitud), float(longitud))
         self.mapa.set_zoom(15)
+
+    def set_ubicacion(self, ubicacion):
+        self.ubicacion = ubicacion
+        coordenadas = ubicacion.coordenadas
+        self._agregar_marcador(coordenadas)
