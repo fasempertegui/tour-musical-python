@@ -39,19 +39,13 @@ class VistaReviews(ttk.Frame):
     def _obtener_nombre_usuario(self, id_usuario):
         return self.controlador.obtener_nombre_usuario(id_usuario)
 
-    def establecer_reviews(self, evento):
+    def recuperar_reviews(self, evento):
         # Habilito la edicion del widget de texto
         self.texto.config(state="normal")
         # Borro el contenido del widget de texto
         self.texto.delete("1.0", tk.END)
-        reviews = self.obtener_reviews_evento(evento)
-        for review in reviews:
-            usuario = self._obtener_nombre_usuario(review.id_usuario)
-            estrellas = ""
-            for i in range(review.calificacion):
-                estrellas += "⭐"
-            texto = f"{usuario} ({estrellas}):\n{review.comentario}\n\n"
-            self.texto.insert(tk.END, texto)
+        texto = self.controlador.recuperar_reviews(evento)
+        self.texto.insert(tk.END, texto)
         # Deshabilito la edicion del widget de texto   
         self.texto.config(state="disabled")
 

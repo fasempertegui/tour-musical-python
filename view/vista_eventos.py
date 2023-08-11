@@ -46,25 +46,16 @@ class VistaEventos(VistaPrincipalEventos):
         boton_atras = ttk.Button(self, text="Volver", command=self.regresar)
         boton_atras.pack(padx=10, pady=5)
 
-    # Metodo "privado" utilizado por actualizar_eventos y seleccionar_evento de esta subclase
-    def _determinar_eventos(self):
-        opcion = self.opcion_elegida.get()
-        match opcion:
-            case 1:
-                return self.obtener_eventos_proximos()
-            case 2:
-                return self.obtener_eventos_finalizados()
-            case _:
-                return self.obtener_eventos()
-
     def actualizar_eventos(self):
-        eventos = self._determinar_eventos()
+        opcion = self.opcion_elegida.get()
+        eventos = self.controlador.determinar_eventos(opcion)
         self.listbox.delete(0, tk.END)
         for evento in eventos:
             self.listbox.insert(tk.END, evento.nombre)
 
     def seleccionar_evento(self, event):
-        eventos = self._determinar_eventos()
+        opcion = self.opcion_elegida.get()
+        eventos = self.controlador.determinar_eventos(opcion)
         indice = self.obtener_evento_seleccionado()
         evento = eventos[indice]
         self.controlador.seleccionar_evento(evento)

@@ -12,17 +12,13 @@ class VistaInfoProximos(VistaPrincipalInfo):
         super().__init__(master, controlador)
 
         nombre_ubicacion_fuente = Font(size=9, weight="bold")
-        self.nombre_ubicacion_label = ttk.Label(
-            self, text="", font=nombre_ubicacion_fuente)
+        self.nombre_ubicacion_label = ttk.Label(self, font=nombre_ubicacion_fuente)
         self.nombre_ubicacion_label.pack()
 
-        self.direccion_ubicacion_label = ttk.Label(self, text="")
+        self.direccion_ubicacion_label = ttk.Label(self)
         self.direccion_ubicacion_label.pack()
 
-        boton_ver_mapa = ttk.Button(
-            self,
-            text="Ver en mapa",
-            command=self.ver_mapa)
+        boton_ver_mapa = ttk.Button(self, text="Ver en mapa", command=self.ver_mapa)
         boton_ver_mapa.pack(padx=10, pady=5)
         
         self.boton_atras.pack(padx=10, pady=5)

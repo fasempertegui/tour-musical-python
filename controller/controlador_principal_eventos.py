@@ -18,7 +18,7 @@ class ControladorPrincipalEventos:
         
     def _separar_eventos(self):
         hoy = datetime.now().replace(microsecond=0).isoformat()
-        for evento in self.lista_eventos:
+        for evento in self.obtener_eventos():
             if evento.hora_inicio > hoy:
                 self.lista_eventos_proximos.append(evento)
             else:
@@ -26,18 +26,18 @@ class ControladorPrincipalEventos:
 
     def seleccionar_evento(self, evento):
         if evento is not None:
-            for ubicacion in self.lista_ubicaciones:
+            for ubicacion in self.obtener_ubicaciones():
                 if ubicacion.id == evento.id_ubicacion:
                     ubicacion_evento = ubicacion
                     break
-            if evento in self.lista_eventos_proximos:
+            if evento in self.obtener_eventos_proximos():
                 self.app.vista_info_proximos.establecer_info_evento(evento, ubicacion_evento)
                 self.app.vista_mapa.agregar_marcador(ubicacion_evento)
                 self.app.cambiar_frame(self.app.vista_info_proximos)
             else:
                 self.app.vista_info_finalizados.establecer_info_evento(evento)
-                self.app.vista_info_finalizados.determinar_usuario_asistio(evento)
-                self.app.vista_reviews.establecer_reviews(evento)
+                self.app.vista_info_finalizados.establecer_estado_botones(evento)
+                self.app.vista_reviews.recuperar_reviews(evento)
                 self.app.cambiar_frame(self.app.vista_info_finalizados)
     
     def obtener_eventos(self):

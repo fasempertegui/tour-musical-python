@@ -50,12 +50,10 @@ class Aplicacion(tk.Tk):
 
         controlador_inicio = ControladorInicio(self)
         controlador_eventos = ControladorEventos(self, eventos, ubicaciones)
-        controlador_principal_info = ControladorPrincipalInfo(
-            self, reviews, usuario_logueado)
+        controlador_principal_info = ControladorPrincipalInfo(self, eventos, reviews, usuario_logueado)
         controlador_mapa = ControladorMapa(self)
         controlador_busqueda = ControladorBusqueda(self, eventos, ubicaciones)
-        controlador_asistidos = ControladorAsistidos(
-            self, eventos, ubicaciones, usuario_logueado)
+        controlador_asistidos = ControladorAsistidos(self, eventos, ubicaciones, usuario_logueado)
         controlador_reviews = ControladorReviews(self, usuarios, reviews)
 
         self.vista_inicio = VistaInicio(self, controlador_inicio)

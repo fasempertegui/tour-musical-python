@@ -18,16 +18,14 @@ class VistaInfoFinalizados(VistaPrincipalInfo):
             self, text="Evento finalizado", font=estado_fuente)
         estado_label.pack(padx=10, pady=5)
 
-        self.boton_confirmar_asistencia = ttk.Button(
-            frame_reviews, text="Asisti a este evento")
+        self.boton_confirmar_asistencia = ttk.Button(frame_reviews)
         self.boton_confirmar_asistencia.pack(side='top')
 
         self.boton_ver_reviews = ttk.Button(
             frame_reviews, text="Ver reviews", command=self.mostrar_reviews)
         self.boton_ver_reviews.pack(side="left")
 
-        self.boton_escribir_review = ttk.Button(
-            frame_reviews, text="Escribir review")
+        self.boton_escribir_review = ttk.Button(frame_reviews, text="Opinar")
         self.boton_escribir_review.pack(side="right")
 
         frame_reviews.pack()
@@ -41,34 +39,25 @@ class VistaInfoFinalizados(VistaPrincipalInfo):
         info = f"Artista: {evento.artista}\nGenero: {evento.genero}\nFecha: {fecha} {hora_inicio}"
         self.info_evento_label["text"] = info
 
-    def _puede_escribir_review(self, evento):
-        reviews_usuario = self.controlador.obtener_reviews_usuario()
-        for review in reviews_usuario:
-            if review.id_evento == evento.id:
-                # Si estamos dentro del if es porque el usuario ya escribio una review para este evento
-                # Se deshabilita el boton
-                self.boton_escribir_review.configure(state="disabled")
-                break
-        # Si no escribio review, el boton queda habilitado
+    # Metodo "privado"
+    def _determinar_usuario_puede_opinar(self, asistio, evento):
+        self.boton_escribir_review.configure(state="normal")
+        if self.controlador.determinar_usuario_puede_opinar(asistio, evento):
+            self.boton_escribir_review.configure(state="disabled")
 
-    def determinar_usuario_asistio(self, evento):
-        # El comportamiento de los botones es el siguiente:
-        # Por default se asume que el usuario no asistio al evento, por lo que el boton para confirmar la asistencia esta habilitado
+    # Metodo "privado"
+    def _determinar_usuario_asistio(self, evento):
         self.boton_confirmar_asistencia.configure(state="normal")
-        # Como el usuario no asistio al evento, no puede escribir una review
-        self.boton_escribir_review.configure(state="disabled")
-        usuario = self.controlador.obtener_usuario_logueado()
-        # Determinamos verdaderamente si el usuario asistio al evento
-        for id_evento in usuario.historial_eventos:
-            if id_evento == evento.id:
-                # Si estamos dentro del if es porque el usuario asistio al evento
-                # El boton se deshabilita puesto que no necesita re-confirmar la asistencia
-                self.boton_confirmar_asistencia.configure(state="disabled")
-                # Se habilita el boton de review a modo de estado inicial
-                self.boton_escribir_review.configure(state="enabled")
-                # Resta determinar si puede escribir una review o no, dependiendo si ya lo hizo anteriormente o no
-                self._puede_escribir_review(evento)
-                break
+        self.boton_confirmar_asistencia["text"] = "Marcar como asistido"
+        if self.controlador.determinar_usuario_asistio(evento):
+            self.boton_confirmar_asistencia.configure(state="disabled")
+            self.boton_confirmar_asistencia["text"] = "Marcado como asistido"
+            return True
+        return False
+
+    def establecer_estado_botones(self, evento):
+        asistio = self._determinar_usuario_asistio(evento)
+        self._determinar_usuario_puede_opinar(asistio, evento)
 
     def mostrar_reviews(self):
         self.controlador.mostrar_reviews()

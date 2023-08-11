@@ -9,14 +9,11 @@ class ControladorBusqueda(ControladorPrincipalEventos):
 
     def buscar_eventos(self, criterio, texto_busqueda):
         eventos_filtrados = []
-        for evento in self.lista_eventos:
+        for evento in self.obtener_eventos():
             if texto_busqueda in getattr(evento, criterio).lower():
                 eventos_filtrados.append(evento)
         self.lista_eventos_busqueda = eventos_filtrados
         return eventos_filtrados
-    
-    def obtener_eventos(self):
-        return self.lista_eventos
 
-    def obtener_eventos_busqueda(self):
+    def obtener_eventos_buscados(self):
         return self.lista_eventos_busqueda

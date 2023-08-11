@@ -25,3 +25,18 @@ class VistaAsistidos(VistaPrincipalEventos):
             self, text="Volver", command=self.regresar
         )
         boton_atras.pack(padx=10, pady=5)
+
+    def actualizar_eventos(self):
+        eventos = self.controlador.obtener_eventos_asistidos()
+        self.listbox.delete(0, tk.END)
+        for evento in eventos:
+            self.listbox.insert(tk.END, evento.nombre)
+
+    def obtener_eventos_asistidos(self):
+        return self.controlador.obtener_eventos_asistidos()
+
+    def seleccionar_evento(self, event):
+        lista = self.obtener_eventos_asistidos()
+        indice = self.obtener_evento_seleccionado()
+        evento = lista[indice]
+        self.controlador.seleccionar_evento(evento)

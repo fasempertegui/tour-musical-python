@@ -10,13 +10,16 @@ class ControladorAsistidos(ControladorPrincipalEventos):
         self._lista_eventos_asistidos()
 
     def _lista_eventos_asistidos(self):
-        historial_eventos_usuario = self.usuario_logueado.historial_eventos
+        usuario = self.obtener_usuario_logueado()
+        historial_eventos_usuario = usuario.historial_eventos
         for id in historial_eventos_usuario:
-            for evento in self.lista_eventos:
+            for evento in self.obtener_eventos():
                 if evento.id == id:
                     self.lista_eventos_asistidos.append(evento)
                     break
 
-    # Implementacion propia
-    def obtener_eventos(self):
+    def obtener_usuario_logueado(self):
+        return self.usuario_logueado
+
+    def obtener_eventos_asistidos(self):
         return self.lista_eventos_asistidos

@@ -67,8 +67,11 @@ class VistaBusqueda(VistaPrincipalEventos):
         )
         boton_atras.pack(padx=10, pady=5)
 
+    def obtener_eventos_buscados(self):
+        return self.controlador.obtener_eventos_buscados()
+
     def seleccionar_evento(self, event):
-        lista = self.controlador.obtener_eventos_busqueda()
+        lista = self.obtener_eventos_buscados()
         indice = self.obtener_evento_seleccionado()
         evento = lista[indice]
         self.controlador.seleccionar_evento(evento)
