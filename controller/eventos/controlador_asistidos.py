@@ -1,7 +1,7 @@
-from controller.controlador_principal_eventos import ControladorPrincipalEventos
+from controller.controlador_eventos import ControladorEventos
 
 
-class ControladorAsistidos(ControladorPrincipalEventos):
+class ControladorAsistidos(ControladorEventos):
     def __init__(self, app, lista_eventos, lista_ubicaciones, usuario_logueado):
         super().__init__(app, lista_eventos, lista_ubicaciones)
         self.usuario_logueado = usuario_logueado

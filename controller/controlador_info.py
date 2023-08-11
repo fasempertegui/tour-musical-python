@@ -5,7 +5,7 @@ No me parece necesario utilizar una clase padre ya que la cantidad de metodos co
 '''
 
 
-class ControladorPrincipalInfo:
+class ControladorInfo:
     def __init__(self, app, lista_eventos, lista_reviews, usuario_logueado):
         self.app = app
         self.lista_eventos = lista_eventos
