@@ -71,8 +71,10 @@ class VistaBusqueda(VistaPrincipalEventos):
         criterio = self.opcion_elegida.get().lower()
         texto_busqueda = self.entry_box.get().lower()
         # Filtra la lista de todos los eventos
-        eventos_filtrados = self.controlador.buscar_eventos(criterio, texto_busqueda)
-        # Actualiza la lista de eventos con los resultados de la busqueda
+        self.controlador.filtrar_eventos(criterio, texto_busqueda)
+        # Recupera la lista
+        eventos_filtrados = self.controlador.obtener_eventos()
+        # Actualiza la listbox con los resultados de la busqueda
         self.listbox.delete(0, tk.END)
         for evento in eventos_filtrados:
             self.listbox.insert(tk.END, evento.nombre)

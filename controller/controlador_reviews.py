@@ -1,18 +1,16 @@
 class ControladorReviews:
-    def __init__(self, app, lista_reviews, lista_usuarios):
+    def __init__(self, app):
         self.app = app
-        self.lista_usuarios = lista_usuarios
-        self.lista_reviews = lista_reviews
 
     def obtener_nombre_usuario(self, id_usuario):
-        for usuario in self.lista_usuarios:
+        for usuario in self.app.lista_usuarios:
             if usuario.id == id_usuario:
                 return usuario.nombre_usuario
         # return None
     
     def obtener_reviews_evento(self, evento):
         lista = []
-        for review in self.lista_reviews:
+        for review in self.app.lista_reviews:
             if review.id_evento == evento.id:
                 lista.append(review)
         return lista

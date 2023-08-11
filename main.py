@@ -34,26 +34,28 @@ class Aplicacion(tk.Tk):
         self.geometry("330x330")
         self.resizable(False, False)
         self.inicializar()
-        # Se utiliza una lista para mantener track de los frames visitados para poder regresar de manera correcta.
+        # Se utiliza una lista para trackear los frames visitados para poder regresar de manera correcta
         self.historial_vistas = []
         self.cambiar_frame(self.vista_inicio)
 
     def inicializar(self):
-        eventos = Evento.cargar_eventos("data/eventos.json")
-        ubicaciones = Ubicacion.cargar_ubicaciones("data/ubicaciones.json")
-        usuarios = Usuario.cargar_usuario("data/usuarios.json")
-        reviews = Review.cargar_reviews("data/reviews.json")
+
+        # Estos datos se cargan en la aplicacion para que los controladores puedan acceder a ellos cuando los necesiten, sin necesidad de recibirlos especificamente por parametro
+        self.lista_eventos = Evento.cargar_eventos("data/eventos.json")
+        self.lista_ubicaciones = Ubicacion.cargar_ubicaciones("data/ubicaciones.json")
+        self.lista_usuarios = Usuario.cargar_usuario("data/usuarios.json")
+        self.lista_reviews = Review.cargar_reviews("data/reviews.json")
 
         # "Login"
-        usuario_logueado = usuarios[0]
+        self.usuario_logueado = self.lista_usuarios[0]
 
         controlador_inicio = ControladorInicio(self)
-        controlador_eventos = ControladorEventos(self, eventos, ubicaciones)
-        controlador_principal_info = ControladorPrincipalInfo(self, reviews, usuario_logueado)
+        controlador_eventos = ControladorEventos(self)
+        controlador_principal_info = ControladorPrincipalInfo(self)
         controlador_mapa = ControladorMapa(self)
-        controlador_busqueda = ControladorBusqueda(self, eventos, ubicaciones)
-        controlador_asistidos = ControladorAsistidos(self, eventos, ubicaciones, usuario_logueado)
-        controlador_reviews = ControladorReviews(self, reviews, usuarios)
+        controlador_busqueda = ControladorBusqueda(self)
+        controlador_asistidos = ControladorAsistidos(self)
+        controlador_reviews = ControladorReviews(self)
 
         self.vista_inicio = VistaInicio(self, controlador_inicio)
         self.vista_eventos = VistaEventos(self, controlador_eventos)
