@@ -58,17 +58,13 @@ class VistaBusqueda(VistaPrincipalEventos):
         frame_entry_box.pack(pady=5)
 
         # Listbox en la clase padre
+        self.listbox.bind("<Double-Button-1>", self.seleccionar_evento)
         self.listbox.pack(padx=10, pady=5)
 
         self.actualizar_eventos()
 
-        boton_atras = ttk.Button(
-            self, text="Volver", command=self.regresar
-        )
-        boton_atras.pack(padx=10, pady=5)
-
-    def obtener_eventos_buscados(self):
-        return self.controlador.obtener_eventos_buscados()
+        # Boton en la clase padre
+        self.boton_atras.pack(padx=10, pady=5)
 
     def seleccionar_evento(self, event):
         lista = self.obtener_eventos_buscados()
@@ -89,3 +85,6 @@ class VistaBusqueda(VistaPrincipalEventos):
     # Elimina cualquier texto que pueda contener el campo (placeholder o texto ingresado)
     def limpiar_campo(self, *args):
         self.entry_box.delete(0, "end")
+
+    def obtener_eventos_buscados(self):
+        return self.controlador.obtener_eventos_buscados()

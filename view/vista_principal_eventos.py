@@ -18,7 +18,8 @@ class VistaPrincipalEventos(ttk.Frame):
 
         self.listbox = tk.Listbox(self)
         self.listbox.config(width=50)
-        self.listbox.bind("<Double-Button-1>", self.seleccionar_evento)
+
+        self.boton_atras = ttk.Button(self, text="Volver", command=self.regresar)
 
     def actualizar_eventos(self):
         eventos = self.obtener_eventos()
@@ -32,12 +33,6 @@ class VistaPrincipalEventos(ttk.Frame):
             return indice[0]
         else:
             return None
-
-    def seleccionar_evento(self, event):
-        lista = self.obtener_eventos()
-        indice = self.obtener_evento_seleccionado()
-        evento = lista[indice]
-        self.controlador.seleccionar_evento(evento)
 
     def obtener_eventos(self):
         return self.controlador.obtener_eventos()

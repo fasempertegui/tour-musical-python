@@ -39,23 +39,27 @@ class VistaEventos(VistaPrincipalEventos):
         label_frame.pack()
 
         # Listbox en la clase padre
+        self.listbox.bind("<Double-Button-1>", self.seleccionar_evento)
         self.listbox.pack()
 
         self.actualizar_eventos()
 
-        boton_atras = ttk.Button(self, text="Volver", command=self.regresar)
-        boton_atras.pack(padx=10, pady=5)
+        # Boton en la clase padre
+        self.boton_atras.pack(padx=10, pady=5)
 
     def actualizar_eventos(self):
         opcion = self.opcion_elegida.get()
-        eventos = self.controlador.determinar_eventos(opcion)
+        eventos = self.determinar_eventos(opcion)
         self.listbox.delete(0, tk.END)
         for evento in eventos:
             self.listbox.insert(tk.END, evento.nombre)
 
     def seleccionar_evento(self, event):
         opcion = self.opcion_elegida.get()
-        eventos = self.controlador.determinar_eventos(opcion)
+        eventos = self.determinar_eventos(opcion)
         indice = self.obtener_evento_seleccionado()
         evento = eventos[indice]
         self.controlador.seleccionar_evento(evento)
+
+    def determinar_eventos(self, opcion):
+        return self.controlador.determinar_eventos(opcion)
