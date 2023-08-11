@@ -22,10 +22,8 @@ class ControladorPrincipalEventos:
             else:
                 self.lista_eventos_finalizados.append(evento)
 
-    # Metodo "privado" utilizado por las subclases.
-    def _seleccionar_evento(self, indice, lista):
-        if indice is not None:
-            evento = lista[indice]
+    def seleccionar_evento(self, evento):
+        if evento is not None:
             for ubicacion in self.app.lista_ubicaciones:
                 if ubicacion.id == evento.id_ubicacion:
                     ubicacion_evento = ubicacion

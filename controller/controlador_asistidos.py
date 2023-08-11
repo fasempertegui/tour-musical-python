@@ -19,7 +19,3 @@ class ControladorAsistidos(ControladorPrincipalEventos):
     # Implementacion propia de la subclase
     def obtener_eventos(self):
         return self.lista_eventos_asistidos
-
-    def seleccionar_evento(self, indice):
-        lista = self.lista_eventos_asistidos
-        self._seleccionar_evento(indice, lista)

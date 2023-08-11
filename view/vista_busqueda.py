@@ -66,14 +66,18 @@ class VistaBusqueda(VistaPrincipalEventos):
             self, text="Volver", command=self.regresar
         )
         boton_atras.pack(padx=10, pady=5)
-        
+
+    def seleccionar_evento(self, event):
+        lista = self.controlador.obtener_eventos_busqueda()
+        indice = self.obtener_evento_seleccionado()
+        evento = lista[indice]
+        self.controlador.seleccionar_evento(evento)
+
     def buscar_eventos(self):
         criterio = self.opcion_elegida.get().lower()
         texto_busqueda = self.entry_box.get().lower()
         # Filtra la lista de todos los eventos
-        self.controlador.filtrar_eventos(criterio, texto_busqueda)
-        # Recupera la lista
-        eventos_filtrados = self.controlador.obtener_eventos()
+        eventos_filtrados = self.controlador.buscar_eventos(criterio, texto_busqueda)
         # Actualiza la listbox con los resultados de la busqueda
         self.listbox.delete(0, tk.END)
         for evento in eventos_filtrados:

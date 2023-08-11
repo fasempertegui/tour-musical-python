@@ -64,6 +64,7 @@ class VistaEventos(VistaPrincipalEventos):
             self.listbox.insert(tk.END, evento.nombre)
 
     def seleccionar_evento(self, event):
-        indice = self.obtener_evento_seleccionado()
         eventos = self._determinar_eventos()
-        self.controlador.seleccionar_evento(indice, eventos)
+        indice = self.obtener_evento_seleccionado()
+        evento = eventos[indice]
+        self.controlador.seleccionar_evento(evento)

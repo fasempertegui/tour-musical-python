@@ -34,8 +34,10 @@ class VistaPrincipalEventos(ttk.Frame):
             return None
 
     def seleccionar_evento(self, event):
+        lista = self.obtener_eventos()
         indice = self.obtener_evento_seleccionado()
-        self.controlador.seleccionar_evento(indice)
+        evento = lista[indice]
+        self.controlador.seleccionar_evento(evento)
 
     def obtener_eventos(self):
         return self.controlador.obtener_eventos()
