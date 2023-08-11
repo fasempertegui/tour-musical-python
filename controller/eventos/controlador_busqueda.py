@@ -1,7 +1,7 @@
-from controller.controlador_principal_eventos import ControladorPrincipalEventos
+from controller.controlador_eventos import ControladorEventos
 
 
-class ControladorBusqueda(ControladorPrincipalEventos):
+class ControladorBusqueda(ControladorEventos):
     def __init__(self, app, lista_eventos, lista_ubicaciones):
         super().__init__(app, lista_eventos, lista_ubicaciones)
         # Para que la lista de eventos buscados no empiece en blanco se le asigna inicialmente la lista de todos los eventos

@@ -1,9 +1,9 @@
 from controller.controlador_mapa import ControladorMapa
-from controller.controlador_principal_info import ControladorPrincipalInfo
-from controller.controlador_eventos import ControladorEventos
+from controller.controlador_info import ControladorInfo
+from controller.eventos.controlador_explorar import ControladorExplorar
 from controller.controlador_inicio import ControladorInicio
-from controller.controlador_busqueda import ControladorBusqueda
-from controller.controlador_asistidos import ControladorAsistidos
+from controller.eventos.controlador_busqueda import ControladorBusqueda
+from controller.eventos.controlador_asistidos import ControladorAsistidos
 from controller.controlador_reviews import ControladorReviews
 from view.views.vista_mapa import VistaMapa
 from view.views.info_eventos.vista_finalizados import VistaFinalizados
@@ -49,18 +49,18 @@ class Aplicacion(tk.Tk):
         usuario_logueado = usuarios[0]
 
         controlador_inicio = ControladorInicio(self)
-        controlador_eventos = ControladorEventos(self, eventos, ubicaciones)
-        controlador_principal_info = ControladorPrincipalInfo(self, eventos, reviews, usuario_logueado)
+        controlador_explorar = ControladorExplorar(self, eventos, ubicaciones)
+        controlador_info = ControladorInfo(self, eventos, reviews, usuario_logueado)
         controlador_mapa = ControladorMapa(self)
         controlador_busqueda = ControladorBusqueda(self, eventos, ubicaciones)
         controlador_asistidos = ControladorAsistidos(self, eventos, ubicaciones, usuario_logueado)
         controlador_reviews = ControladorReviews(self, usuarios, reviews)
 
         self.vista_inicio = VistaInicio(self, controlador_inicio)
-        self.vista_eventos = VistaExplorar(self, controlador_eventos)
+        self.vista_eventos = VistaExplorar(self, controlador_explorar)
         # Controlador compartido por ambas vistas
-        self.vista_finalizados = VistaFinalizados(self, controlador_principal_info)
-        self.vista_proximos = VistaProximos(self, controlador_principal_info)
+        self.vista_finalizados = VistaFinalizados(self, controlador_info)
+        self.vista_proximos = VistaProximos(self, controlador_info)
         self.vista_mapa = VistaMapa(self, controlador_mapa)
         self.vista_busqueda = VistaBusqueda(self, controlador_busqueda)
         self.vista_asistidos = VistaAsistidos(self, controlador_asistidos)
