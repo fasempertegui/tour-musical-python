@@ -1,25 +1,22 @@
+from view.vista_principal import VistaPrincipal
+
 import tkinter as tk
 from tkinter import ttk
 
 '''
 
-vista_eventos, vista_busqueda y vista_asistidos comparten algunos métodos por lo que me parecio conveniente implementar una clase padre
+vista_eventos, vista_busqueda y vista_asistidos poseen una listbox donde se listan eventos, por lo que me parece apropiado implementar una clase comun
 
 '''
 
 
-class VistaPrincipalEventos(ttk.Frame):
+class VistaEventos(VistaPrincipal):
     def __init__(self, master=None, controlador=None):
 
-        super().__init__(master)
-
-        self.master = master
-        self.controlador = controlador
+        super().__init__(master, controlador)
 
         self.listbox = tk.Listbox(self)
         self.listbox.config(width=50)
-
-        self.boton_atras = ttk.Button(self, text="Volver", command=self.regresar)
 
     def actualizar_eventos(self):
         eventos = self.obtener_eventos()
@@ -36,6 +33,3 @@ class VistaPrincipalEventos(ttk.Frame):
 
     def obtener_eventos(self):
         return self.controlador.obtener_eventos()
-    
-    def regresar(self):
-        self.controlador.regresar()

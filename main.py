@@ -5,14 +5,14 @@ from controller.controlador_inicio import ControladorInicio
 from controller.controlador_busqueda import ControladorBusqueda
 from controller.controlador_asistidos import ControladorAsistidos
 from controller.controlador_reviews import ControladorReviews
-from view.vista_mapa import VistaMapa
-from view.vista_info_finalizados import VistaInfoFinalizados
-from view.vista_info_proximos import VistaInfoProximos
-from view.vista_eventos import VistaEventos
-from view.vista_inicio import VistaInicio
-from view.vista_busqueda import VistaBusqueda
-from view.vista_asistidos import VistaAsistidos
-from view.vista_reviews import VistaReviews
+from view.views.vista_mapa import VistaMapa
+from view.views.info_eventos.vista_finalizados import VistaFinalizados
+from view.views.info_eventos.vista_proximos import VistaProximos
+from view.views.eventos.vista_explorar import VistaExplorar
+from view.views.vista_inicio import VistaInicio
+from view.views.eventos.vista_busqueda import VistaBusqueda
+from view.views.eventos.vista_asistidos import VistaAsistidos
+from view.views.vista_reviews import VistaReviews
 from model.ubicacion import Ubicacion
 from model.evento import Evento
 from model.usuario import Usuario
@@ -57,10 +57,10 @@ class Aplicacion(tk.Tk):
         controlador_reviews = ControladorReviews(self, usuarios, reviews)
 
         self.vista_inicio = VistaInicio(self, controlador_inicio)
-        self.vista_eventos = VistaEventos(self, controlador_eventos)
+        self.vista_eventos = VistaExplorar(self, controlador_eventos)
         # Controlador compartido por ambas vistas
-        self.vista_info_finalizados = VistaInfoFinalizados(self, controlador_principal_info)
-        self.vista_info_proximos = VistaInfoProximos(self, controlador_principal_info)
+        self.vista_finalizados = VistaFinalizados(self, controlador_principal_info)
+        self.vista_proximos = VistaProximos(self, controlador_principal_info)
         self.vista_mapa = VistaMapa(self, controlador_mapa)
         self.vista_busqueda = VistaBusqueda(self, controlador_busqueda)
         self.vista_asistidos = VistaAsistidos(self, controlador_asistidos)
@@ -68,8 +68,8 @@ class Aplicacion(tk.Tk):
 
         self.ajustar_frame(self.vista_inicio)
         self.ajustar_frame(self.vista_eventos)
-        self.ajustar_frame(self.vista_info_finalizados)
-        self.ajustar_frame(self.vista_info_proximos)
+        self.ajustar_frame(self.vista_finalizados)
+        self.ajustar_frame(self.vista_proximos)
         self.ajustar_frame(self.vista_mapa)
         self.ajustar_frame(self.vista_busqueda)
         self.ajustar_frame(self.vista_asistidos)

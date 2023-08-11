@@ -1,11 +1,11 @@
+from view.views.vista_info_evento import VistaInfoEvento
+
 import tkinter as tk
 from tkinter import ttk
 from tkinter.font import Font
 
-from view.vista_principal_info import VistaPrincipalInfo
 
-
-class VistaInfoProximos(VistaPrincipalInfo):
+class VistaProximos(VistaInfoEvento):
 
     def __init__(self, master=None, controlador=None):
 
@@ -19,9 +19,10 @@ class VistaInfoProximos(VistaPrincipalInfo):
         self.direccion_ubicacion_label.pack()
 
         boton_ver_mapa = ttk.Button(self, text="Ver en mapa", command=self.ver_mapa)
-        boton_ver_mapa.pack(padx=10, pady=5)
+        boton_ver_mapa.pack(**self.default_padding)
         
-        self.boton_atras.pack(padx=10, pady=5)
+        # Boton en la clase padre, padre
+        self.boton_atras.pack(side='bottom', **self.default_padding)
 
     def establecer_info_evento(self, evento, ubicacion):
         nombre_ubicacion = ubicacion.nombre
