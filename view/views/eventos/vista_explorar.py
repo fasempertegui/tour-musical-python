@@ -1,18 +1,16 @@
+from view.views.vista_eventos import VistaEventos
+
 import tkinter as tk
 from tkinter import ttk
-from tkinter.font import Font
-
-from view.vista_principal_eventos import VistaPrincipalEventos
 
 
-class VistaEventos(VistaPrincipalEventos):
+class VistaExplorar(VistaEventos):
     def __init__(self, master=None, controlador=None):
 
         super().__init__(master, controlador)
 
-        titulo_fuente = Font(size=13, weight="bold")
-        titulo = ttk.Label(self, text="Explorar eventos", font=titulo_fuente)
-        titulo.pack(padx=10, pady=5)
+        self.titulo_label["text"] = "Explorar eventos"
+        self.titulo_label.pack(**self.default_padding)
 
         label_frame = ttk.LabelFrame(self)
         label_frame["text"] = "Mostrar"
@@ -38,14 +36,14 @@ class VistaEventos(VistaPrincipalEventos):
 
         label_frame.pack()
 
-        # Listbox en la clase padre
+        # Boton en la clase padre, padre
         self.listbox.bind("<Double-Button-1>", self.seleccionar_evento)
-        self.listbox.pack()
+        self.listbox.pack(**self.default_padding, fill="both", expand="true")
 
         self.actualizar_eventos()
 
         # Boton en la clase padre
-        self.boton_atras.pack(padx=10, pady=5)
+        self.boton_atras.pack(side='bottom', **self.default_padding)
 
     def actualizar_eventos(self):
         opcion = self.opcion_elegida.get()

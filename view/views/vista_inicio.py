@@ -1,20 +1,18 @@
+from view.vista_principal import VistaPrincipal
+
 import tkinter as tk
 from tkinter import ttk
 from tkinter.font import Font
 
 
-class VistaInicio(ttk.Frame):
+class VistaInicio(VistaPrincipal):
 
     def __init__(self, master=None, controlador=None):
 
-        super().__init__(master)
-        
-        self.master = master
-        self.controlador = controlador
+        super().__init__(master, controlador)
 
-        fuente_titulo = Font(size=16, weight="bold")
-        titulo = ttk.Label(self, text="Bienvenido a Tour Musical", font=fuente_titulo)
-        titulo.pack(padx=10, pady=15)
+        self.titulo_label["text"] = "Tour Musical"
+        self.titulo_label.pack(**self.default_padding)
 
         fuente_descripcion = Font(size=12)
         descripcion = ttk.Label(self, text="Descubre eventos musicales, planifica rutas y comparte tu experiencia de manera eficiente y agradable con esta app", font=fuente_descripcion, wraplength=250)

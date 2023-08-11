@@ -31,14 +31,14 @@ class ControladorPrincipalEventos:
                     ubicacion_evento = ubicacion
                     break
             if evento in self.obtener_eventos_proximos():
-                self.app.vista_info_proximos.establecer_info_evento(evento, ubicacion_evento)
+                self.app.vista_proximos.establecer_info_evento(evento, ubicacion_evento)
                 self.app.vista_mapa.agregar_marcador(ubicacion_evento)
-                self.app.cambiar_frame(self.app.vista_info_proximos)
+                self.app.cambiar_frame(self.app.vista_proximos)
             else:
-                self.app.vista_info_finalizados.establecer_info_evento(evento)
-                self.app.vista_info_finalizados.establecer_estado_botones(evento)
+                self.app.vista_finalizados.establecer_info_evento(evento)
+                self.app.vista_finalizados.establecer_estado_botones(evento)
                 self.app.vista_reviews.recuperar_reviews(evento)
-                self.app.cambiar_frame(self.app.vista_info_finalizados)
+                self.app.cambiar_frame(self.app.vista_finalizados)
     
     def obtener_eventos(self):
         return self.lista_eventos

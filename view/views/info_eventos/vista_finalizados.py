@@ -1,11 +1,11 @@
+from view.views.vista_info_evento import VistaInfoEvento
+
 import tkinter as tk
 from tkinter import ttk
 from tkinter.font import Font
 
-from view.vista_principal_info import VistaPrincipalInfo
 
-
-class VistaInfoFinalizados(VistaPrincipalInfo):
+class VistaFinalizados(VistaInfoEvento):
 
     def __init__(self, master=None, controlador=None):
 
@@ -14,15 +14,13 @@ class VistaInfoFinalizados(VistaPrincipalInfo):
         frame_reviews = ttk.Frame(self)
 
         estado_fuente = Font(size=9, weight="bold")
-        estado_label = ttk.Label(
-            self, text="Evento finalizado", font=estado_fuente)
-        estado_label.pack(padx=10, pady=5)
+        estado_label = ttk.Label(self, text="Evento finalizado", font=estado_fuente)
+        estado_label.pack(**self.default_padding)
 
         self.boton_confirmar_asistencia = ttk.Button(frame_reviews)
         self.boton_confirmar_asistencia.pack(side='top')
 
-        self.boton_ver_reviews = ttk.Button(
-            frame_reviews, text="Ver reviews", command=self.mostrar_reviews)
+        self.boton_ver_reviews = ttk.Button(frame_reviews, text="Ver reviews", command=self.mostrar_reviews)
         self.boton_ver_reviews.pack(side="left")
 
         self.boton_escribir_review = ttk.Button(frame_reviews, text="Opinar")
@@ -30,7 +28,8 @@ class VistaInfoFinalizados(VistaPrincipalInfo):
 
         frame_reviews.pack()
 
-        self.boton_atras.pack(padx=10, pady=5)
+        # Boton en la clase padre, padre
+        self.boton_atras.pack(side='bottom', **self.default_padding)
 
     def establecer_info_evento(self, evento):
         self.titulo_label["text"] = evento.nombre

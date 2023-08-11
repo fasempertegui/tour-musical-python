@@ -1,20 +1,16 @@
+from view.vista_principal import VistaPrincipal
+
 import tkinter as tk
 from tkinter import ttk
-from tkinter.font import Font
 
 
-class VistaReviews(ttk.Frame):
+class VistaReviews(VistaPrincipal):
     def __init__(self, master=None, controlador=None):
 
-        super().__init__(master)
+        super().__init__(master, controlador)
 
-        self.master = master
-        self.controlador = controlador
-
-        titulo_fuente = Font(size=13, weight="bold")
-        self.titulo = ttk.Label(
-            self, text="Reviews de usuarios", font=titulo_fuente)
-        self.titulo.pack(padx=10, pady=15)
+        self.titulo_label["text"] = "Reviews de usuarios"
+        self.titulo_label.pack(**self.default_padding)
 
         self.frame_reviews = ttk.Frame(self)
 
@@ -31,10 +27,7 @@ class VistaReviews(ttk.Frame):
 
         self.frame_reviews.pack()
 
-        self.boton_atras = ttk.Button(
-            self, text="Volver", command=self.regresar
-        )
-        self.boton_atras.pack(padx=10, pady=5)
+        self.boton_atras.pack(side='bottom', **self.default_padding)
 
     def _obtener_nombre_usuario(self, id_usuario):
         return self.controlador.obtener_nombre_usuario(id_usuario)
@@ -51,6 +44,3 @@ class VistaReviews(ttk.Frame):
 
     def obtener_reviews_evento(self, evento):
         return self.controlador.obtener_reviews_evento(evento)
-
-    def regresar(self):
-        self.controlador.regresar()
