@@ -8,15 +8,17 @@ from datetime import datetime
 
 
 class ControladorPrincipalEventos:
-    def __init__(self, app):
+    def __init__(self, app, lista_eventos, lista_ubicaciones):
         self.app = app
+        self.lista_eventos = lista_eventos
+        self.lista_ubicaciones = lista_ubicaciones
         self.lista_eventos_proximos = []
         self.lista_eventos_finalizados = []
         self._separar_eventos()
         
     def _separar_eventos(self):
         hoy = datetime.now().replace(microsecond=0).isoformat()
-        for evento in self.app.lista_eventos:
+        for evento in self.lista_eventos:
             if evento.hora_inicio > hoy:
                 self.lista_eventos_proximos.append(evento)
             else:
@@ -24,7 +26,7 @@ class ControladorPrincipalEventos:
 
     def seleccionar_evento(self, evento):
         if evento is not None:
-            for ubicacion in self.app.lista_ubicaciones:
+            for ubicacion in self.lista_ubicaciones:
                 if ubicacion.id == evento.id_ubicacion:
                     ubicacion_evento = ubicacion
                     break
@@ -39,7 +41,7 @@ class ControladorPrincipalEventos:
                 self.app.cambiar_frame(self.app.vista_info_finalizados)
     
     def obtener_eventos(self):
-        return self.app.lista_eventos
+        return self.lista_eventos
 
     def obtener_eventos_proximos(self):
         return self.lista_eventos_proximos
@@ -48,7 +50,7 @@ class ControladorPrincipalEventos:
         return self.lista_eventos_finalizados
 
     def obtener_ubicaciones(self):
-        return self.app.lista_ubicaciones
+        return self.lista_ubicaciones
 
     def regresar(self):
         self.app.volver_frame_anterior()
