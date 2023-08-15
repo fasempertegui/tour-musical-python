@@ -28,8 +28,3 @@ class VistaMapa(VistaPrincipal):
         self.mapa.set_position(float(latitud), float(longitud))
         self.mapa.set_marker(float(latitud), float(longitud))
         self.mapa.set_zoom(15)
-
-    def set_ubicacion(self, ubicacion):
-        self.ubicacion = ubicacion
-        coordenadas = ubicacion.coordenadas
-        self._agregar_marcador(coordenadas)

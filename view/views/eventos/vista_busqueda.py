@@ -65,7 +65,7 @@ class VistaBusqueda(VistaEventos):
         self.boton_atras.pack(side='bottom', **self.default_padding)
 
     def seleccionar_evento(self, event):
-        lista = self.obtener_eventos_buscados()
+        lista = self.controlador.obtener_eventos_buscados()
         indice = self.obtener_evento_seleccionado()
         evento = lista[indice]
         self.controlador.seleccionar_evento(evento)
@@ -83,6 +83,3 @@ class VistaBusqueda(VistaEventos):
     # Elimina cualquier texto que pueda contener el campo (placeholder o texto ingresado)
     def limpiar_campo(self, *args):
         self.entry_box.delete(0, "end")
-
-    def obtener_eventos_buscados(self):
-        return self.controlador.obtener_eventos_buscados()

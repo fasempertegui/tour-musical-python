@@ -31,7 +31,7 @@ class VistaExplorar(VistaEventos):
                 text=opcion,
                 value=index,
                 variable=self.opcion_elegida,
-                command=self.actualizar_eventos
+                command=self.cambiar_lista
             ).grid(row=0, column=index, padx=3, pady=3)
 
         label_frame.pack()
@@ -45,19 +45,16 @@ class VistaExplorar(VistaEventos):
         # Boton en la clase padre
         self.boton_atras.pack(side='bottom', **self.default_padding)
 
-    def actualizar_eventos(self):
+    def cambiar_lista(self):
         opcion = self.opcion_elegida.get()
-        eventos = self.determinar_eventos(opcion)
+        eventos = self.controlador.cambiar_lista(opcion)
         self.listbox.delete(0, tk.END)
         for evento in eventos:
             self.listbox.insert(tk.END, evento.nombre)
 
     def seleccionar_evento(self, event):
         opcion = self.opcion_elegida.get()
-        eventos = self.determinar_eventos(opcion)
+        lista = self.controlador.cambiar_lista(opcion)
         indice = self.obtener_evento_seleccionado()
-        evento = eventos[indice]
+        evento = lista[indice]
         self.controlador.seleccionar_evento(evento)
-
-    def determinar_eventos(self, opcion):
-        return self.controlador.determinar_eventos(opcion)

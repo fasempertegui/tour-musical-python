@@ -27,17 +27,16 @@ class VistaReviews(VistaPrincipal):
 
         self.frame_reviews.pack()
 
+        self.master.bind("<<IrReviews>>", self.recuperar_reviews)
+
         self.boton_atras.pack(side='bottom', **self.default_padding)
 
-    def _recuperar_reviews(self, evento):
+    def recuperar_reviews(self, *args):
         # Habilito la edicion del widget de texto
         self.texto.config(state="normal")
         # Borro el contenido del widget de texto
         self.texto.delete("1.0", tk.END)
-        texto = self.controlador.recuperar_reviews(evento)
+        texto = self.controlador.recuperar_reviews()
         self.texto.insert(tk.END, texto)
         # Deshabilito la edicion del widget de texto   
         self.texto.config(state="disabled")
-    
-    def set_evento(self, evento):
-        self._recuperar_reviews(evento)

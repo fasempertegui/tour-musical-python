@@ -5,9 +5,7 @@ from tkinter import ttk
 
 
 class VistaAsistidos(VistaEventos):
-
     def __init__(self, master=None, controlador=None):
-
         super().__init__(master, controlador)
 
         self.titulo_label["text"] = "Eventos asistidos"
@@ -20,19 +18,16 @@ class VistaAsistidos(VistaEventos):
         self.actualizar_eventos()
 
         # Boton en la clase padre, padre
-        self.boton_atras.pack(side='bottom', **self.default_padding)
+        self.boton_atras.pack(side="bottom", **self.default_padding)
 
     def actualizar_eventos(self):
-        eventos = self.obtener_eventos_asistidos()
+        eventos = self.controlador.obtener_eventos_asistidos()
         self.listbox.delete(0, tk.END)
         for evento in eventos:
             self.listbox.insert(tk.END, evento.nombre)
 
     def seleccionar_evento(self, event):
-        lista = self.obtener_eventos_asistidos()
+        lista = self.controlador.obtener_eventos_asistidos()
         indice = self.obtener_evento_seleccionado()
         evento = lista[indice]
         self.controlador.seleccionar_evento(evento)
-
-    def obtener_eventos_asistidos(self):
-        return self.controlador.obtener_eventos_asistidos()

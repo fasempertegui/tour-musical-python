@@ -1,17 +1,24 @@
-from view.views.vista_info_evento import VistaInfoEvento
+from view.vista_principal import VistaPrincipal
 
 import tkinter as tk
 from tkinter import ttk
 from tkinter.font import Font
 
 
-class VistaFinalizados(VistaInfoEvento):
-
+class VistaFinalizados(VistaPrincipal):
     def __init__(self, master=None, controlador=None):
-
         super().__init__(master, controlador)
 
-        self.id_evento = 0
+        self.titulo_label.pack(**self.default_padding)
+
+        descripcion_fuente = Font(size=10)
+        self.descripcion_label = ttk.Label(
+            self, font=descripcion_fuente, wraplength=250
+        )
+        self.descripcion_label.pack(**self.default_padding)
+
+        self.info_evento_label = ttk.Label(self)
+        self.info_evento_label.pack(**self.default_padding)
 
         frame_reviews = ttk.Frame(self)
 
@@ -20,47 +27,52 @@ class VistaFinalizados(VistaInfoEvento):
         estado_label.pack(**self.default_padding)
 
         self.boton_confirmar_asistencia = ttk.Button(frame_reviews)
-        self.boton_confirmar_asistencia.pack(side='top')
+        self.boton_confirmar_asistencia.pack(side="top")
 
-        self.boton_ver_reviews = ttk.Button(frame_reviews, text="Ver reviews", command=self.ir_a_reviews)
+        self.boton_ver_reviews = ttk.Button(
+            frame_reviews, text="Ver reviews", command=self.ir_a_reviews
+        )
         self.boton_ver_reviews.pack(side="left")
 
-        self.boton_escribir_review = ttk.Button(frame_reviews, text="Opinar", command=self.ir_a_escribir_review)
+        self.boton_escribir_review = ttk.Button(
+            frame_reviews, text="Opinar", command=self.ir_a_escribir_review
+        )
         self.boton_escribir_review.pack(side="right")
 
         frame_reviews.pack()
 
-        # Boton en la clase padre, padre
-        self.boton_atras.pack(side='bottom', **self.default_padding)
+        self.master.bind("<<VistaFinalizados>>", self._inicializar)
 
-    def _determinar_usuario_puede_opinar(self, asistio, evento):
+        self.boton_atras.pack(side="bottom", **self.default_padding)
+
+    def _determinar_usuario_puede_opinar(self, asistio):
         self.boton_escribir_review.configure(state="normal")
-        if self.controlador.determinar_usuario_puede_opinar(asistio, evento):
+        if self.controlador.determinar_usuario_puede_opinar(asistio):
             self.boton_escribir_review.configure(state="disabled")
 
-    def _determinar_usuario_asistio(self, evento):
+    def _determinar_usuario_asistio(self):
         self.boton_confirmar_asistencia.configure(state="normal")
         self.boton_confirmar_asistencia["text"] = "Marcar como asistido"
-        if self.controlador.determinar_usuario_asistio(evento):
+        if self.controlador.determinar_usuario_asistio():
             self.boton_confirmar_asistencia.configure(state="disabled")
             self.boton_confirmar_asistencia["text"] = "Marcado como asistido"
             return True
         return False
 
-    def _establecer_estado_botones(self, evento):
-        asistio = self._determinar_usuario_asistio(evento)
-        self._determinar_usuario_puede_opinar(asistio, evento)
-
-    def _establecer_info_evento(self, evento):
+    def _establecer_info_evento(self):
+        evento = self.controlador.obtener_evento_actual()
         self.titulo_label["text"] = evento.nombre
         self.descripcion_label["text"] = evento.descripcion
         (fecha, hora_inicio) = evento.hora_inicio.split("T")
         info = f"Artista: {evento.artista}\nGenero: {evento.genero}\nFecha: {fecha} {hora_inicio}"
         self.info_evento_label["text"] = info
 
-    def set_evento(self, evento):
-        self._establecer_estado_botones(evento)
-        self._establecer_info_evento(evento)
+    def _inicializar(self, event):
+        self._establecer_info_evento()
+        asistio = self._determinar_usuario_asistio()
+        self._determinar_usuario_puede_opinar(asistio)
+
+    # Navegacion
 
     def ir_a_reviews(self):
         self.controlador.ir_a_reviews()

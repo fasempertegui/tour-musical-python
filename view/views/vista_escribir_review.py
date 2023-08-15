@@ -46,6 +46,9 @@ class VistaEscribirReview(VistaPrincipal):
         self.boton_enviar.pack(**self.default_padding)
 
         self.boton_atras.pack(side='bottom', **self.default_padding)
+
+    def ref_evento_actual(self, evento):
+        self.controlador.ref_evento_actual(evento)
     
     def enviar_review(self):
         calificacion = self.opcion_elegida.get() + 1
