@@ -8,6 +8,7 @@ class ControladorProximos(ControladorPrincipal):
     # Navegacion
 
     def ir_a_mapa(self):
+        self.app.event_generate("<<Mapa>>")
         self.app.cambiar_frame(self.app.vista_mapa)
 
     def regresar(self):

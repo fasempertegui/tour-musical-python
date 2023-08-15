@@ -1,25 +1,22 @@
 [
-    {
-        "id": 1000,
-        "nombre_usuario": "fabriciorossi",
-        "historial_eventos": [
-            1005,
-            1003
-        ]
-    },
-    {
-        "id": 1001,
-        "nombre_usuario": "carlosrossi",
-        "historial_eventos": [
-            1003,
-            1005
-        ]
-    },
-    {
-        "id": 1002,
-        "nombre_usuario": "emiliorossi",
-        "historial_eventos": [
-            1003
-        ]
-    }
+        {
+                "id": 1000,
+                "nombre_usuario": "fabriciorossi",
+                "historial_eventos": [
+                        1005,
+                        1003
+                ]
+        },
+        {
+                "id": 1001,
+                "nombre_usuario": "carlosrossi",
+                "historial_eventos": [
+                        1003
+                ]
+        },
+        {
+                "id": 1002,
+                "nombre_usuario": "emiliorossi",
+                "historial_eventos": []
+        }
 ]

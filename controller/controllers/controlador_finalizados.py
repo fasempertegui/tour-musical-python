@@ -1,4 +1,7 @@
+import json
+
 from controller.controlador_principal import ControladorPrincipal
+from model.usuario import Usuario
 
 
 class ControladorFinalizados(ControladorPrincipal):
@@ -6,21 +9,34 @@ class ControladorFinalizados(ControladorPrincipal):
         super().__init__(app, **datos)
 
     # Metodos publicos
-                
+
     def determinar_usuario_puede_opinar(self, asistio):
-        id_evento = self.obtener_evento_actual().id
         if not asistio:
             return False
-        id_sesion = self.obtener_sesion().id
+        id_evento = self.obtener_evento_actual().id
         reviews = self.obtener_reviews_id_evento(id_evento)
-        return next((True for review in reviews if review.id_usuario == id_sesion), False)
+        if not len(reviews) > 0:
+            return True
+        id_sesion = self.obtener_sesion().id
+        for review in reviews:
+            if review.id_usuario == id_sesion:
+                return False
+        return True
 
     def determinar_usuario_asistio(self):
         id_evento = self.obtener_evento_actual().id
-        id_sesion = self.obtener_sesion().id
-        usuarios_evento = self.obtener_usuarios_evento(id_evento)
-        return next((True for usuario in usuarios_evento if usuario.id == id_sesion), False)
-    
+        sesion = self.obtener_sesion()
+        if id_evento in sesion.historial_eventos:
+            return True
+        return False
+
+    def confirmar_asistencia(self):
+        id_evento = self.obtener_evento_actual().id
+        self.obtener_sesion().historial_eventos.append(id_evento)
+        with open("data/usuarios.json", "w") as f:
+            data = [usuario.__dict__ for usuario in self.obtener_usuarios()]
+            json.dump(data, f, indent=8)
+        self.app.event_generate("<<Asistencia>>")
     # Navegacion
 
     def ir_a_reviews(self):

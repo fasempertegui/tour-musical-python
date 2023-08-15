@@ -21,9 +21,12 @@ class VistaMapa(VistaPrincipal):
         self.mapa = TkinterMapView(frame_mapa, width=270, height=240, corner_radius=1)
         self.mapa.pack()
 
+        self.master.bind("<<Mapa>>", self._agregar_marcador)
+
         self.boton_atras.pack(side='bottom', **self.default_padding)
 
-    def _agregar_marcador(self, coordenadas):
+    def _agregar_marcador(self, *args):
+        coordenadas = self.controlador.obtener_ubicacion_actual().coordenadas
         latitud, longitud = coordenadas.split(",")
         self.mapa.set_position(float(latitud), float(longitud))
         self.mapa.set_marker(float(latitud), float(longitud))

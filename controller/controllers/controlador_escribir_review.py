@@ -11,7 +11,7 @@ class ControladorEscribirReview(ControladorPrincipal):
     # Metodos privados
 
     def _generar_id(self):
-        ultima_review = 999 if len(self.obtener_reviews()) <= 0 else self.obtener_reviews()[-1].id
+        ultima_review = self.obtener_reviews()[-1].id if len(self.obtener_reviews()) > 0 else 999
         return ultima_review + 1
 
     # Metodos publicos

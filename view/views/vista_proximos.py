@@ -45,7 +45,7 @@ class VistaProximos(VistaPrincipal):
         info = f"Artista: {evento.artista}\nGenero: {evento.genero}\nFecha: {fecha} {hora_inicio}"
         self.info_evento_label["text"] = info
 
-    def _inicializar(self, event):
+    def _inicializar(self, *args):
         self._establecer_info_evento()
     
     # Navegacion

@@ -25,6 +25,12 @@ from model.review import Review
 
 import tkinter as tk
 
+'''
+A IMPLENTAR:
+LOGIN
+CTK
+'''
+
 
 class Aplicacion(tk.Tk):
     def __init__(self):
@@ -55,7 +61,7 @@ class Aplicacion(tk.Tk):
         controlador_explorar = ControladorExplorar(self, **datos)
         controlador_proximos = ControladorProximos(self, **datos)
         controlador_finalizados = ControladorFinalizados(self, **datos)
-        controlador_mapa = ControladorMapa(self)
+        controlador_mapa = ControladorMapa(self, **datos)
         controlador_busqueda = ControladorBusqueda(self, **datos)
         controlador_asistidos = ControladorAsistidos(self, **datos)
         controlador_reviews = ControladorReviews(self, **datos)
