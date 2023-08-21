@@ -9,25 +9,19 @@ class ControladorFinalizados(ControladorPrincipal):
 
     # Metodos publicos
 
-    def determinar_usuario_puede_opinar(self, asistio):
-        if not asistio:
-            return False
+    def determinar_usuario_puede_opinar(self):
         id_evento = self.obtener_evento_actual().id
         reviews = self.obtener_reviews_id_evento(id_evento)
         if not len(reviews) > 0:
+            # Nadie opino
             return True
         id_sesion = self.obtener_sesion().id
-        for review in reviews:
-            if review.id_usuario == id_sesion:
-                return False
-        return True
+        return next((False for review in reviews if review.id_usuario == id_sesion), True)
 
     def determinar_usuario_asistio(self):
         id_evento = self.obtener_evento_actual().id
         sesion = self.obtener_sesion()
-        if id_evento in sesion.historial_eventos:
-            return True
-        return False
+        return id_evento in sesion.historial_eventos
 
     def confirmar_asistencia(self):
         id_evento = self.obtener_evento_actual().id

@@ -40,7 +40,7 @@ class VistaFinalizados(VistaPrincipal):
         frame_botones.pack_configure(side="bottom")
         frame_botones.pack()
 
-        self.boton_confirmar_asistencia = ctk.CTkButton(frame_botones, command=self.confirmar_asistencia, **self.default_button_color)
+        self.boton_confirmar_asistencia = ctk.CTkButton(frame_botones, command=self._confirmar_asistencia, **self.default_button_color)
         self.boton_confirmar_asistencia.pack_configure(side="top", padx=3, pady=3)
         self.boton_confirmar_asistencia.pack()
 
@@ -58,20 +58,6 @@ class VistaFinalizados(VistaPrincipal):
         self.boton_atras.pack_configure(side='bottom', **self.default_padding)
         self.boton_atras.pack()
 
-    def _determinar_usuario_puede_opinar(self, asistio):
-        if self.controlador.determinar_usuario_puede_opinar(asistio):
-            self.boton_escribir_review.configure(state="normal")
-        else:
-            self.boton_escribir_review.configure(state="disabled")
-
-    def _determinar_usuario_asistio(self, *args):
-        if self.controlador.determinar_usuario_asistio():
-            self.boton_confirmar_asistencia.configure(state="disabled", text="Marcado como asistido")
-            return True
-        else:
-            self.boton_confirmar_asistencia.configure(state="normal", text="Marcar como asistido")
-            return False
-
     def _establecer_info_evento(self):
         evento = self.controlador.obtener_evento_actual()
         self.titulo_label.configure(text=evento.nombre)
@@ -82,10 +68,19 @@ class VistaFinalizados(VistaPrincipal):
 
     def _inicializar(self, *args):
         self._establecer_info_evento()
-        asistio = self._determinar_usuario_asistio()
-        self._determinar_usuario_puede_opinar(asistio)
+        if self.controlador.determinar_usuario_asistio():
+            self.boton_confirmar_asistencia.configure(
+                state="disabled", text="Marcado como asistido")
+            if self.controlador.determinar_usuario_puede_opinar():
+                self.boton_escribir_review.configure(state="normal")
+            else:
+                self.boton_escribir_review.configure(state="disabled")
+        else:
+            self.boton_confirmar_asistencia.configure(
+                state="normal", text="Marcar como asistido")
+            self.boton_escribir_review.configure(state="disabled")
 
-    def confirmar_asistencia(self, *args):
+    def _confirmar_asistencia(self, *args):
         self.controlador.confirmar_asistencia()
 
     # Navegacion
