@@ -20,22 +20,28 @@ from view.views.vista_reviews import VistaReviews
 from view.views.vista_escribir_review import VistaEscribirReview
 from view.views.vista_ajustes import VistaAjustes
 
+from database.database import Conexion
+
 import customtkinter as ctk
 
 ctk.set_appearance_mode("dark")
 
 class Aplicacion(ctk.CTk):
 
-    historial_vistas = []
-
     def __init__(self):
+
+        conexion = Conexion()
+        self.cliente = conexion.obtener_cliente()
+
         ctk.CTk.__init__(self)
         self.title("Tour musical")
         self.geometry("450x450")
         # self.resizable(False, False)
         self.rowconfigure(0, weight=1)
         self.columnconfigure(0, weight=1)
-        
+
+        self.historial_vistas = []
+
         self.inicializar()
         self.cambiar_frame(self.vista_inicio)
 
@@ -55,7 +61,7 @@ class Aplicacion(ctk.CTk):
         self.vista_inicio = VistaInicio(self, controlador_inicio)
         self.vista_explorar = VistaExplorar(self, controlador_explorar)
         self.vista_proximos = VistaProximos(self, controlador_proximos)
-        self.vista_finalizados = VistaFinalizados(self, controlador_finalizados)
+        self.vista_finalizados = VistaFinalizados( self, controlador_finalizados)
         self.vista_mapa = VistaMapa(self, controlador_mapa)
         self.vista_busqueda = VistaBusqueda(self, controlador_busqueda)
         self.vista_asistidos = VistaAsistidos(self, controlador_asistidos)
@@ -63,19 +69,17 @@ class Aplicacion(ctk.CTk):
         self.vista_escribir_review = VistaEscribirReview(self, controlador_escribir_review)
         self.vista_ajustes = VistaAjustes(self, controlador_ajustes)
 
-    @classmethod
-    def cambiar_frame(cls, frame_destino):
-        if frame_destino not in cls.historial_vistas:
-            cls.historial_vistas.append(frame_destino)
+    def cambiar_frame(self, frame_destino):
+        if frame_destino not in self.historial_vistas:
+            self.historial_vistas.append(frame_destino)
         frame_destino.grid(row=0, column=0, sticky='nsew')
         frame_destino.tkraise()
 
-    @classmethod
-    def volver_frame_anterior(cls):
-        if len(cls.historial_vistas) > 1:
-            cls.historial_vistas.pop()
-            vista_anterior = cls.historial_vistas[-1]
-            cls.cambiar_frame(vista_anterior)
+    def volver_frame_anterior(self):
+        if len(self.historial_vistas) > 1:
+            self.historial_vistas.pop()
+            vista_anterior = self.historial_vistas[-1]
+            self.cambiar_frame(vista_anterior)
 
 
 if __name__ == "__main__":

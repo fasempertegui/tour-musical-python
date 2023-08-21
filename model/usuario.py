@@ -1,26 +1,28 @@
-import json
-
-
 class Usuario:
 
     usuarios = []
-    sesion = None
+    id_usuario_actual = None
 
-    def __init__(self, id, nombre_usuario, historial_eventos):
-        self.id = id
+    def __init__(self, _id, nombre_usuario, historial_eventos):
+        self._id = _id
         self.nombre_usuario = nombre_usuario
         self.historial_eventos = historial_eventos
 
     @classmethod
-    def cargar_usuarios(cls, archivo):
-        with open(archivo, "r") as f:
-            data = json.load(f)
+    def cargar_usuarios(cls, cliente):
+        coleccion = cliente["usuarios"]
+        data = list(coleccion.find())
         cls.usuarios = [cls(**usuario) for usuario in data]
-        cls.sesion = cls.usuarios[0]
+        cls.id_usuario_actual = cls.usuarios[0]._id
 
     @classmethod
-    def agregar_usuario(cls, usuario):
-        cls.usuarios.append(usuario)
+    def actualizar_eventos_asistidos_usuario(cls, cliente, id_evento):
+        cls.obtener_usuario_id(cls.id_usuario_actual).historial_eventos.append(id_evento)
+        historial_eventos = cls.obtener_usuario_id(cls.id_usuario_actual).historial_eventos
+        filtro = {"_id": cls.id_usuario_actual}
+        actualizacion = {"$set": {"historial_eventos": historial_eventos}}
+        coleccion = cliente["usuarios"]
+        coleccion.update_one(filtro, actualizacion)
 
     # Getters
 
@@ -30,12 +32,12 @@ class Usuario:
 
     @classmethod
     def obtener_usuario_id(cls, id):
-        return next((usuario for usuario in cls.usuarios if usuario.id == id), None)
+        return next((usuario for usuario in cls.usuarios if usuario._id == id), None)
 
     @classmethod
     def obtener_usuarios_evento(cls, id_evento):
         return list(usuario for usuario in cls.usuarios if id_evento in usuario.historial_eventos)
     
     @classmethod
-    def obtener_sesion(cls):
-        return cls.sesion
+    def obtener_id_usuario_actual(cls):
+        return cls.id_usuario_actual

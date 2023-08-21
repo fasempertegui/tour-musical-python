@@ -6,9 +6,6 @@ class ControladorAsistidos(ControladorEventos):
         super().__init__(app)
 
     def obtener_eventos_asistidos(self):
-        lista = []
-        eventos_asistidos = self.obtener_sesion().historial_eventos
-        for id_evento in eventos_asistidos:
-            e = self.obtener_evento_id(id_evento)
-            lista.append(e)
-        return lista
+        id_usuario_actual = self.obtener_id_usuario_actual()
+        eventos_asistidos = self.obtener_usuario_id(id_usuario_actual).historial_eventos
+        return [self.obtener_evento_id(id_evento) for id_evento in eventos_asistidos]

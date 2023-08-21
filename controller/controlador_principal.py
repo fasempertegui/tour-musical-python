@@ -7,13 +7,16 @@ from model.usuario import Usuario
 class ControladorPrincipal:
     def __init__(self, app):
         self.app = app
-        Evento.cargar_eventos("data/eventos.json")
-        Ubicacion.cargar_ubicaciones("data/ubicaciones.json")
-        Review.cargar_reviews("data/reviews.json")
-        Usuario.cargar_usuarios("data/usuarios.json")
+        Evento.cargar_eventos(self.app.cliente)
+        Ubicacion.cargar_ubicaciones(self.app.cliente)
+        Review.cargar_reviews(self.app.cliente)
+        Usuario.cargar_usuarios(self.app.cliente)
 
     def agregar_review(self, review):
-        Review.agregar_review(review)
+        Review.agregar_review(self.app.cliente, review)
+
+    def actualizar_eventos_asistidos_usuario(self, id_evento):
+        Usuario.actualizar_eventos_asistidos_usuario(self.app.cliente, id_evento)
 
     # Getters
 
@@ -65,9 +68,9 @@ class ControladorPrincipal:
     def obtener_usuarios_evento(self, id_evento):
         return Usuario.obtener_usuarios_evento(id_evento)
     
-    def obtener_sesion(self):
-        return Usuario.obtener_sesion()
-    
+    def obtener_id_usuario_actual(self):
+        return Usuario.obtener_id_usuario_actual()
+
     # Setters
     
     def establecer_evento_actual(self, evento):

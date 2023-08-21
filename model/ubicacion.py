@@ -6,16 +6,16 @@ class Ubicacion:
     ubicaciones = []
     ubicacion_actual = None
 
-    def __init__(self, id, nombre, direccion, coordenadas):
-        self.id = id
+    def __init__(self, _id, nombre, direccion, coordenadas):
+        self._id = _id
         self.nombre = nombre
         self.direccion = direccion
         self.coordenadas = coordenadas
 
     @classmethod
-    def cargar_ubicaciones(cls, archivo):
-        with open(archivo, "r") as f:
-            data = json.load(f)
+    def cargar_ubicaciones(cls, cliente):
+        coleccion = cliente["ubicaciones"]
+        data = list(coleccion.find())
         cls.ubicaciones = [cls(**ubicacion) for ubicacion in data]
 
     @classmethod
@@ -34,4 +34,4 @@ class Ubicacion:
 
     @classmethod
     def obtener_ubicacion_id(cls, id):
-        return next((ubicacion for ubicacion in cls.ubicaciones if ubicacion.id == id), None)
+        return next((ubicacion for ubicacion in cls.ubicaciones if ubicacion._id == id), None)
