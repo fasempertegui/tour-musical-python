@@ -2,8 +2,8 @@ from controller.controllers.controlador_eventos import ControladorEventos
 
 
 class ControladorAsistidos(ControladorEventos):
-    def __init__(self, app, **datos):
-        super().__init__(app, **datos)
+    def __init__(self, app):
+        super().__init__(app)
 
     def obtener_eventos_asistidos(self):
         lista = []

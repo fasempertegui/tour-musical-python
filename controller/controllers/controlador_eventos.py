@@ -1,8 +1,9 @@
 from controller.controlador_principal import ControladorPrincipal
 
+
 class ControladorEventos(ControladorPrincipal):
-    def __init__(self, app, **datos):
-        super().__init__(app, **datos)
+    def __init__(self, app):
+        super().__init__(app)
 
     def seleccionar_evento(self, evento):
         if evento is not None:

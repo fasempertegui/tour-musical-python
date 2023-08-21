@@ -2,8 +2,8 @@ from controller.controllers.controlador_eventos import ControladorEventos
 
 
 class ControladorExplorar(ControladorEventos):
-    def __init__(self, app, **datos):
-        super().__init__(app, **datos)
+    def __init__(self, app):
+        super().__init__(app)
 
     def cambiar_lista(self, opcion):
         match opcion:

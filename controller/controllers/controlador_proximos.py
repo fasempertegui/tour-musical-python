@@ -2,8 +2,8 @@ from controller.controlador_principal import ControladorPrincipal
 
 
 class ControladorProximos(ControladorPrincipal):
-    def __init__(self, app, **datos):
-        super().__init__(app, **datos)
+    def __init__(self, app):
+        super().__init__(app)
 
     # Navegacion
 
