@@ -39,7 +39,7 @@ class VistaBusqueda(VistaPrincipal):
                 text=opcion,
                 value=opcion,
                 variable=self.opcion_elegida,
-                command=self._actualizar_eventos,
+                command=self._restablecer_eventos,
                 radiobutton_height=12,
                 radiobutton_width=12,
                 border_width_unchecked=3,
@@ -79,6 +79,10 @@ class VistaBusqueda(VistaPrincipal):
         self.boton_atras.pack_configure(side='bottom', **self.default_padding)
         self.boton_atras.pack()
 
+    def _restablecer_eventos(self):
+        self.controlador.restablecer_eventos()
+        self._actualizar_eventos()
+
     def _actualizar_eventos(self):
         eventos = self.controlador.obtener_eventos()
         self.listbox.delete(0, tk.END)
@@ -93,7 +97,7 @@ class VistaBusqueda(VistaPrincipal):
             return None
 
     def _seleccionar_evento(self, event):
-        lista = self.controlador.obtener_eventos_buscados()
+        lista = self.controlador.obtener_eventos()
         indice = self._obtener_evento_seleccionado()
         evento = lista[indice]
         self.controlador.seleccionar_evento(evento)
@@ -102,8 +106,7 @@ class VistaBusqueda(VistaPrincipal):
         criterio = self.opcion_elegida.get().lower()
         texto_busqueda = self.entry_box.get().lower()
         # Filtra la lista de todos los eventos
-        eventos_filtrados = self.controlador.buscar_eventos(
-            criterio, texto_busqueda)
+        eventos_filtrados = self.controlador.buscar_eventos(criterio, texto_busqueda)
         # Actualiza la listbox con los resultados de la busqueda
         self.listbox.delete(0, tk.END)
         for evento in eventos_filtrados:

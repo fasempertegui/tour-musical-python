@@ -4,16 +4,16 @@ from controller.controllers.controlador_eventos import ControladorEventos
 class ControladorBusqueda(ControladorEventos):
     def __init__(self, app):
         super().__init__(app)
-        # Para que la lista de eventos buscados no empiece en blanco se le asigna inicialmente la lista de todos los eventos
-        self.lista_eventos_busqueda = self.obtener_eventos()
+        self.lista_eventos_filtrados = super().obtener_eventos()
+
+    # Implementacion propia
+    def obtener_eventos(self):
+        return self.lista_eventos_filtrados
+    
+    def restablecer_eventos(self):
+        self.lista_eventos_filtrados = super().obtener_eventos()
 
     def buscar_eventos(self, criterio, texto_busqueda):
-        eventos_filtrados = []
-        for evento in self.obtener_eventos():
-            if texto_busqueda in getattr(evento, criterio).lower():
-                eventos_filtrados.append(evento)
-        self.lista_eventos_busqueda = eventos_filtrados
+        eventos_filtrados = [evento for evento in self.obtener_eventos() if texto_busqueda in getattr(evento, criterio).lower()]
+        self.lista_eventos_filtrados = eventos_filtrados
         return eventos_filtrados
-
-    def obtener_eventos_buscados(self):
-        return self.lista_eventos_busqueda
