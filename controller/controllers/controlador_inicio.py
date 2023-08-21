@@ -2,6 +2,9 @@ class ControladorInicio:
     def __init__(self, app):
         self.app = app
 
+    def ir_a_ajustes(self):
+        self.app.cambiar_frame(self.app.vista_ajustes)
+
     def ir_a_explorar(self):
         self.app.cambiar_frame(self.app.vista_explorar)
 
