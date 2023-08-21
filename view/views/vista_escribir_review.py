@@ -13,6 +13,10 @@ class VistaEscribirReview(VistaPrincipal):
         self.titulo_label.pack_configure(side="top", **self.default_padding)
         self.titulo_label.pack()
 
+        self.descripcion_review = ctk.CTkLabel(self)
+        self.descripcion_review.pack_configure(**self.default_padding)
+        self.descripcion_review.pack()
+
         frame_calificacion = ctk.CTkFrame(self, fg_color="transparent")
         frame_calificacion.pack()
 
@@ -38,21 +42,28 @@ class VistaEscribirReview(VistaPrincipal):
         frame_comentario.pack()
 
         self.label_comentario = ctk.CTkLabel(frame_comentario, text="Comentario")
-        self.label_comentario.pack_configure(side="top", **self.default_padding)
+        self.label_comentario.pack_configure(side="top")
         self.label_comentario.pack()
 
         self.textbox = ctk.CTkTextbox(frame_comentario)
-        self.textbox.pack_configure(fill="both", expand=True, **self.default_padding)
+        self.textbox.pack_configure(fill="both", expand=True, padx=10)
         self.textbox.pack()
 
-        self.boton_enviar = ctk.CTkButton(frame_comentario, text="Enviar review", command=self.enviar_review, **self.default_button_color)
+        self.boton_enviar = ctk.CTkButton(frame_comentario, text="Enviar review", command=self._enviar_review, **self.default_button_color)
         self.boton_enviar.pack_configure(side="bottom", **self.default_padding)
         self.boton_enviar.pack()
 
+        self.master.bind("<<IrEscribirReviews>>", self._inicializar)
+
         self.boton_atras.pack_configure(side='bottom', **self.default_padding)
         self.boton_atras.pack()
+
+    def _inicializar(self, *args):
+        evento = self.controlador.obtener_evento_actual()
+        texto_descripcion = f"{evento.nombre} por {evento.artista}"
+        self.descripcion_review.configure(text=texto_descripcion)
     
-    def enviar_review(self):
+    def _enviar_review(self):
         calificacion = int(self.option_menu.get().split(" ")[0])
         comentario = self.textbox.get("1.0", tk.END).strip()
         self.controlador.enviar_review(calificacion, comentario)

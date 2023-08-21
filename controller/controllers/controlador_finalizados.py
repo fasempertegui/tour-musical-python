@@ -44,6 +44,7 @@ class ControladorFinalizados(ControladorPrincipal):
         self.app.cambiar_frame(self.app.vista_reviews)
 
     def ir_a_escribir_review(self):
+        self.app.event_generate("<<IrEscribirReviews>>")
         self.app.cambiar_frame(self.app.vista_escribir_review)
 
     def regresar(self):
