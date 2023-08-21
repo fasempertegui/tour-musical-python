@@ -1,95 +1,80 @@
-from datetime import datetime
+from model.evento import Evento
+from model.ubicacion import Ubicacion
+from model.review import Review
+from model.usuario import Usuario
 
 
 class ControladorPrincipal:
-    def __init__(self, app, eventos, ubicaciones, reviews, usuarios, sesion):
+    def __init__(self, app):
         self.app = app
-        self.eventos = eventos
-        self.ubicaciones = ubicaciones
-        self.reviews = reviews
-        self.usuarios = usuarios
-        self.sesion = sesion
-
-        self.eventos_proximos = []
-        self.eventos_finalizados = []
-
-        self._inicializar()
-
-    # Metodos "privados"
-
-    def _inicializar(self):
-        hoy = datetime.now().replace(microsecond=0).isoformat()
-        for evento in self.obtener_eventos():
-            if evento.hora_inicio > hoy:
-                self.eventos_proximos.append(evento)
-            else:
-                self.eventos_finalizados.append(evento)
-
-    # Metodos publicos
+        Evento.cargar_eventos("data/eventos.json")
+        Ubicacion.cargar_ubicaciones("data/ubicaciones.json")
+        Review.cargar_reviews("data/reviews.json")
+        Usuario.cargar_usuarios("data/usuarios.json")
 
     def agregar_review(self, review):
-        self.reviews.append(review)
+        Review.agregar_review(review)
 
     # Getters
-    
-    def obtener_evento_actual(self):
-        return self.app.evento_actual
-    
-    def obtener_ubicacion_actual(self):
-        return self.app.ubicacion_actual
 
     def obtener_eventos(self):
-        return self.eventos
-
+        return Evento.obtener_eventos()
+    
     def obtener_eventos_proximos(self):
-        return self.eventos_proximos
+        return Evento.obtener_eventos_proximos()
 
     def obtener_eventos_finalizados(self):
-        return self.eventos_finalizados
+        return Evento.obtener_eventos_finalizados()
     
-    def obtener_ubicaciones(self):
-        return self.ubicaciones
-    
-    def obtener_reviews(self):
-        return self.reviews
-    
-    def obtener_usuarios(self):
-        return self.usuarios
-    
-    def obtener_sesion(self):
-        return self.sesion
+    def obtener_evento_actual(self):
+        return Evento.obtener_evento_actual()
     
     def obtener_evento_id(self, id):
-        return next((evento for evento in self.obtener_eventos() if evento.id == id), None)
+        return Evento.obtener_evento_id(id)
     
     def obtener_eventos_id_ubicacion(self, id_ubicacion):
-        return list(evento for evento in self.obtener_eventos() if evento.id_ubicacion == id_ubicacion)
-
+        return Evento.obtener_eventos_id_ubicacion(id_ubicacion)
+    
+    def obtener_ubicaciones(self):
+        return Ubicacion.obtener_ubicaciones()
+    
     def obtener_ubicacion_id(self, id):
-        return next((ubicacion for ubicacion in self.obtener_ubicaciones() if ubicacion.id == id), None)
+        return Ubicacion.obtener_ubicacion_id(id)
+    
+    def obtener_ubicacion_actual(self):
+        return Ubicacion.obtener_ubicacion_actual()
 
+    def obtener_reviews(self):
+        return Review.obtener_reviews()
+    
     def obtener_review_id(self, id):
-        return next((review for review in self.obtener_reviews() if review.id == id), None)
+        return Review.obtener_review_id(id)
     
     def obtener_reviews_id_usuario(self, id_usuario):
-        return list(review for review in self.obtener_reviews() if review.id_usuario == id_usuario)
+        return Review.obtener_reviews_id_usuario(id_usuario)
     
     def obtener_reviews_id_evento(self, id_evento):
-        return list(review for review in self.obtener_reviews() if review.id_evento == id_evento)
+        return Review.obtener_reviews_id_evento(id_evento)
+    
+    def obtener_usuarios(self):
+        return Usuario.obtener_usuarios()
     
     def obtener_usuario_id(self, id):
-        return next((usuario for usuario in self.obtener_usuarios() if usuario.id == id), None)
+        return Usuario.obtener_usuario_id(id)
     
     def obtener_usuarios_evento(self, id_evento):
-        return list(usuario for usuario in self.obtener_usuarios() if id_evento in usuario.historial_eventos)
+        return Usuario.obtener_usuarios_evento(id_evento)
+    
+    def obtener_sesion(self):
+        return Usuario.obtener_sesion()
     
     # Setters
     
     def establecer_evento_actual(self, evento):
-        self.app.evento_actual = evento
+        Evento.establecer_evento_actual(evento)
 
     def establecer_ubicacion_actual(self, ubicacion):
-        self.app.ubicacion_actual = ubicacion
+        Ubicacion.establecer_ubicacion_actual(ubicacion)
 
     # Navegacion
 

@@ -20,67 +20,42 @@ from view.views.vista_reviews import VistaReviews
 from view.views.vista_escribir_review import VistaEscribirReview
 from view.views.vista_ajustes import VistaAjustes
 
-from model.ubicacion import Ubicacion
-from model.evento import Evento
-from model.usuario import Usuario
-from model.review import Review
-
 import customtkinter as ctk
 
 ctk.set_appearance_mode("dark")
 
-'''
-A IMPLENTAR:
-LOGIN
-CTK
-'''
-
-
 class Aplicacion(ctk.CTk):
+
+    historial_vistas = []
+
     def __init__(self):
         ctk.CTk.__init__(self)
         self.title("Tour musical")
         self.geometry("450x450")
         # self.resizable(False, False)
-
-        self.historial_vistas = []
+        self.rowconfigure(0, weight=1)
+        self.columnconfigure(0, weight=1)
+        
         self.inicializar()
         self.cambiar_frame(self.vista_inicio)
 
-        self.evento_actual = None
-        self.ubicacion_actual = None
-
-        self.rowconfigure(0, weight=1)
-        self.columnconfigure(0, weight=1)
-
     def inicializar(self, *args):
 
-        usuarios = Usuario.cargar_usuario("data/usuarios.json")
-
-        datos = {
-            "eventos": Evento.cargar_eventos("data/eventos.json"),
-            "ubicaciones": Ubicacion.cargar_ubicaciones("data/ubicaciones.json"),
-            "reviews": Review.cargar_reviews("data/reviews.json"),
-            "usuarios": usuarios,
-            "sesion": usuarios[0]
-        }
-
         controlador_inicio = ControladorInicio(self)
-        controlador_explorar = ControladorExplorar(self, **datos)
-        controlador_proximos = ControladorProximos(self, **datos)
-        controlador_finalizados = ControladorFinalizados(self, **datos)
-        controlador_mapa = ControladorMapa(self, **datos)
-        controlador_busqueda = ControladorBusqueda(self, **datos)
-        controlador_asistidos = ControladorAsistidos(self, **datos)
-        controlador_reviews = ControladorReviews(self, **datos)
-        controlador_escribir_review = ControladorEscribirReview(self, **datos)
+        controlador_explorar = ControladorExplorar(self)
+        controlador_proximos = ControladorProximos(self)
+        controlador_finalizados = ControladorFinalizados(self)
+        controlador_mapa = ControladorMapa(self)
+        controlador_busqueda = ControladorBusqueda(self)
+        controlador_asistidos = ControladorAsistidos(self)
+        controlador_reviews = ControladorReviews(self)
+        controlador_escribir_review = ControladorEscribirReview(self)
         controlador_ajustes = ControladorAjustes(self)
 
         self.vista_inicio = VistaInicio(self, controlador_inicio)
         self.vista_explorar = VistaExplorar(self, controlador_explorar)
         self.vista_proximos = VistaProximos(self, controlador_proximos)
-        self.vista_finalizados = VistaFinalizados(
-            self, controlador_finalizados)
+        self.vista_finalizados = VistaFinalizados(self, controlador_finalizados)
         self.vista_mapa = VistaMapa(self, controlador_mapa)
         self.vista_busqueda = VistaBusqueda(self, controlador_busqueda)
         self.vista_asistidos = VistaAsistidos(self, controlador_asistidos)
@@ -88,30 +63,19 @@ class Aplicacion(ctk.CTk):
         self.vista_escribir_review = VistaEscribirReview(self, controlador_escribir_review)
         self.vista_ajustes = VistaAjustes(self, controlador_ajustes)
 
-        self.ajustar_frame(self.vista_inicio)
-        self.ajustar_frame(self.vista_explorar)
-        self.ajustar_frame(self.vista_proximos)
-        self.ajustar_frame(self.vista_finalizados)
-        self.ajustar_frame(self.vista_mapa)
-        self.ajustar_frame(self.vista_busqueda)
-        self.ajustar_frame(self.vista_asistidos)
-        self.ajustar_frame(self.vista_reviews)
-        self.ajustar_frame(self.vista_escribir_review)
-        self.ajustar_frame(self.vista_ajustes)
-
-    def ajustar_frame(self, frame):
-        frame.grid(row=0, column=0, sticky='nsew')
-
-    def cambiar_frame(self, frame_destino):
-        if frame_destino not in self.historial_vistas:
-            self.historial_vistas.append(frame_destino)
+    @classmethod
+    def cambiar_frame(cls, frame_destino):
+        if frame_destino not in cls.historial_vistas:
+            cls.historial_vistas.append(frame_destino)
+        frame_destino.grid(row=0, column=0, sticky='nsew')
         frame_destino.tkraise()
 
-    def volver_frame_anterior(self):
-        if len(self.historial_vistas) > 1:
-            self.historial_vistas.pop()
-            vista_anterior = self.historial_vistas[-1]
-            self.cambiar_frame(vista_anterior)
+    @classmethod
+    def volver_frame_anterior(cls):
+        if len(cls.historial_vistas) > 1:
+            cls.historial_vistas.pop()
+            vista_anterior = cls.historial_vistas[-1]
+            cls.cambiar_frame(vista_anterior)
 
 
 if __name__ == "__main__":

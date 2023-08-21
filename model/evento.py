@@ -1,7 +1,12 @@
 import json
+from datetime import datetime
 
 
 class Evento:
+
+    eventos = []
+    evento_actual = None
+
     def __init__(self, id, nombre, artista, genero, id_ubicacion, hora_inicio, hora_fin, descripcion, imagen):
         self.id = id
         self.nombre = nombre
@@ -17,4 +22,44 @@ class Evento:
     def cargar_eventos(cls, archivo):
         with open(archivo, "r") as f:
             data = json.load(f)
-        return [cls(**evento) for evento in data]
+        cls.eventos = [cls(**evento) for evento in data]
+
+    @classmethod
+    def agregar_evento(cls, evento):
+        cls.eventos.append(evento)
+
+    @classmethod
+    def establecer_evento_actual(cls, evento):
+        cls.evento_actual = evento
+
+    # Getters
+
+    @classmethod
+    def obtener_eventos(cls):
+        return cls.eventos
+
+    @classmethod
+    def obtener_evento_actual(cls):
+        return cls.evento_actual
+
+    @classmethod
+    def obtener_eventos_proximos(cls):
+        fecha_actual = datetime.now().replace(microsecond=0).isoformat()
+        return [evento for evento in cls.eventos if evento.hora_inicio >= fecha_actual]
+
+    @classmethod
+    def obtener_eventos_finalizados(cls):
+        fecha_actual = datetime.now().replace(microsecond=0).isoformat()
+        return [evento for evento in cls.eventos if evento.hora_inicio < fecha_actual]
+
+    @classmethod
+    def obtener_evento_actual(cls):
+        return cls.evento_actual
+
+    @classmethod
+    def obtener_evento_id(cls, id):
+        return next((evento for evento in cls.eventos if evento.id == id), None)
+
+    @classmethod
+    def obtener_eventos_id_ubicacion(cls, id_ubicacion):
+        return list(evento for evento in cls.eventos if evento.id_ubicacion == id_ubicacion)

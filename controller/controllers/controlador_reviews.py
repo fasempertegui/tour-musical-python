@@ -2,8 +2,8 @@ from controller.controlador_principal import ControladorPrincipal
 
 
 class ControladorReviews(ControladorPrincipal):
-    def __init__(self, app, **datos):
-        super().__init__(app, **datos)
+    def __init__(self, app):
+        super().__init__(app)
         
     # Metodos publicos
 

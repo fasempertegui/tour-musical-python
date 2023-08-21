@@ -1,12 +1,11 @@
 import json
 
 from controller.controlador_principal import ControladorPrincipal
-from model.usuario import Usuario
 
 
 class ControladorFinalizados(ControladorPrincipal):
-    def __init__(self, app, **datos):
-        super().__init__(app, **datos)
+    def __init__(self, app):
+        super().__init__(app)
 
     # Metodos publicos
 
@@ -37,6 +36,7 @@ class ControladorFinalizados(ControladorPrincipal):
             data = [usuario.__dict__ for usuario in self.obtener_usuarios()]
             json.dump(data, f, indent=8)
         self.app.event_generate("<<Asistencia>>")
+
     # Navegacion
 
     def ir_a_reviews(self):
