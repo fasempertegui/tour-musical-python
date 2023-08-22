@@ -50,14 +50,6 @@ class Sesion:
                 return True
         return False
     
-    @classmethod
-    def autenticar(cls, nombre_usuario, contrasena):
-        for usuario in Usuario.obtener_usuarios():
-            if usuario.nombre_usuario == nombre_usuario and usuario.verificar_contrasena(contrasena):
-                cls.usuario_actual = usuario
-                return True
-        return False
-    
     def _generar_id():
         usuarios = Usuario.obtener_usuarios()
         ultimo_usuario = usuarios[-1]._id if len(usuarios) > 0 else 999
