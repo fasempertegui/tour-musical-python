@@ -14,6 +14,12 @@ class ControladorPrincipal:
 
     def autenticar(self, nombre_usuario, contrasena):
         return Sesion.autenticar(nombre_usuario, contrasena)
+    
+    def registrar(self, nombre_usuario, contrasena):
+        return Sesion.registrar(self.app.cliente, nombre_usuario, contrasena)
+    
+    def cerrar_sesion(self):
+        Sesion.cerrar_sesion()
 
     def agregar_review(self, review):
         Review.agregar_review(self.app.cliente, review)

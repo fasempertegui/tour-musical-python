@@ -1,5 +1,6 @@
 from view.vista_principal import VistaPrincipal
 
+import tkinter as tk
 import customtkinter as ctk
 
 
@@ -48,4 +49,9 @@ class VistaLogin(VistaPrincipal):
             print("Inicio de sesión fallido")
 
     def _registrar(self, *args):
-        pass
+        username = self.nombre_usuario_entry.get()
+        password = self.contrasena_entry.get()
+        if self.controlador.registrar(username, password):
+            self.controlador.ir_a_inicio()
+        else:
+            print("Nombre de usuario en uso")

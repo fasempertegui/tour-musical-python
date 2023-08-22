@@ -14,6 +14,12 @@ class Usuario:
         data = list(coleccion.find())
         cls.usuarios = [cls(**usuario) for usuario in data]
 
+    @classmethod
+    def registrar_usuario(cls, cliente, usuario):
+        cls.usuarios.append(usuario)
+        coleccion = cliente["usuarios"]
+        coleccion.insert_one(usuario)
+
     def verificar_contrasena(self, contrasena):
         return self.contrasena == contrasena
 
@@ -43,6 +49,30 @@ class Sesion:
                 cls.usuario_actual = usuario
                 return True
         return False
+    
+    @classmethod
+    def autenticar(cls, nombre_usuario, contrasena):
+        for usuario in Usuario.obtener_usuarios():
+            if usuario.nombre_usuario == nombre_usuario and usuario.verificar_contrasena(contrasena):
+                cls.usuario_actual = usuario
+                return True
+        return False
+    
+    def _generar_id():
+        usuarios = Usuario.obtener_usuarios()
+        ultimo_usuario = usuarios[-1]._id if len(usuarios) > 0 else 999
+        return ultimo_usuario + 1
+    
+    @classmethod
+    def registrar(cls, cliente, nombre_usuario, contrasena):
+        for usuario in Usuario.obtener_usuarios():
+            if usuario.nombre_usuario == nombre_usuario:
+                return False
+        id_generada = cls._generar_id()
+        nuevo_usuario = Usuario(id_generada, nombre_usuario, contrasena, [])
+        cls.usuario_actual = nuevo_usuario
+        Usuario.registrar_usuario(cliente, nuevo_usuario.__dict__)
+        return True
 
     @classmethod
     def actualizar_eventos_asistidos(cls, cliente, id_evento):

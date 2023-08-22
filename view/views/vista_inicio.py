@@ -36,12 +36,15 @@ class VistaInicio(VistaPrincipal):
         boton_ajustes.pack_configure(side='left', **self.default_padding)
         boton_ajustes.pack()
 
-        boton_salir = ctk.CTkButton(frame_opciones, text="Salir", **self.default_button_color, command=self.master.destroy)
+        boton_salir = ctk.CTkButton(frame_opciones, text="Cerrar sesion", **self.default_button_color, command=self.cerrar_sesion)
         boton_salir.pack_configure(side='right', **self.default_padding)
         boton_salir.pack()
 
         frame_opciones.pack_configure(side="bottom", **self.default_padding)
         frame_opciones.pack()
+
+    def cerrar_sesion(self):
+        self.controlador.cerrar_sesion()
 
     def ir_a_ajustes(self):
         self.controlador.ir_a_ajustes()

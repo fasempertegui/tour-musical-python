@@ -42,19 +42,20 @@ class Aplicacion(ctk.CTk):
         self.rowconfigure(0, weight=1)
         self.columnconfigure(0, weight=1)
 
-        self.historial_vistas = []
-
         self.login()
-        self.cambiar_frame(self.vista_login)
-        self.bind("<<Login>>", self.inicializar)
 
-    def login(self):
+        self.bind("<<Login>>", self.inicializar)
+        self.bind("<<Logout>>", self.login)
+
+    def login(self, *args):
+        self.historial_vistas = []
         controlador_login = ControladorLogin(self)
-        controlador_inicio = ControladorInicio(self)
         self.vista_login = VistaLogin(self, controlador_login)
-        self.vista_inicio = VistaInicio(self, controlador_inicio)
+        self.cambiar_frame(self.vista_login)
 
     def inicializar(self, *args):
+        self.historial_vistas = []
+        controlador_inicio = ControladorInicio(self)
         controlador_explorar = ControladorExplorar(self)
         controlador_proximos = ControladorProximos(self)
         controlador_finalizados = ControladorFinalizados(self)
@@ -65,6 +66,7 @@ class Aplicacion(ctk.CTk):
         controlador_escribir_review = ControladorEscribirReview(self)
         controlador_ajustes = ControladorAjustes(self)
 
+        self.vista_inicio = VistaInicio(self, controlador_inicio)
         self.vista_explorar = VistaExplorar(self, controlador_explorar)
         self.vista_proximos = VistaProximos(self, controlador_proximos)
         self.vista_finalizados = VistaFinalizados( self, controlador_finalizados)
@@ -74,6 +76,8 @@ class Aplicacion(ctk.CTk):
         self.vista_reviews = VistaReviews(self, controlador_reviews)
         self.vista_escribir_review = VistaEscribirReview(self, controlador_escribir_review)
         self.vista_ajustes = VistaAjustes(self, controlador_ajustes)
+
+        self.cambiar_frame(self.vista_inicio)
 
     def cambiar_frame(self, frame_destino):
         if frame_destino not in self.historial_vistas:

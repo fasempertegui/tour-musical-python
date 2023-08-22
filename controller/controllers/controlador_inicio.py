@@ -1,6 +1,12 @@
-class ControladorInicio:
+from controller.controlador_principal import ControladorPrincipal
+
+class ControladorInicio(ControladorPrincipal):
     def __init__(self, app):
-        self.app = app
+        super().__init__(app)
+
+    def cerrar_sesion(self):
+        self.app.event_generate("<<Logout>>")
+        super().cerrar_sesion()
 
     def ir_a_ajustes(self):
         self.app.cambiar_frame(self.app.vista_ajustes)
