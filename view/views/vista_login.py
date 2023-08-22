@@ -32,7 +32,7 @@ class VistaLogin(VistaPrincipal):
         frame_botones.pack_configure(**self.default_padding)
         frame_botones.pack()
 
-        self.boton_login = ctk.CTkButton(frame_botones, text="Iniciar sesión", command=self._login, **self.default_button_color)
+        self.boton_login = ctk.CTkButton(frame_botones, text="Iniciar sesión", command=self._autenticar, **self.default_button_color)
         self.boton_login.pack_configure(side="left", padx=3, pady=3)
         self.boton_login.pack()
 
@@ -40,18 +40,14 @@ class VistaLogin(VistaPrincipal):
         self.boton_registro.pack_configure(side="right", padx=3, pady=3)
         self.boton_registro.pack()
 
-    def _login(self, *args):
+    def _autenticar(self, *args):
         username = self.nombre_usuario_entry.get()
         password = self.contrasena_entry.get()
         if self.controlador.autenticar(username, password):
             self.controlador.ir_a_inicio()
-        else:
-            print("Inicio de sesión fallido")
 
     def _registrar(self, *args):
         username = self.nombre_usuario_entry.get()
         password = self.contrasena_entry.get()
         if self.controlador.registrar(username, password):
             self.controlador.ir_a_inicio()
-        else:
-            print("Nombre de usuario en uso")
