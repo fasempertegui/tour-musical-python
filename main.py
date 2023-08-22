@@ -8,6 +8,7 @@ from controller.controllers.controlador_asistidos import ControladorAsistidos
 from controller.controllers.controlador_reviews import ControladorReviews
 from controller.controllers.controlador_escribir_review import ControladorEscribirReview
 from controller.controllers.controlador_ajustes import ControladorAjustes
+from controller.controllers.controlador_login import ControladorLogin 
 
 from view.views.vista_mapa import VistaMapa
 from view.views.vista_finalizados import VistaFinalizados
@@ -19,6 +20,7 @@ from view.views.vista_asistidos import VistaAsistidos
 from view.views.vista_reviews import VistaReviews
 from view.views.vista_escribir_review import VistaEscribirReview
 from view.views.vista_ajustes import VistaAjustes
+from view.views.vista_login import VistaLogin
 
 from database.database import Conexion
 
@@ -42,12 +44,17 @@ class Aplicacion(ctk.CTk):
 
         self.historial_vistas = []
 
-        self.inicializar()
-        self.cambiar_frame(self.vista_inicio)
+        self.login()
+        self.cambiar_frame(self.vista_login)
+        self.bind("<<Login>>", self.inicializar)
+
+    def login(self):
+        controlador_login = ControladorLogin(self)
+        controlador_inicio = ControladorInicio(self)
+        self.vista_login = VistaLogin(self, controlador_login)
+        self.vista_inicio = VistaInicio(self, controlador_inicio)
 
     def inicializar(self, *args):
-
-        controlador_inicio = ControladorInicio(self)
         controlador_explorar = ControladorExplorar(self)
         controlador_proximos = ControladorProximos(self)
         controlador_finalizados = ControladorFinalizados(self)
@@ -58,7 +65,6 @@ class Aplicacion(ctk.CTk):
         controlador_escribir_review = ControladorEscribirReview(self)
         controlador_ajustes = ControladorAjustes(self)
 
-        self.vista_inicio = VistaInicio(self, controlador_inicio)
         self.vista_explorar = VistaExplorar(self, controlador_explorar)
         self.vista_proximos = VistaProximos(self, controlador_proximos)
         self.vista_finalizados = VistaFinalizados( self, controlador_finalizados)

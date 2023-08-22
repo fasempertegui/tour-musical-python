@@ -17,7 +17,7 @@ class ControladorEscribirReview(ControladorPrincipal):
     # Metodos publicos
 
     def enviar_review(self, calificacion, comentario):
-        id_usuario_actual = self.obtener_id_usuario_actual()
+        id_usuario_actual = self.obtener_usuario_actual()._id
         id_evento = self.obtener_evento_actual()._id
         id_review = self._generar_id()
         review = Review(id_review, id_evento, id_usuario_actual, calificacion, comentario)

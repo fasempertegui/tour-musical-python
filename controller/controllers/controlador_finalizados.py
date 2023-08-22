@@ -14,18 +14,17 @@ class ControladorFinalizados(ControladorPrincipal):
         reviews = self.obtener_reviews_id_evento(id_evento)
         if not len(reviews) > 0:
             return True
-        id_usuario_actual = self.obtener_id_usuario_actual()
+        id_usuario_actual = self.obtener_usuario_actual()._id
         return next((False for review in reviews if review.id_usuario == id_usuario_actual), True)
 
     def determinar_usuario_asistio(self):
         id_evento = self.obtener_evento_actual()._id
-        id_usuario_actual = self.obtener_id_usuario_actual()
-        usuario_actual = self.obtener_usuario_id(id_usuario_actual)
+        usuario_actual = self.obtener_usuario_actual()
         return id_evento in usuario_actual.historial_eventos
 
     def confirmar_asistencia(self):
         id_evento = self.obtener_evento_actual()._id
-        self.actualizar_eventos_asistidos_usuario(id_evento)
+        self.actualizar_eventos_asistidos(id_evento)
         self.app.event_generate("<<Asistencia>>")
 
     # Navegacion

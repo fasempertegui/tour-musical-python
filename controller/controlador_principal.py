@@ -1,7 +1,7 @@
 from model.evento import Evento
 from model.ubicacion import Ubicacion
 from model.review import Review
-from model.usuario import Usuario
+from model.usuario import Usuario, Sesion
 
 
 class ControladorPrincipal:
@@ -12,11 +12,14 @@ class ControladorPrincipal:
         Review.cargar_reviews(self.app.cliente)
         Usuario.cargar_usuarios(self.app.cliente)
 
+    def autenticar(self, nombre_usuario, contrasena):
+        return Sesion.autenticar(nombre_usuario, contrasena)
+
     def agregar_review(self, review):
         Review.agregar_review(self.app.cliente, review)
 
-    def actualizar_eventos_asistidos_usuario(self, id_evento):
-        Usuario.actualizar_eventos_asistidos_usuario(self.app.cliente, id_evento)
+    def actualizar_eventos_asistidos(self, id_evento):
+        Sesion.actualizar_eventos_asistidos(self.app.cliente, id_evento)
 
     # Getters
 
@@ -68,8 +71,8 @@ class ControladorPrincipal:
     def obtener_usuarios_evento(self, id_evento):
         return Usuario.obtener_usuarios_evento(id_evento)
     
-    def obtener_id_usuario_actual(self):
-        return Usuario.obtener_id_usuario_actual()
+    def obtener_usuario_actual(self):
+        return Sesion.obtener_usuario_actual()
 
     # Setters
     
