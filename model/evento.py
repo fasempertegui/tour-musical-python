@@ -7,8 +7,8 @@ class Evento:
     eventos = []
     evento_actual = None
 
-    def __init__(self, id, nombre, artista, genero, id_ubicacion, hora_inicio, hora_fin, descripcion, imagen):
-        self.id = id
+    def __init__(self, _id, nombre, artista, genero, id_ubicacion, hora_inicio, hora_fin, descripcion, imagen):
+        self._id = _id
         self.nombre = nombre
         self.artista = artista
         self.genero = genero
@@ -19,9 +19,9 @@ class Evento:
         self.imagen = imagen
 
     @classmethod
-    def cargar_eventos(cls, archivo):
-        with open(archivo, "r") as f:
-            data = json.load(f)
+    def cargar_eventos(cls, cliente):
+        coleccion = cliente["eventos"]
+        data = list(coleccion.find())
         cls.eventos = [cls(**evento) for evento in data]
 
     @classmethod
@@ -58,7 +58,7 @@ class Evento:
 
     @classmethod
     def obtener_evento_id(cls, id):
-        return next((evento for evento in cls.eventos if evento.id == id), None)
+        return next((evento for evento in cls.eventos if evento._id == id), None)
 
     @classmethod
     def obtener_eventos_id_ubicacion(cls, id_ubicacion):

@@ -11,19 +11,16 @@ class ControladorEscribirReview(ControladorPrincipal):
     # Metodos privados
 
     def _generar_id(self):
-        ultima_review = self.obtener_reviews()[-1].id if len(self.obtener_reviews()) > 0 else 999
+        ultima_review = self.obtener_reviews()[-1]._id if len(self.obtener_reviews()) > 0 else 999
         return ultima_review + 1
 
     # Metodos publicos
 
     def enviar_review(self, calificacion, comentario):
-        id_sesion = self.obtener_sesion().id
-        id_evento = self.obtener_evento_actual().id
+        id_usuario_actual = self.obtener_usuario_actual()._id
+        id_evento = self.obtener_evento_actual()._id
         id_review = self._generar_id()
-        review = Review(id_review, id_evento, id_sesion, calificacion, comentario)
+        review = Review(id_review, id_evento, id_usuario_actual, calificacion, comentario)
         self.agregar_review(review)
-        with open("data/reviews.json", "w") as f:
-            data = [review.__dict__ for review in self.obtener_reviews()]
-            json.dump(data, f, indent=4)
         self.app.event_generate("<<VistaFinalizados>>")
         self.regresar()

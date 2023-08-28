@@ -8,7 +8,7 @@ class ControladorReviews(ControladorPrincipal):
     # Metodos publicos
 
     def recuperar_reviews(self, *args):
-        id_evento_actual = self.obtener_evento_actual().id
+        id_evento_actual = self.obtener_evento_actual()._id
         reviews = self.obtener_reviews_id_evento(id_evento_actual)
         texto = ""
         for review in reviews:
