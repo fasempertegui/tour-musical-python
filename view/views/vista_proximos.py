@@ -43,7 +43,7 @@ class VistaProximos(VistaPrincipal):
         boton_ver_mapa.pack_configure(**self.default_padding)
         boton_ver_mapa.pack()
 
-        self.master.bind("<<VistaProximos>>", self._inicializar)
+        self.master.bind("<<InicializarProximos>>", self._inicializar)
         
         self.boton_atras.pack_configure(side='bottom', **self.default_padding)
         self.boton_atras.pack()

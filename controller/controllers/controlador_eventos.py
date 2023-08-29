@@ -21,8 +21,8 @@ class ControladorEventos(ControladorPrincipal):
                 self.establecer_evento_actual(evento)
                 self.establecer_ubicacion_actual(ubicacion)
                 if evento in self.obtener_eventos_proximos():
-                    self.app.event_generate("<<VistaProximos>>")
+                    self.app.event_generate("<<InicializarProximos>>")
                     self.app.cambiar_frame(self.app.vista_proximos)
                 else:
-                    self.app.event_generate("<<VistaFinalizados>>")
+                    self.app.event_generate("<<InicializarFinalizados>>")
                     self.app.cambiar_frame(self.app.vista_finalizados)

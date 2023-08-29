@@ -21,5 +21,5 @@ class ControladorEscribirReview(ControladorPrincipal):
         cliente = self.app.cliente
         review = Review(id_review, id_evento, id_usuario_actual, calificacion, comentario)
         Review.agregar_review(cliente, review)
-        self.app.event_generate("<<VistaFinalizados>>")
+        self.app.event_generate("<<ActualizarBotones>>")
         self.regresar()
