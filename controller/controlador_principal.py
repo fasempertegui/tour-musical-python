@@ -13,19 +13,25 @@ class ControladorPrincipal:
         Usuario.cargar_usuarios(self.app.cliente)
 
     def autenticar(self, nombre_usuario, contrasena):
-        if Sesion.autenticar(nombre_usuario, contrasena):
-            return True
+        if nombre_usuario != '' and contrasena != '':
+            if Sesion.autenticar(nombre_usuario, contrasena):
+                return True
+            else:
+                self.app.event_generate("<<DatosInvalidos>>")
+                return False
         else:
-            print("Credenciales invalidas")
+            self.app.event_generate("<<CamposVacios>>")
+            return False
 
     def registrar(self, nombre_usuario, contrasena):
         if nombre_usuario != '' and contrasena != '':
             if Sesion.registrar(self.app.cliente, nombre_usuario, contrasena):
                 return True
             else:
-                print("Nombre de usuario en uso")
+                self.app.event_generate("<<EnUso>>")
+                return False
         else:
-            print("Datos ingresados invalidos")
+            self.app.event_generate("<<CamposVacios>>")
         return False
 
     def cerrar_sesion(self):
