@@ -30,13 +30,13 @@ class Review:
     def obtener_reviews(cls):
         return cls.reviews
 
-    @classmethod
-    def obtener_review_id(cls, id):
-        return next((review for review in cls.reviews if review._id == id), None)
+    # @classmethod
+    # def obtener_review_id(cls, id):
+    #     return next((review for review in cls.reviews if review._id == id), None)
     
-    @classmethod
-    def obtener_reviews_id_usuario(cls, id_usuario):
-        return list(review for review in cls.reviews if review.id_usuario == id_usuario)
+    # @classmethod
+    # def obtener_reviews_id_usuario(cls, id_usuario):
+    #     return list(review for review in cls.reviews if review.id_usuario == id_usuario)
     
     @classmethod
     def obtener_reviews_id_evento(cls, id_evento):

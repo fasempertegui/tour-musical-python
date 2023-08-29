@@ -1,6 +1,5 @@
-import json
-
 from controller.controlador_principal import ControladorPrincipal
+from model.usuario import Sesion
 
 
 class ControladorFinalizados(ControladorPrincipal):
@@ -24,7 +23,8 @@ class ControladorFinalizados(ControladorPrincipal):
 
     def confirmar_asistencia(self):
         id_evento = self.obtener_evento_actual()._id
-        self.actualizar_eventos_asistidos(id_evento)
+        cliente = self.app.cliente
+        Sesion.actualizar_eventos_asistidos(cliente, id_evento)
         self.app.event_generate("<<Asistencia>>")
 
     # Navegacion

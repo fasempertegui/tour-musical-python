@@ -33,9 +33,9 @@ class Usuario:
     def obtener_usuario_id(cls, id):
         return next((usuario for usuario in cls.usuarios if usuario._id == id), None)
 
-    @classmethod
-    def obtener_usuarios_evento(cls, id_evento):
-        return list(usuario for usuario in cls.usuarios if id_evento in usuario.historial_eventos)
+    # @classmethod
+    # def obtener_usuarios_evento(cls, id_evento):
+    #     return list(usuario for usuario in cls.usuarios if id_evento in usuario.historial_eventos)
 
 
 class Sesion:

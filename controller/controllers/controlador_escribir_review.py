@@ -1,5 +1,3 @@
-import json
-
 from controller.controlador_principal import ControladorPrincipal
 from model.review import Review
 
@@ -20,7 +18,8 @@ class ControladorEscribirReview(ControladorPrincipal):
         id_usuario_actual = self.obtener_usuario_actual()._id
         id_evento = self.obtener_evento_actual()._id
         id_review = self._generar_id()
+        cliente = self.app.cliente
         review = Review(id_review, id_evento, id_usuario_actual, calificacion, comentario)
-        self.agregar_review(review)
+        Review.agregar_review(cliente, review)
         self.app.event_generate("<<VistaFinalizados>>")
         self.regresar()

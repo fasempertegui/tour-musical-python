@@ -1,4 +1,5 @@
 from controller.controlador_principal import ControladorPrincipal
+from model.usuario import Sesion
 
 class ControladorInicio(ControladorPrincipal):
     def __init__(self, app):
@@ -6,7 +7,7 @@ class ControladorInicio(ControladorPrincipal):
 
     def cerrar_sesion(self):
         self.app.event_generate("<<Logout>>")
-        super().cerrar_sesion()
+        Sesion.cerrar_sesion()
 
     def ir_a_ajustes(self):
         self.app.cambiar_frame(self.app.vista_ajustes)

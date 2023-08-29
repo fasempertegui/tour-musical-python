@@ -60,6 +60,6 @@ class Evento:
     def obtener_evento_id(cls, id):
         return next((evento for evento in cls.eventos if evento._id == id), None)
 
-    @classmethod
-    def obtener_eventos_id_ubicacion(cls, id_ubicacion):
-        return list(evento for evento in cls.eventos if evento.id_ubicacion == id_ubicacion)
+    # @classmethod
+    # def obtener_eventos_id_ubicacion(cls, id_ubicacion):
+    #     return list(evento for evento in cls.eventos if evento.id_ubicacion == id_ubicacion)
