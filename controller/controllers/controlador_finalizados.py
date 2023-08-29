@@ -26,6 +26,7 @@ class ControladorFinalizados(ControladorPrincipal):
         cliente = self.app.cliente
         Sesion.actualizar_eventos_asistidos(cliente, id_evento)
         self.app.event_generate("<<Asistencia>>")
+        self.app.event_generate("<<ActualizarAsistidos>>")
 
     # Navegacion
 

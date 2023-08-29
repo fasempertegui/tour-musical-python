@@ -22,10 +22,12 @@ class VistaAsistidos(VistaPrincipal):
 
         self._actualizar_eventos()
 
+        self.master.bind("<<ActualizarAsistidos>>", self._actualizar_eventos)
+
         self.boton_atras.pack_configure(side='bottom', **self.default_padding)
         self.boton_atras.pack()
 
-    def _actualizar_eventos(self):
+    def _actualizar_eventos(self, *args):
         eventos = self.controlador.obtener_eventos_asistidos()
         self.listbox.delete(0, tk.END)
         for evento in eventos:
