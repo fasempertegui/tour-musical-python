@@ -70,13 +70,13 @@ class VistaLogin(VistaPrincipal):
         username = self.nombre_usuario_entry.get()
         password = self.contrasena_entry.get()
         if self.controlador.autenticar(username, password):
-            self.controlador.ir_a_inicio()
+            self.controlador.renderizar()
 
     def _registrar(self, *args):
         username = self.nombre_usuario_entry.get()
         password = self.contrasena_entry.get()
         if self.controlador.registrar(username, password):
-            self.controlador.ir_a_inicio()
+            self.controlador.renderizar()
 
     def _datos_invalidos(self, *args):
         self.alerta_label.configure(text="Los datos ingresados no coinciden")

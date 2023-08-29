@@ -5,5 +5,5 @@ class ControladorLogin(ControladorPrincipal):
     def __init__(self, app):
         super().__init__(app)
 
-    def ir_a_inicio(self):
+    def renderizar(self):
         self.app.event_generate("<<Login>>")

@@ -1,3 +1,8 @@
+from model.evento import Evento
+from model.ubicacion import Ubicacion
+from model.review import Review
+from model.usuario import Usuario
+
 from controller.controllers.controlador_mapa import ControladorMapa
 from controller.controllers.controlador_proximos import ControladorProximos
 from controller.controllers.controlador_finalizados import ControladorFinalizados
@@ -42,19 +47,27 @@ class Aplicacion(ctk.CTk):
         self.rowconfigure(0, weight=1)
         self.columnconfigure(0, weight=1)
 
-        self.login()
+        self.inicializar()
 
-        self.bind("<<Login>>", self.inicializar)
-        self.bind("<<Logout>>", self.login)
-
-    def login(self, *args):
-        self.historial_vistas = []
-        controlador_login = ControladorLogin(self)
-        self.vista_login = VistaLogin(self, controlador_login)
-        self.cambiar_frame(self.vista_login)
+        self.bind("<<Logout>>", self.inicializar)
+        self.bind("<<Login>>", self.renderizar)
 
     def inicializar(self, *args):
         self.historial_vistas = []
+
+        Evento.cargar_eventos(self.cliente)
+        Ubicacion.cargar_ubicaciones(self.cliente)
+        Review.cargar_reviews(self.cliente)
+        Usuario.cargar_usuarios(self.cliente)
+
+        controlador_login = ControladorLogin(self)
+        self.vista_login = VistaLogin(self, controlador_login)
+        
+        self.cambiar_frame(self.vista_login)
+
+    def renderizar(self, *args):
+        self.historial_vistas = []
+
         controlador_inicio = ControladorInicio(self)
         controlador_explorar = ControladorExplorar(self)
         controlador_proximos = ControladorProximos(self)
