@@ -1,101 +1,107 @@
-from controller.controlador_mapa import ControladorMapa
-from controller.controlador_info import ControladorInfo
-from controller.eventos.controlador_explorar import ControladorExplorar
-from controller.controlador_inicio import ControladorInicio
-from controller.eventos.controlador_busqueda import ControladorBusqueda
-from controller.eventos.controlador_asistidos import ControladorAsistidos
-from controller.controlador_reviews import ControladorReviews
-from controller.controlador_escribir_review import ControladorEscribirReview
+from model.evento import Evento
+from model.ubicacion import Ubicacion
+from model.review import Review
+from model.usuario import Usuario
+
+from controller.controllers.controlador_mapa import ControladorMapa
+from controller.controllers.controlador_proximos import ControladorProximos
+from controller.controllers.controlador_finalizados import ControladorFinalizados
+from controller.controllers.controlador_explorar import ControladorExplorar
+from controller.controllers.controlador_inicio import ControladorInicio
+from controller.controllers.controlador_busqueda import ControladorBusqueda
+from controller.controllers.controlador_asistidos import ControladorAsistidos
+from controller.controllers.controlador_reviews import ControladorReviews
+from controller.controllers.controlador_escribir_review import ControladorEscribirReview
+from controller.controllers.controlador_ajustes import ControladorAjustes
+from controller.controllers.controlador_login import ControladorLogin 
+
 from view.views.vista_mapa import VistaMapa
-from view.views.info_eventos.vista_finalizados import VistaFinalizados
-from view.views.info_eventos.vista_proximos import VistaProximos
-from view.views.eventos.vista_explorar import VistaExplorar
+from view.views.vista_finalizados import VistaFinalizados
+from view.views.vista_proximos import VistaProximos
+from view.views.vista_explorar import VistaExplorar
 from view.views.vista_inicio import VistaInicio
-from view.views.eventos.vista_busqueda import VistaBusqueda
-from view.views.eventos.vista_asistidos import VistaAsistidos
+from view.views.vista_busqueda import VistaBusqueda
+from view.views.vista_asistidos import VistaAsistidos
 from view.views.vista_reviews import VistaReviews
 from view.views.vista_escribir_review import VistaEscribirReview
-from model.ubicacion import Ubicacion
-from model.evento import Evento
-from model.usuario import Usuario
-from model.review import Review
-import tkinter as tk
+from view.views.vista_ajustes import VistaAjustes
+from view.views.vista_login import VistaLogin
 
-'''
-El proyecto no esta finalizado. 
-Carece de un diseño moderno y atractivo, aun faltan caracteristicas (como el planificado de rutas) y otras fueron modificadas (como mostrar un mapa -con su respectivo marcador- para cada evento, en vez de un mapa para todos los eventos)
-que personalmente si tuviera que -re-implementarlas no representaria un desafio mayor.
-Simplemente decidi invertir mas tiempo en utilizar e implementar correctamente el patron de diseño MVC, la programacion orientada a objetos y en que todo funcione correctamente como lo pensé desde un principio.
-'''
+from database.database import Conexion
 
+import customtkinter as ctk
 
-class Aplicacion(tk.Tk):
+ctk.set_appearance_mode("dark")
+
+class Aplicacion(ctk.CTk):
+
     def __init__(self):
-        tk.Tk.__init__(self)
+
+        conexion = Conexion()
+        self.cliente = conexion.obtener_cliente()
+
+        ctk.CTk.__init__(self)
         self.title("Tour musical")
-        self.geometry("330x330")
-        self.resizable(False, False)
+        self.geometry("450x450")
+        # self.resizable(False, False)
+        self.rowconfigure(0, weight=1)
+        self.columnconfigure(0, weight=1)
+
         self.inicializar()
-        # Se utiliza una lista para trackear los frames visitados para poder regresar de manera correcta
+
+        self.bind("<<Logout>>", self.inicializar)
+        self.bind("<<Login>>", self.renderizar)
+
+    def inicializar(self, *args):
         self.historial_vistas = []
-        self.cambiar_frame(self.vista_inicio)
 
-    def inicializar(self):
+        Evento.cargar_eventos(self.cliente)
+        Ubicacion.cargar_ubicaciones(self.cliente)
+        Review.cargar_reviews(self.cliente)
+        Usuario.cargar_usuarios(self.cliente)
 
-        eventos = Evento.cargar_eventos("data/eventos.json")
-        ubicaciones = Ubicacion.cargar_ubicaciones("data/ubicaciones.json")
-        usuarios = Usuario.cargar_usuario("data/usuarios.json")
-        reviews = Review.cargar_reviews("data/reviews.json")
+        controlador_login = ControladorLogin(self)
+        self.vista_login = VistaLogin(self, controlador_login)
+        
+        self.cambiar_frame(self.vista_login)
 
-        # "Login"
-        usuario_logueado = usuarios[0]
+    def renderizar(self, *args):
+        self.historial_vistas = []
 
         controlador_inicio = ControladorInicio(self)
-        controlador_explorar = ControladorExplorar(self, eventos, ubicaciones)
-        controlador_info = ControladorInfo(self, eventos, reviews, usuario_logueado)
+        controlador_explorar = ControladorExplorar(self)
+        controlador_proximos = ControladorProximos(self)
+        controlador_finalizados = ControladorFinalizados(self)
         controlador_mapa = ControladorMapa(self)
-        controlador_busqueda = ControladorBusqueda(self, eventos, ubicaciones)
-        controlador_asistidos = ControladorAsistidos(self, eventos, ubicaciones, usuario_logueado)
-        controlador_reviews = ControladorReviews(self, usuarios, reviews)
+        controlador_busqueda = ControladorBusqueda(self)
+        controlador_asistidos = ControladorAsistidos(self)
+        controlador_reviews = ControladorReviews(self)
         controlador_escribir_review = ControladorEscribirReview(self)
+        controlador_ajustes = ControladorAjustes(self)
 
         self.vista_inicio = VistaInicio(self, controlador_inicio)
         self.vista_explorar = VistaExplorar(self, controlador_explorar)
-        # Controlador compartido por ambas vistas
-        self.vista_finalizados = VistaFinalizados(self, controlador_info)
-        self.vista_proximos = VistaProximos(self, controlador_info)
+        self.vista_proximos = VistaProximos(self, controlador_proximos)
+        self.vista_finalizados = VistaFinalizados( self, controlador_finalizados)
         self.vista_mapa = VistaMapa(self, controlador_mapa)
         self.vista_busqueda = VistaBusqueda(self, controlador_busqueda)
         self.vista_asistidos = VistaAsistidos(self, controlador_asistidos)
         self.vista_reviews = VistaReviews(self, controlador_reviews)
         self.vista_escribir_review = VistaEscribirReview(self, controlador_escribir_review)
+        self.vista_ajustes = VistaAjustes(self, controlador_ajustes)
 
-        self.ajustar_frame(self.vista_inicio)
-        self.ajustar_frame(self.vista_explorar)
-        self.ajustar_frame(self.vista_finalizados)
-        self.ajustar_frame(self.vista_proximos)
-        self.ajustar_frame(self.vista_mapa)
-        self.ajustar_frame(self.vista_busqueda)
-        self.ajustar_frame(self.vista_asistidos)
-        self.ajustar_frame(self.vista_reviews)
-        self.ajustar_frame(self.vista_escribir_review)
-
-    def ajustar_frame(self, frame):
-        frame.grid(row=0, column=0, sticky='nsew')
+        self.cambiar_frame(self.vista_inicio)
 
     def cambiar_frame(self, frame_destino):
-        # Si no controlo que el frame no este en el historial (que puede ocurrir al avanzar dos veces y luego retroceder) el frame se duplicara y no se podra regresar
         if frame_destino not in self.historial_vistas:
             self.historial_vistas.append(frame_destino)
+        frame_destino.grid(row=0, column=0, sticky='nsew')
         frame_destino.tkraise()
 
     def volver_frame_anterior(self):
         if len(self.historial_vistas) > 1:
-            # Se elimina el frame actual
             self.historial_vistas.pop()
-            # Se recupera el frame anterior
             vista_anterior = self.historial_vistas[-1]
-            # Se cambia a dicho frame
             self.cambiar_frame(vista_anterior)
 
 
