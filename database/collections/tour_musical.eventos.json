@@ -1,0 +1,66 @@
+[{
+  "_id": 1000,
+  "nombre": "Apocalipsis Zombie",
+  "artista": "El Cuarteto De Nos",
+  "genero": "Rock alternativo",
+  "id_ubicacion": 1001,
+  "hora_inicio": "2023-08-26T18:00:00",
+  "hora_fin": "2023-08-26T21:00:00",
+  "descripcion": "Sumergete en una noche de pura energia rockera con el legendario Cuarteto de Nos. Sus letras ingeniosas y su potente musica te llevaran a un viaje inolvidable a traves del mundo del rock.",
+  "imagen": ""
+},
+{
+  "_id": 1004,
+  "nombre": "RTP South American Tour",
+  "artista": "Ready the Prince",
+  "genero": "Rock alternativo",
+  "id_ubicacion": 1004,
+  "hora_inicio": "2023-08-26T18:00:00",
+  "hora_fin": "2023-08-26T21:00:00",
+  "descripcion": "Preparate para una dosis de rock electrizante con Ready the Prince. Esta banda te hara vibrar con su estilo unico y energico, llenando el escenario con poderosos riffs y una actuacion intensa.",
+  "imagen": ""
+},
+{
+  "_id": 1001,
+  "nombre": "Gira Norte: Alejado de la Red",
+  "artista": "La Renga",
+  "genero": "Rock nacional",
+  "id_ubicacion": 1000,
+  "hora_inicio": "2023-08-26T18:00:00",
+  "hora_fin": "2023-08-26T21:00:00",
+  "descripcion": "Vive la intensidad del rock en su maxima expresion con La Renga. Su musica potente y sus letras cargadas de pasion te sumergiran en una experiencia sonora que te dejara sin aliento.",
+  "imagen": ""
+},
+{
+  "_id": 1002,
+  "nombre": "The Eras Tour",
+  "artista": "Taylor Swift",
+  "genero": "Pop",
+  "id_ubicacion": 1002,
+  "hora_inicio": "2023-08-26T18:00:00",
+  "hora_fin": "2023-08-26T21:00:00",
+  "descripcion": "Dejate llevar por la voz iconica de Taylor Swift en un recital que fusiona melodias pegajosas con un toque de magia pop. Una noche para disfrutar de su encanto y talento innegable.",
+  "imagen": ""
+},
+{
+  "_id": 1003,
+  "nombre": "BTS World Tour: Love Yourself",
+  "artista": "BTS",
+  "genero": "Kpop, pop",
+  "id_ubicacion": 1003,
+  "hora_inicio": "2023-08-08T18:00:00",
+  "hora_fin": "2023-08-08T21:00:00",
+  "descripcion": "Adentrate en el fenomeno global del Kpop con BTS. Esta sensacion musical te transportara a un mundo de coreografias impresionantes, melodias contagiosas y un espectaculo visual deslumbrante.",
+  "imagen": ""
+},
+{
+  "_id": 1005,
+  "nombre": "Heroes del Silencio: Tour 2023",
+  "artista": "Heroes del Silencio",
+  "genero": "Rock alternativo",
+  "id_ubicacion": 1002,
+  "hora_inicio": "2023-07-26T23:00:00",
+  "hora_fin": "2023-07-27T01:00:00",
+  "descripcion": "Siente la poderosa presencia de Heroes del Silencio en el escenario mientras te envuelven en su distintivo rock. Una experiencia unica para los amantes de la musica que busca trascender los limites del sonido.",
+  "imagen": ""
+}]
