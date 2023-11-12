@@ -64,6 +64,7 @@ class Sesion:
         nuevo_usuario = Usuario(id_generada, nombre_usuario, contrasena, [])
         cls.usuario_actual = nuevo_usuario
         Usuario.registrar_usuario(cliente, nuevo_usuario.__dict__)
+        Usuario.cargar_usuarios(cliente)
         return True
 
     @classmethod
