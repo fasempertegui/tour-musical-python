@@ -57,8 +57,6 @@ class Aplicacion(ctk.CTk):
 
         Evento.cargar_eventos(self.cliente)
         Ubicacion.cargar_ubicaciones(self.cliente)
-        Review.cargar_reviews(self.cliente)
-        Usuario.cargar_usuarios(self.cliente)
 
         controlador_login = ControladorLogin(self)
         self.vista_login = VistaLogin(self, controlador_login)

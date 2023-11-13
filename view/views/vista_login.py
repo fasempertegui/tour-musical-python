@@ -53,11 +53,11 @@ class VistaLogin(VistaPrincipal):
         frame_botones.columnconfigure(0, weight=1)
         frame_botones.pack()
 
-        self.boton_login = ctk.CTkButton(frame_botones, text="Iniciar sesión", command=self._autenticar, **self.default_button_color)
+        self.boton_login = ctk.CTkButton(frame_botones, text="Iniciar sesión", command=self._autenticar_usuario, **self.default_button_color)
         self.boton_login.grid_configure(row=0, column=0, padx=5, pady=10)
         self.boton_login.grid()
 
-        self.boton_registro = ctk.CTkButton(frame_botones, text="Registrarse", command=self._registrar, **self.default_button_color)
+        self.boton_registro = ctk.CTkButton(frame_botones, text="Registrarse", command=self._registrar_usuario, **self.default_button_color)
         self.boton_registro.grid_configure(row=0, column=1, padx=5, pady=10)
         self.boton_registro.grid()
 
@@ -66,16 +66,16 @@ class VistaLogin(VistaPrincipal):
         self.master.bind("<<CamposVacios>>", self._campos_vacios)
 
 
-    def _autenticar(self, *args):
+    def _autenticar_usuario(self, *args):
         username = self.nombre_usuario_entry.get()
         password = self.contrasena_entry.get()
-        if self.controlador.autenticar(username, password):
+        if self.controlador.autenticar_usuario(username, password):
             self.controlador.renderizar()
 
-    def _registrar(self, *args):
+    def _registrar_usuario(self, *args):
         username = self.nombre_usuario_entry.get()
         password = self.contrasena_entry.get()
-        if self.controlador.registrar(username, password):
+        if self.controlador.registrar_usuario(username, password):
             self.controlador.renderizar()
 
     def _datos_invalidos(self, *args):

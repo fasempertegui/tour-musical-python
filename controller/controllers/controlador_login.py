@@ -1,28 +1,30 @@
 from controller.controlador_principal import ControladorPrincipal
-from model.usuario import Usuario, Sesion
+from model.usuario import Sesion
 
 
 class ControladorLogin(ControladorPrincipal):
     def __init__(self, app):
         super().__init__(app)
 
-    def autenticar(self, nombre_usuario, contrasena):
+    def autenticar_usuario(self, nombre_usuario, contrasena):
+        cliente = self.app.cliente
         if nombre_usuario == '' or contrasena == '':
             self.app.event_generate("<<CamposVacios>>")
             return False
-        if not Sesion.autenticar(nombre_usuario, contrasena):
+        if not Sesion.autenticar_usuario(cliente, nombre_usuario, contrasena):
             self.app.event_generate("<<DatosInvalidos>>")
             return False
         return True
 
-    def registrar(self, nombre_usuario, contrasena):
+    def registrar_usuario(self, nombre_usuario, contrasena):
+        cliente = self.app.cliente
         if nombre_usuario == '' or contrasena == '':
             self.app.event_generate("<<CamposVacios>>")
             return False
-        if not Usuario.nombre_usuario_disponible(nombre_usuario):
+        if self.obtener_usuario_nombre_usuario(nombre_usuario) is not None:
             self.app.event_generate("<<EnUso>>")
             return False
-        Sesion.registrar(self.app.cliente, nombre_usuario, contrasena)
+        Sesion.registrar_usuario(cliente, nombre_usuario, contrasena)
         return True
 
     def renderizar(self):

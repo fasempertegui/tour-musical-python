@@ -1,7 +1,5 @@
 class Usuario:
 
-    usuarios = []
-
     def __init__(self, _id, nombre_usuario, contrasena, historial_eventos):
         self._id = _id
         self.nombre_usuario = nombre_usuario
@@ -9,59 +7,44 @@ class Usuario:
         self.historial_eventos = historial_eventos
 
     @classmethod
-    def cargar_usuarios(cls, cliente):
+    def obtener_usuarios(cls, cliente):
         coleccion = cliente["usuarios"]
         data = list(coleccion.find())
-        cls.usuarios = [cls(**usuario) for usuario in data]
+        return [cls(**usuario) for usuario in data]
 
     @classmethod
-    def registrar_usuario(cls, cliente, usuario):
-        cls.usuarios.append(usuario)
+    def obtener_usuario_id(cls, cliente, id):
         coleccion = cliente["usuarios"]
-        coleccion.insert_one(usuario)
-        cls.cargar_usuarios(cliente)
-
+        usuario = coleccion.find_one({"_id": id})
+        return cls(**usuario)
+    
     @classmethod
-    def nombre_usuario_disponible(cls, nombre_usuario):
-        usuarios = cls.obtener_usuarios()
-        for usuario in usuarios:
-            if usuario.nombre_usuario == nombre_usuario:
-                return False
-        return True
+    def obtener_usuario_nombre_usuario(cls, cliente, nombre_usuario):
+        coleccion = cliente["usuarios"]
+        usuario = coleccion.find_one({"nombre_usuario": nombre_usuario})
+        if usuario is not None:
+            return cls(**usuario)
+        else:
+            return usuario
 
     def validar_credenciales(self, usuario, contrasena):
         return self.nombre_usuario == usuario and self.contrasena == contrasena
-
-    # Getters
-
-    @classmethod
-    def obtener_usuarios(cls):
-        return cls.usuarios
-
-    @classmethod
-    def obtener_usuario_id(cls, id):
-        return next((usuario for usuario in cls.usuarios if usuario._id == id), None)
-
-    # @classmethod
-    # def obtener_usuarios_evento(cls, id_evento):
-    #     return list(usuario for usuario in cls.usuarios if id_evento in usuario.historial_eventos)
-
 
 class Sesion:
 
     usuario_actual = None
 
     @classmethod
-    def autenticar(cls, nombre_usuario, contrasena):
-        usuarios = Usuario.obtener_usuarios()
+    def autenticar_usuario(cls, cliente, nombre_usuario, contrasena):
+        usuarios = Usuario.obtener_usuarios(cliente)
         for usuario in usuarios:
             if usuario.validar_credenciales(nombre_usuario, contrasena):
                 cls.usuario_actual = usuario
                 return True
         return False
 
-    def _generar_id():
-        usuarios = Usuario.obtener_usuarios()
+    def _generar_id(cliente):
+        usuarios = Usuario.obtener_usuarios(cliente)
         if len(usuarios) > 0:
             id_generada = usuarios[-1]._id + 1
         else:
@@ -69,11 +52,12 @@ class Sesion:
         return id_generada
 
     @classmethod
-    def registrar(cls, cliente, nombre_usuario, contrasena):
-        id_generada = cls._generar_id()
+    def registrar_usuario(cls, cliente, nombre_usuario, contrasena):
+        id_generada = cls._generar_id(cliente)
         nuevo_usuario = Usuario(id_generada, nombre_usuario, contrasena, [])
+        coleccion = cliente["usuarios"]
+        coleccion.insert_one(nuevo_usuario.__dict__)
         cls.usuario_actual = nuevo_usuario
-        Usuario.registrar_usuario(cliente, nuevo_usuario.__dict__)
 
     @classmethod
     def actualizar_eventos_asistidos(cls, cliente, id_evento):
