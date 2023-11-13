@@ -19,9 +19,18 @@ class Usuario:
         cls.usuarios.append(usuario)
         coleccion = cliente["usuarios"]
         coleccion.insert_one(usuario)
+        cls.cargar_usuarios(cliente)
 
-    def verificar_contrasena(self, contrasena):
-        return self.contrasena == contrasena
+    @classmethod
+    def nombre_usuario_disponible(cls, nombre_usuario):
+        usuarios = cls.obtener_usuarios()
+        for usuario in usuarios:
+            if usuario.nombre_usuario == nombre_usuario:
+                return False
+        return True
+
+    def validar_credenciales(self, usuario, contrasena):
+        return self.nombre_usuario == usuario and self.contrasena == contrasena
 
     # Getters
 
@@ -44,34 +53,34 @@ class Sesion:
 
     @classmethod
     def autenticar(cls, nombre_usuario, contrasena):
-        for usuario in Usuario.obtener_usuarios():
-            if usuario.nombre_usuario == nombre_usuario and usuario.verificar_contrasena(contrasena):
+        usuarios = Usuario.obtener_usuarios()
+        for usuario in usuarios:
+            if usuario.validar_credenciales(nombre_usuario, contrasena):
                 cls.usuario_actual = usuario
                 return True
         return False
-    
+
     def _generar_id():
         usuarios = Usuario.obtener_usuarios()
-        ultimo_usuario = usuarios[-1]._id if len(usuarios) > 0 else 999
-        return ultimo_usuario + 1
-    
+        if len(usuarios) > 0:
+            id_generada = usuarios[-1]._id + 1
+        else:
+            id_generada = 1000
+        return id_generada
+
     @classmethod
     def registrar(cls, cliente, nombre_usuario, contrasena):
-        for usuario in Usuario.obtener_usuarios():
-            if usuario.nombre_usuario == nombre_usuario:
-                return False
         id_generada = cls._generar_id()
         nuevo_usuario = Usuario(id_generada, nombre_usuario, contrasena, [])
         cls.usuario_actual = nuevo_usuario
         Usuario.registrar_usuario(cliente, nuevo_usuario.__dict__)
-        Usuario.cargar_usuarios(cliente)
-        return True
 
     @classmethod
     def actualizar_eventos_asistidos(cls, cliente, id_evento):
-        cls.obtener_usuario_actual().historial_eventos.append(id_evento)
-        filtro = {"_id": cls.obtener_usuario_actual()._id}
-        actualizacion = {"$set": {"historial_eventos": cls.obtener_usuario_actual().historial_eventos}}
+        usuario_actual = cls.obtener_usuario_actual()
+        usuario_actual.historial_eventos.append(id_evento)
+        filtro = {"_id": usuario_actual._id}
+        actualizacion = {"$set": {"historial_eventos": usuario_actual.historial_eventos}}
         coleccion = cliente["usuarios"]
         coleccion.update_one(filtro, actualizacion)
 
