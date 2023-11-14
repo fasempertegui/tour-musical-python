@@ -4,7 +4,6 @@ from datetime import datetime
 class Evento:
 
     evento_actual = None
-    coleccion_actual = os.getenv("COL_EVENTOS")
 
     def __init__(self, _id, nombre, artista, genero, id_ubicacion, hora_inicio, hora_fin, descripcion, imagen):
         self._id = _id
@@ -19,13 +18,13 @@ class Evento:
 
     @classmethod
     def obtener_eventos(cls, cliente):
-        coleccion = cliente[cls.coleccion_actual]
+        coleccion = cliente[os.getenv("BD_EVENTOS")]
         data = list(coleccion.find())
         return [cls(**evento) for evento in data]
 
     @classmethod
     def agregar_evento(cls, cliente, evento):
-        coleccion = cliente[cls.coleccion_actual]
+        coleccion = cliente[os.getenv("BD_EVENTOS")]
         coleccion.insert_one(evento.__dict__)
 
     @classmethod
@@ -38,21 +37,21 @@ class Evento:
 
     @classmethod
     def obtener_eventos_proximos(cls, cliente):
-        coleccion = cliente[cls.coleccion_actual]
+        coleccion = cliente[os.getenv("BD_EVENTOS")]
         fecha_actual = datetime.now().replace(microsecond=0).isoformat()
         data = list(coleccion.find({"hora_inicio": {"$gte": fecha_actual}}))
         return [cls(**evento) for evento in data]
 
     @classmethod
     def obtener_eventos_finalizados(cls, cliente):
-        coleccion = cliente[cls.coleccion_actual]
+        coleccion = cliente[os.getenv("BD_EVENTOS")]
         fecha_actual = datetime.now().replace(microsecond=0).isoformat()
         data = list(coleccion.find({"hora_inicio": {"$lt": fecha_actual}}))
         return [cls(**evento) for evento in data]
 
     @classmethod
     def obtener_evento_id(cls, cliente, id):
-        coleccion = cliente[cls.coleccion_actual]
+        coleccion = cliente[os.getenv("BD_EVENTOS")]
         data = coleccion.find_one({"_id": id})
         if data is not None:
             return cls(**data)
