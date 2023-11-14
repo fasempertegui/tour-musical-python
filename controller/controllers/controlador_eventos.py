@@ -20,7 +20,9 @@ class ControladorEventos(ControladorPrincipal):
             if ubicacion is not None:
                 self.establecer_evento_actual(evento)
                 self.establecer_ubicacion_actual(ubicacion)
-                if evento in self.obtener_eventos_proximos():
+                proximos = self.obtener_eventos_proximos()
+                encontrado = next((True for e in proximos if e._id == evento._id), False)
+                if encontrado:
                     self.app.event_generate("<<InicializarProximos>>")
                     self.app.cambiar_frame(self.app.vista_proximos)
                 else:

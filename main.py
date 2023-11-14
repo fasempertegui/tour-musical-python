@@ -1,7 +1,4 @@
-from model.evento import Evento
 from model.ubicacion import Ubicacion
-from model.review import Review
-from model.usuario import Usuario
 
 from controller.controllers.controlador_mapa import ControladorMapa
 from controller.controllers.controlador_proximos import ControladorProximos
@@ -55,7 +52,6 @@ class Aplicacion(ctk.CTk):
     def inicializar(self, *args):
         self.historial_vistas = []
 
-        Evento.cargar_eventos(self.cliente)
         Ubicacion.cargar_ubicaciones(self.cliente)
 
         controlador_login = ControladorLogin(self)

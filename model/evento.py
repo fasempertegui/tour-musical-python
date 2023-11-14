@@ -4,7 +4,6 @@ from datetime import datetime
 
 class Evento:
 
-    eventos = []
     evento_actual = None
 
     def __init__(self, _id, nombre, artista, genero, id_ubicacion, hora_inicio, hora_fin, descripcion, imagen):
@@ -19,47 +18,43 @@ class Evento:
         self.imagen = imagen
 
     @classmethod
-    def cargar_eventos(cls, cliente):
+    def obtener_eventos(cls, cliente):
         coleccion = cliente["eventos"]
         data = list(coleccion.find())
-        cls.eventos = [cls(**evento) for evento in data]
+        return [cls(**evento) for evento in data]
 
     @classmethod
-    def agregar_evento(cls, evento):
-        cls.eventos.append(evento)
+    def agregar_evento(cls, cliente, evento):
+        coleccion = cliente["eventos"]
+        coleccion.insert_one(evento.__dict__)
 
     @classmethod
     def establecer_evento_actual(cls, evento):
         cls.evento_actual = evento
 
-    # Getters
-
-    @classmethod
-    def obtener_eventos(cls):
-        return cls.eventos
-
     @classmethod
     def obtener_evento_actual(cls):
         return cls.evento_actual
 
     @classmethod
-    def obtener_eventos_proximos(cls):
+    def obtener_eventos_proximos(cls, cliente):
+        coleccion = cliente["eventos"]
         fecha_actual = datetime.now().replace(microsecond=0).isoformat()
-        return [evento for evento in cls.eventos if evento.hora_inicio >= fecha_actual]
+        data = list(coleccion.find({"hora_inicio": {"$gte": fecha_actual}}))
+        return [cls(**evento) for evento in data]
 
     @classmethod
-    def obtener_eventos_finalizados(cls):
+    def obtener_eventos_finalizados(cls, cliente):
+        coleccion = cliente["eventos"]
         fecha_actual = datetime.now().replace(microsecond=0).isoformat()
-        return [evento for evento in cls.eventos if evento.hora_inicio < fecha_actual]
+        data = list(coleccion.find({"hora_inicio": {"$lt": fecha_actual}}))
+        return [cls(**evento) for evento in data]
 
     @classmethod
-    def obtener_evento_actual(cls):
-        return cls.evento_actual
-
-    @classmethod
-    def obtener_evento_id(cls, id):
-        return next((evento for evento in cls.eventos if evento._id == id), None)
-
-    # @classmethod
-    # def obtener_eventos_id_ubicacion(cls, id_ubicacion):
-    #     return list(evento for evento in cls.eventos if evento.id_ubicacion == id_ubicacion)
+    def obtener_evento_id(cls, cliente, id):
+        coleccion = cliente["eventos"]
+        data = coleccion.find_one({"_id": id})
+        if data is not None:
+            return cls(**data)
+        else:
+            return None
