@@ -1,8 +1,3 @@
-from model.evento import Evento
-from model.ubicacion import Ubicacion
-from model.review import Review
-from model.usuario import Usuario
-
 from controller.controllers.controlador_mapa import ControladorMapa
 from controller.controllers.controlador_proximos import ControladorProximos
 from controller.controllers.controlador_finalizados import ControladorFinalizados
@@ -29,6 +24,8 @@ from view.views.vista_login import VistaLogin
 
 from database.database import Conexion
 
+from dotenv import load_dotenv
+
 import customtkinter as ctk
 
 ctk.set_appearance_mode("dark")
@@ -36,6 +33,8 @@ ctk.set_appearance_mode("dark")
 class Aplicacion(ctk.CTk):
 
     def __init__(self):
+
+        load_dotenv()
 
         conexion = Conexion()
         self.cliente = conexion.obtener_cliente()
@@ -54,11 +53,6 @@ class Aplicacion(ctk.CTk):
 
     def inicializar(self, *args):
         self.historial_vistas = []
-
-        Evento.cargar_eventos(self.cliente)
-        Ubicacion.cargar_ubicaciones(self.cliente)
-        Review.cargar_reviews(self.cliente)
-        Usuario.cargar_usuarios(self.cliente)
 
         controlador_login = ControladorLogin(self)
         self.vista_login = VistaLogin(self, controlador_login)
