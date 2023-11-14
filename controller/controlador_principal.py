@@ -26,10 +26,10 @@ class ControladorPrincipal:
         return Evento.obtener_evento_id(self.app.cliente, id)
 
     def obtener_ubicaciones(self):
-        return Ubicacion.obtener_ubicaciones()
+        return Ubicacion.obtener_ubicaciones(self.app.cliente)
 
     def obtener_ubicacion_id(self, id):
-        return Ubicacion.obtener_ubicacion_id(id)
+        return Ubicacion.obtener_ubicacion_id(self.app.cliente, id)
 
     def obtener_ubicacion_actual(self):
         return Ubicacion.obtener_ubicacion_actual()

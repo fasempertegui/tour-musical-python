@@ -1,5 +1,3 @@
-from model.ubicacion import Ubicacion
-
 from controller.controllers.controlador_mapa import ControladorMapa
 from controller.controllers.controlador_proximos import ControladorProximos
 from controller.controllers.controlador_finalizados import ControladorFinalizados
@@ -51,8 +49,6 @@ class Aplicacion(ctk.CTk):
 
     def inicializar(self, *args):
         self.historial_vistas = []
-
-        Ubicacion.cargar_ubicaciones(self.cliente)
 
         controlador_login = ControladorLogin(self)
         self.vista_login = VistaLogin(self, controlador_login)
