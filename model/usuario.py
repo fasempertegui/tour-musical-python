@@ -1,4 +1,8 @@
+import os
+
 class Usuario:
+
+    coleccion_actual = os.getenv("COL_USUARIOS")
 
     def __init__(self, _id, nombre_usuario, contrasena, historial_eventos):
         self._id = _id
@@ -8,19 +12,19 @@ class Usuario:
 
     @classmethod
     def obtener_usuarios(cls, cliente):
-        coleccion = cliente["usuarios"]
+        coleccion = cliente[cls.coleccion_actual]
         data = list(coleccion.find())
         return [cls(**usuario) for usuario in data]
 
     @classmethod
     def obtener_usuario_id(cls, cliente, id):
-        coleccion = cliente["usuarios"]
+        coleccion = cliente[cls.coleccion_actual]
         usuario = coleccion.find_one({"_id": id})
         return cls(**usuario)
     
     @classmethod
     def obtener_usuario_nombre_usuario(cls, cliente, nombre_usuario):
-        coleccion = cliente["usuarios"]
+        coleccion = cliente[cls.coleccion_actual]
         usuario = coleccion.find_one({"nombre_usuario": nombre_usuario})
         if usuario is not None:
             return cls(**usuario)
@@ -55,7 +59,7 @@ class Sesion:
     def registrar_usuario(cls, cliente, nombre_usuario, contrasena):
         id_generada = cls._generar_id(cliente)
         nuevo_usuario = Usuario(id_generada, nombre_usuario, contrasena, [])
-        coleccion = cliente["usuarios"]
+        coleccion = cliente[cls.coleccion_actual]
         coleccion.insert_one(nuevo_usuario.__dict__)
         cls.usuario_actual = nuevo_usuario
 
@@ -65,7 +69,7 @@ class Sesion:
         usuario_actual.historial_eventos.append(id_evento)
         filtro = {"_id": usuario_actual._id}
         actualizacion = {"$set": {"historial_eventos": usuario_actual.historial_eventos}}
-        coleccion = cliente["usuarios"]
+        coleccion = cliente[cls.coleccion_actual]
         coleccion.update_one(filtro, actualizacion)
 
     @classmethod

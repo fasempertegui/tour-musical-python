@@ -24,6 +24,8 @@ from view.views.vista_login import VistaLogin
 
 from database.database import Conexion
 
+from dotenv import load_dotenv
+
 import customtkinter as ctk
 
 ctk.set_appearance_mode("dark")
@@ -31,6 +33,8 @@ ctk.set_appearance_mode("dark")
 class Aplicacion(ctk.CTk):
 
     def __init__(self):
+
+        load_dotenv()
 
         conexion = Conexion()
         self.cliente = conexion.obtener_cliente()
