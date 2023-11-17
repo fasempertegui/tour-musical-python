@@ -73,6 +73,7 @@ class VistaLogin(VistaPrincipal):
         self.master.bind("<<DatosInvalidos>>", self._datos_invalidos)
         self.master.bind("<<EnUso>>", self._en_uso)
         self.master.bind("<<CamposVacios>>", self._campos_vacios)
+        self.master.bind("<Return>", self._autenticar_usuario)
 
     def _cambiar_tema(self, *args):
         opcion = self.opcion.get()
