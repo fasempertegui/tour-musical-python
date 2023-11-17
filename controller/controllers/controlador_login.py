@@ -1,6 +1,9 @@
 from controller.controlador_principal import ControladorPrincipal
 from model.usuario import Sesion
 
+from view.views.vista_inicio import VistaInicio
+from controller.controllers.controlador_inicio import ControladorInicio
+
 
 class ControladorLogin(ControladorPrincipal):
     def __init__(self, app):
@@ -27,5 +30,8 @@ class ControladorLogin(ControladorPrincipal):
         Sesion.registrar_usuario(cliente, nombre_usuario, contrasena)
         return True
 
-    def renderizar(self):
-        self.app.event_generate("<<Login>>")
+    def ir_a_inicio(self):
+        self.app.historial_vistas = []
+        controlador_inicio = ControladorInicio(self.app)
+        vista_inicio = VistaInicio(self.app, controlador_inicio)
+        self.app.cambiar_frame(vista_inicio)

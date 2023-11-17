@@ -1,6 +1,12 @@
 from controller.controlador_principal import ControladorPrincipal
 from model.usuario import Sesion
 
+from view.views.vista_reviews import VistaReviews
+from controller.controllers.controlador_reviews import ControladorReviews
+
+from view.views.vista_escribir_review import VistaEscribirReview
+from controller.controllers.controlador_escribir_review import ControladorEscribirReview
+
 
 class ControladorFinalizados(ControladorPrincipal):
     def __init__(self, app):
@@ -31,12 +37,16 @@ class ControladorFinalizados(ControladorPrincipal):
     # Navegacion
 
     def ir_a_reviews(self):
+        controlador_reviews = ControladorReviews(self.app)
+        vista_reviews = VistaReviews(self.app, controlador_reviews)
+        self.app.cambiar_frame(vista_reviews)
         self.app.event_generate("<<IrReviews>>")
-        self.app.cambiar_frame(self.app.vista_reviews)
 
     def ir_a_escribir_review(self):
+        controlador_escribir_reviews = ControladorEscribirReview(self.app)
+        vista_escribir_review = VistaEscribirReview(self.app, controlador_escribir_reviews)
+        self.app.cambiar_frame(vista_escribir_review)
         self.app.event_generate("<<IrEscribirReviews>>")
-        self.app.cambiar_frame(self.app.vista_escribir_review)
 
     def regresar(self):
         self.app.volver_frame_anterior()
