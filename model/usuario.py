@@ -75,6 +75,14 @@ class Sesion:
         coleccion.update_one(filtro, actualizacion)
 
     @classmethod
+    def actualizar_configuracion_ubicacion(cls, cliente, coordenadas):
+        usuario_actual = cls.obtener_usuario_actual()
+        filtro = {"_id": usuario_actual._id}
+        actualizacion = {"$set": {"configuracion_usuario": {"ubicacion": coordenadas}}}
+        coleccion = cliente[os.getenv("BD_USUARIOS")]
+        coleccion.update_one(filtro, actualizacion)
+
+    @classmethod
     def cerrar_sesion(cls):
         cls.usuario_actual = None
 

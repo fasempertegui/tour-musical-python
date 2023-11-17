@@ -40,29 +40,28 @@ class VistaMapa(VistaPrincipal):
         self.mapa.delete_all_path()
         self.check_agregar_ruta.configure(text="Mostrar ruta")
         self.check_var.set(False)
-        # A implementar: que el usuario pueda agregar un marcador determinando el origen
-        coordenadas_origen = [-24.780302846326197, -65.42832560657044]
         coordenadas_evento = self.controlador.obtener_ubicacion_actual().coordenadas
         self._establecer_vista(coordenadas_evento)
-        self.ruta = obtener_coordenadas_ruta(
-            coordenadas_origen[0], coordenadas_origen[1], coordenadas_evento[0], coordenadas_evento[1])
-
+        configuracion_usuario = self.controlador.obtener_configuracion_usuario()
+        if configuracion_usuario["ubicacion"] is not None:
+            coordenadas_origen = configuracion_usuario["ubicacion"].split(",")
+            self.ruta = obtener_coordenadas_ruta(
+                float(coordenadas_origen[0]), float(coordenadas_origen[1]),
+                coordenadas_evento[0], coordenadas_evento[1]
+            )
+        else:
+            self.check_agregar_ruta.configure(state=tk.DISABLED)
+            
     def _establecer_vista(self, coordenadas_evento):
         # coordenadas[0] -> latitud | coordenadas[1] -> longitud
         self.mapa.set_position(coordenadas_evento[0], coordenadas_evento[1])
         self.mapa.set_marker(coordenadas_evento[0], coordenadas_evento[1])
         self.mapa.set_zoom(15)
 
-    def _agregar_ruta(self):
-        self.mapa.set_path(self.ruta)
-
-    def _quitar_ruta(self):
-        self.mapa.delete_all_path()
-
     def _on_check(self):
         if self.check_var.get():
             self.check_agregar_ruta.configure(text="Ocultar ruta")
-            self._agregar_ruta()
+            self.mapa.set_path(self.ruta)
         else:
             self.check_agregar_ruta.configure(text="Mostrar ruta")
-            self._quitar_ruta()
+            self.mapa.delete_all_path()
