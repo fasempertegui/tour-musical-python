@@ -28,8 +28,6 @@ from dotenv import load_dotenv
 
 import customtkinter as ctk
 
-ctk.set_appearance_mode("dark")
-
 class Aplicacion(ctk.CTk):
 
     def __init__(self):
@@ -40,9 +38,9 @@ class Aplicacion(ctk.CTk):
         self.cliente = conexion.obtener_cliente()
 
         ctk.CTk.__init__(self)
+        ctk.set_appearance_mode("Light")
         self.title("Tour musical")
         self.geometry("450x450")
-        # self.resizable(False, False)
         self.rowconfigure(0, weight=1)
         self.columnconfigure(0, weight=1)
 

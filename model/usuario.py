@@ -2,11 +2,12 @@ import os
 
 class Usuario:
 
-    def __init__(self, _id, nombre_usuario, contrasena, historial_eventos):
+    def __init__(self, _id, nombre_usuario, contrasena, historial_eventos, configuracion_usuario):
         self._id = _id
         self.nombre_usuario = nombre_usuario
         self.contrasena = contrasena
         self.historial_eventos = historial_eventos
+        self.configuracion_usuario = {"tema": "light", "ubicacion": None}
 
     @classmethod
     def obtener_usuarios(cls, cliente):
@@ -31,6 +32,9 @@ class Usuario:
 
     def validar_credenciales(self, usuario, contrasena):
         return self.nombre_usuario == usuario and self.contrasena == contrasena
+    
+    def obtener_configuracion_usuario(self):
+        return self.configuracion_usuario
 
 class Sesion:
 
@@ -56,7 +60,7 @@ class Sesion:
     @classmethod
     def registrar_usuario(cls, cliente, nombre_usuario, contrasena):
         id_generada = cls._generar_id(cliente)
-        nuevo_usuario = Usuario(id_generada, nombre_usuario, contrasena, [])
+        nuevo_usuario = Usuario(id_generada, nombre_usuario, contrasena, [], None)
         coleccion = cliente[os.getenv("BD_USUARIOS")]
         coleccion.insert_one(nuevo_usuario.__dict__)
         cls.usuario_actual = nuevo_usuario

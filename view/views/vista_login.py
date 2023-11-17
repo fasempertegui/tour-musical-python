@@ -1,6 +1,4 @@
 from view.vista_principal import VistaPrincipal
-
-import tkinter as tk
 import customtkinter as ctk
 
 
@@ -61,10 +59,24 @@ class VistaLogin(VistaPrincipal):
         self.boton_registro.grid_configure(row=0, column=1, padx=5, pady=10)
         self.boton_registro.grid()
 
+        frame_tema = ctk.CTkFrame(self, fg_color="transparent")
+        label_tema = ctk.CTkLabel(frame_tema, text="Tema")
+        label_tema.grid_configure(row=0, column=0, padx=5)
+        label_tema.grid()
+        self.opcion = ctk.StringVar(value=ctk.get_appearance_mode())
+        self.menu = ctk.CTkOptionMenu(frame_tema, values=["Light", "Dark"], variable=self.opcion, command=self._cambiar_tema)
+        self.menu.grid_configure(row=0, column=1)
+        self.menu.grid()
+        frame_tema.pack_configure(side="bottom", padx=5, pady=5)
+        frame_tema.pack()
+
         self.master.bind("<<DatosInvalidos>>", self._datos_invalidos)
         self.master.bind("<<EnUso>>", self._en_uso)
         self.master.bind("<<CamposVacios>>", self._campos_vacios)
 
+    def _cambiar_tema(self, *args):
+        opcion = self.opcion.get()
+        ctk.set_appearance_mode(opcion)
 
     def _autenticar_usuario(self, *args):
         username = self.nombre_usuario_entry.get()
