@@ -30,7 +30,7 @@ class VistaMapa(VistaPrincipal):
             checkbox_height=12)
         self.check_agregar_ruta.pack()
 
-        self.master.bind("<<Mapa>>", self._inicializar)
+        self.master.bind("<<inicializar_mapa>>", self._inicializar)
 
         self.boton_atras.pack_configure(side='bottom', **self.default_padding)
         self.boton_atras.pack()

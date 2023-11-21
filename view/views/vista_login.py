@@ -70,9 +70,9 @@ class VistaLogin(VistaPrincipal):
         frame_tema.pack_configure(side="bottom", padx=5, pady=5)
         frame_tema.pack()
 
-        self.master.bind("<<DatosInvalidos>>", self._alerta_datos_invalidos)
-        self.master.bind("<<EnUso>>", self._alerta_en_uso)
-        self.master.bind("<<CamposVacios>>", self._alerta_campos_vacios)
+        self.master.bind("<<datos_invalidos>>", self._alerta_datos_invalidos)
+        self.master.bind("<<en_uso>>", self._alerta_en_uso)
+        self.master.bind("<<campos_vacios>>", self._alerta_campos_vacios)
         self.master.bind("<Key>", self._quitar_alerta)
         self.master.bind("<Return>", self._autenticar_usuario)
 

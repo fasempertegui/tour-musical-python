@@ -22,7 +22,7 @@ class VistaAsistidos(VistaPrincipal):
 
         self._actualizar_eventos()
 
-        self.master.bind("<<ActualizarAsistidos>>", self._actualizar_eventos)
+        self.master.bind("<<actualizar_asistidos>>", self._actualizar_eventos)
 
         self.boton_atras.pack_configure(side='bottom', **self.default_padding)
         self.boton_atras.pack()

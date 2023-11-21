@@ -14,7 +14,7 @@ class ControladorProximos(ControladorPrincipal):
         controlador_mapa = ControladorMapa(self.app)
         vista_mapa = VistaMapa(self.app, controlador_mapa)
         self.app.cambiar_frame(vista_mapa)
-        self.app.event_generate("<<Mapa>>")
+        self.app.event_generate("<<inicializar_mapa>>")
 
     def regresar(self):
         self.app.volver_frame_anterior()

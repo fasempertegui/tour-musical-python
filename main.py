@@ -25,7 +25,7 @@ class Aplicacion(ctk.CTk):
 
         self.inicializar()
 
-        self.bind("<<Logout>>", self.inicializar)
+        self.bind("<<logout>>", self.inicializar)
 
     def inicializar(self, *args):
         self.historial_vistas = []

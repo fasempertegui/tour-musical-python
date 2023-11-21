@@ -32,9 +32,9 @@ class ControladorEventos(ControladorPrincipal):
                     controlador_proximos = ControladorProximos(self.app)
                     vista_proximos = VistaProximos(self.app, controlador_proximos)
                     self.app.cambiar_frame(vista_proximos)
-                    self.app.event_generate("<<InicializarProximos>>")
+                    self.app.event_generate("<<inicializar_proximos>>")
                 else:
                     controlador_finalizados = ControladorFinalizados(self.app)
                     vista_finalizados = VistaFinalizados(self.app, controlador_finalizados)
                     self.app.cambiar_frame(vista_finalizados)
-                    self.app.event_generate("<<InicializarFinalizados>>")
+                    self.app.event_generate("<<inicializar_finalizados>>")

@@ -31,8 +31,8 @@ class ControladorFinalizados(ControladorPrincipal):
         id_evento = self.obtener_evento_actual()._id
         cliente = self.app.cliente
         Sesion.actualizar_eventos_asistidos(cliente, id_evento)
-        self.app.event_generate("<<ActualizarBotones>>")
-        self.app.event_generate("<<ActualizarAsistidos>>")
+        self.app.event_generate("<<actualizar_botones>>")
+        self.app.event_generate("<<actualizar_asistidos>>")
 
     # Navegacion
 
@@ -40,13 +40,13 @@ class ControladorFinalizados(ControladorPrincipal):
         controlador_reviews = ControladorReviews(self.app)
         vista_reviews = VistaReviews(self.app, controlador_reviews)
         self.app.cambiar_frame(vista_reviews)
-        self.app.event_generate("<<IrReviews>>")
+        self.app.event_generate("<<ir_reviews>>")
 
     def ir_a_escribir_review(self):
         controlador_escribir_reviews = ControladorEscribirReview(self.app)
         vista_escribir_review = VistaEscribirReview(self.app, controlador_escribir_reviews)
         self.app.cambiar_frame(vista_escribir_review)
-        self.app.event_generate("<<IrEscribirReviews>>")
+        self.app.event_generate("<<ir_escribir_review>>")
 
     def regresar(self):
         self.app.volver_frame_anterior()

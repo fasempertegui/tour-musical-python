@@ -52,8 +52,8 @@ class VistaFinalizados(VistaPrincipal):
         self.boton_escribir_review.pack_configure(side="right", padx=3, pady=3)
         self.boton_escribir_review.pack()
 
-        self.master.bind("<<InicializarFinalizados>>", self._inicializar)
-        self.master.bind("<<ActualizarBotones>>", self._inicializar)
+        self.master.bind("<<inicializar_finalizados>>", self._inicializar)
+        self.master.bind("<<actualizar_botones>>", self._inicializar)
 
         self.boton_atras.pack_configure(side='bottom', **self.default_padding)
         self.boton_atras.pack()

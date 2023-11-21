@@ -18,7 +18,7 @@ class ControladorInicio(ControladorPrincipal):
         super().__init__(app)
 
     def cerrar_sesion(self):
-        self.app.event_generate("<<Logout>>")
+        self.app.event_generate("<<logout>>")
         Sesion.cerrar_sesion()
 
     def ir_a_ajustes(self):
