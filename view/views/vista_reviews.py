@@ -26,7 +26,7 @@ class VistaReviews(VistaPrincipal):
         frame_reviews.pack_configure(fill="both", expand=True)
         frame_reviews.pack()
 
-        self.master.bind("<<IrReviews>>", self._inicializar)
+        self.master.bind("<<ir_reviews>>", self._inicializar)
 
         self.boton_atras.pack(side='bottom', **self.default_padding)
 

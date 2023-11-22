@@ -45,6 +45,9 @@ class ControladorPrincipal:
 
     def obtener_usuario_actual(self):
         return Sesion.obtener_usuario_actual()
+    
+    def obtener_configuracion_usuario(self):
+        return Sesion.obtener_usuario_actual().obtener_configuracion_usuario()
 
     # Navegacion
 

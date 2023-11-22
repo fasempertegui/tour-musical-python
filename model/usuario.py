@@ -7,7 +7,7 @@ class Usuario:
         self.nombre_usuario = nombre_usuario
         self.contrasena = contrasena
         self.historial_eventos = historial_eventos
-        self.configuracion_usuario = {"tema": "light", "ubicacion": None}
+        self.configuracion_usuario = configuracion_usuario
 
     @classmethod
     def obtener_usuarios(cls, cliente):
@@ -60,7 +60,7 @@ class Sesion:
     @classmethod
     def registrar_usuario(cls, cliente, nombre_usuario, contrasena):
         id_generada = cls._generar_id(cliente)
-        nuevo_usuario = Usuario(id_generada, nombre_usuario, contrasena, [], None)
+        nuevo_usuario = Usuario(id_generada, nombre_usuario, contrasena, [], {"ubicacion": None})
         coleccion = cliente[os.getenv("BD_USUARIOS")]
         coleccion.insert_one(nuevo_usuario.__dict__)
         cls.usuario_actual = nuevo_usuario
@@ -71,6 +71,15 @@ class Sesion:
         usuario_actual.historial_eventos.append(id_evento)
         filtro = {"_id": usuario_actual._id}
         actualizacion = {"$set": {"historial_eventos": usuario_actual.historial_eventos}}
+        coleccion = cliente[os.getenv("BD_USUARIOS")]
+        coleccion.update_one(filtro, actualizacion)
+
+    @classmethod
+    def actualizar_configuracion_ubicacion(cls, cliente, coordenadas):
+        usuario_actual = cls.obtener_usuario_actual()
+        usuario_actual.configuracion_usuario = {"ubicacion": coordenadas}
+        filtro = {"_id": usuario_actual._id}
+        actualizacion = {"$set": {"configuracion_usuario": {"ubicacion": coordenadas}}}
         coleccion = cliente[os.getenv("BD_USUARIOS")]
         coleccion.update_one(filtro, actualizacion)
 

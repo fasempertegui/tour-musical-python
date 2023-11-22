@@ -53,7 +53,7 @@ class VistaEscribirReview(VistaPrincipal):
         self.boton_enviar.pack_configure(side="bottom", **self.default_padding)
         self.boton_enviar.pack()
 
-        self.master.bind("<<IrEscribirReviews>>", self._inicializar)
+        self.master.bind("<<ir_escribir_review>>", self._inicializar)
 
         self.boton_atras.pack_configure(side='bottom', **self.default_padding)
         self.boton_atras.pack()
