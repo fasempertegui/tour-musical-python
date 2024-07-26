@@ -67,3 +67,4 @@ class VistaEscribirReview(VistaPrincipal):
         calificacion = int(self.option_menu.get().split(" ")[0])
         comentario = self.textbox.get("1.0", tk.END).strip()
         self.controlador.enviar_review(calificacion, comentario)
+        self.controlador.regresar()
