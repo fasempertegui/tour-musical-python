@@ -6,8 +6,11 @@ class ControladorUbicacion(ControladorPrincipal):
     def __init__(self, app):
         super().__init__(app)
 
-    def guardar_cambios(self, coordenadas, *args):
-        Sesion.actualizar_configuracion_ubicacion(self.app.cliente, coordenadas)
+    def establecer_coordenadas(self, coordenadas):
+        self.coordenadas = coordenadas
+
+    def guardar_cambios(self, *args):
+        Sesion.actualizar_configuracion_ubicacion(self.app.cliente, self.coordenadas)
 
     def regresar(self):
         self.app.volver_frame_anterior()

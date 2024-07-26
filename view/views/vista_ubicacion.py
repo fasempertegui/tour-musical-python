@@ -39,9 +39,9 @@ class VistaUbicacion(VistaPrincipal):
         boton_cancelar.grid()
 
     def anadir_marcador(self, coordenadas):
-        self.coordenadas = coordenadas
+        self.controlador.establecer_coordenadas(coordenadas)
         self.mapa.set_marker(coordenadas[0], coordenadas[1], text="Tu ubicacion")
 
     def guardar_cambios(self):
-        self.controlador.guardar_cambios(self.coordenadas)
+        self.controlador.guardar_cambios()
         self.controlador.regresar()
