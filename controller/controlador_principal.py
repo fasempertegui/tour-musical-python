@@ -1,7 +1,8 @@
 from model.evento import Evento
 from model.ubicacion import Ubicacion
 from model.review import Review
-from model.usuario import Usuario, Sesion
+from model.usuario import Usuario
+from model.sesion import Sesion
 
 
 class ControladorPrincipal:

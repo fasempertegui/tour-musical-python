@@ -1,4 +1,6 @@
 import os
+import bcrypt
+
 
 class Usuario:
 
@@ -20,73 +22,29 @@ class Usuario:
         coleccion = cliente[os.getenv("BD_USUARIOS")]
         usuario = coleccion.find_one({"_id": id})
         return cls(**usuario)
-    
+
     @classmethod
     def obtener_usuario_nombre_usuario(cls, cliente, nombre_usuario):
         coleccion = cliente[os.getenv("BD_USUARIOS")]
         usuario = coleccion.find_one({"nombre_usuario": nombre_usuario})
-        if usuario is not None:
-            return cls(**usuario)
-        else:
-            return usuario
-
-    def validar_credenciales(self, usuario, contrasena):
-        return self.nombre_usuario == usuario and self.contrasena == contrasena
-    
-    def obtener_configuracion_usuario(self):
-        return self.configuracion_usuario
-
-class Sesion:
-
-    usuario_actual = None
+        return cls(**usuario) if usuario else None
 
     @classmethod
-    def autenticar_usuario(cls, cliente, nombre_usuario, contrasena):
-        usuarios = Usuario.obtener_usuarios(cliente)
-        for usuario in usuarios:
-            if usuario.validar_credenciales(nombre_usuario, contrasena):
-                cls.usuario_actual = usuario
-                return True
-        return False
-
-    def _generar_id(cliente):
-        usuarios = Usuario.obtener_usuarios(cliente)
-        if len(usuarios) > 0:
-            id_generada = usuarios[-1]._id + 1
-        else:
-            id_generada = 1000
-        return id_generada
+    def _generar_id(cls, cliente):
+        usuarios = cls.obtener_usuarios(cliente)
+        return usuarios[-1]._id + 1 if usuarios else 1000
 
     @classmethod
-    def registrar_usuario(cls, cliente, nombre_usuario, contrasena):
+    def crear_usuario(cls, cliente, nombre_usuario, contrasena):
+        hashed_password = bcrypt.hashpw(contrasena.encode('utf-8'), bcrypt.gensalt())
         id_generada = cls._generar_id(cliente)
-        nuevo_usuario = Usuario(id_generada, nombre_usuario, contrasena, [], {"ubicacion": None})
+        nuevo_usuario = Usuario(id_generada, nombre_usuario, hashed_password, [], {"ubicacion": None})
         coleccion = cliente[os.getenv("BD_USUARIOS")]
         coleccion.insert_one(nuevo_usuario.__dict__)
-        cls.usuario_actual = nuevo_usuario
+        return nuevo_usuario
 
-    @classmethod
-    def actualizar_eventos_asistidos(cls, cliente, id_evento):
-        usuario_actual = cls.obtener_usuario_actual()
-        usuario_actual.historial_eventos.append(id_evento)
-        filtro = {"_id": usuario_actual._id}
-        actualizacion = {"$set": {"historial_eventos": usuario_actual.historial_eventos}}
-        coleccion = cliente[os.getenv("BD_USUARIOS")]
-        coleccion.update_one(filtro, actualizacion)
+    def validar_credenciales(self, contrasena):
+        return bcrypt.checkpw(contrasena.encode('utf-8'), self.contrasena)
 
-    @classmethod
-    def actualizar_configuracion_ubicacion(cls, cliente, coordenadas):
-        usuario_actual = cls.obtener_usuario_actual()
-        usuario_actual.configuracion_usuario = {"ubicacion": coordenadas}
-        filtro = {"_id": usuario_actual._id}
-        actualizacion = {"$set": {"configuracion_usuario": {"ubicacion": coordenadas}}}
-        coleccion = cliente[os.getenv("BD_USUARIOS")]
-        coleccion.update_one(filtro, actualizacion)
-
-    @classmethod
-    def cerrar_sesion(cls):
-        cls.usuario_actual = None
-
-    @classmethod
-    def obtener_usuario_actual(cls):
-        return cls.usuario_actual
+    def obtener_configuracion_usuario(self):
+        return self.configuracion_usuario

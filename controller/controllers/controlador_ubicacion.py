@@ -1,6 +1,6 @@
 from controller.controlador_principal import ControladorPrincipal
 
-from model.usuario import Sesion
+from model.sesion import Sesion
 
 class ControladorUbicacion(ControladorPrincipal):
     def __init__(self, app):

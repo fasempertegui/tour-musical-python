@@ -1,5 +1,5 @@
 from controller.controlador_principal import ControladorPrincipal
-from model.usuario import Sesion
+from model.sesion import Sesion
 
 from view.views.vista_reviews import VistaReviews
 from controller.controllers.controlador_reviews import ControladorReviews
