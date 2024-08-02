@@ -11,9 +11,9 @@ class Conexion:
             try:
                 host = os.getenv("HOST")
                 puerto = int(os.getenv("PUERTO"))
-                db_nombre = os.getenv("BD_NOMBRE")
+                bd_nombre = os.getenv("BD_NOMBRE")
 
-                if not host or not puerto or not db_nombre:
+                if not host or not puerto or not bd_nombre:
                     raise RuntimeError("Error en las variables de entorno HOST, PUERTO y/o BD_NOMBRE")
 
                 cls._instancia.cliente = MongoClient(host, puerto)
@@ -24,7 +24,7 @@ class Conexion:
         return cls._instancia
 
     def obtener_cliente(self):
-        db_nombre = os.getenv("BD_NOMBRE")
-        if not db_nombre:
+        bd_nombre = os.getenv("BD_NOMBRE")
+        if not bd_nombre:
             raise RuntimeError("Error en la variable de entorno BD_NOMBRE")
-        return self.cliente[db_nombre]
+        return self.cliente[bd_nombre]
