@@ -1,4 +1,4 @@
-from controller.controllers.controlador_login import ControladorLogin 
+from controller.controllers.controlador_login import ControladorLogin
 from view.views.vista_login import VistaLogin
 
 from database.database import Conexion
@@ -7,17 +7,17 @@ from dotenv import load_dotenv
 
 import customtkinter as ctk
 
+
 class Aplicacion(ctk.CTk):
 
     def __init__(self):
+        super().__init__()
 
         load_dotenv()
 
         conexion = Conexion()
         self.cliente = conexion.obtener_cliente()
 
-        ctk.CTk.__init__(self)
-        ctk.set_appearance_mode("Light")
         self.title("Tour musical")
         self.geometry("450x450")
         self.rowconfigure(0, weight=1)
@@ -32,7 +32,7 @@ class Aplicacion(ctk.CTk):
 
         controlador_login = ControladorLogin(self)
         self.vista_login = VistaLogin(self, controlador_login)
-        
+
         self.cambiar_frame(self.vista_login)
 
     def cambiar_frame(self, frame_destino):
