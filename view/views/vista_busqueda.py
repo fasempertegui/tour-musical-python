@@ -39,7 +39,6 @@ class VistaBusqueda(VistaPrincipal):
                 text=opcion,
                 value=opcion,
                 variable=self.opcion_elegida,
-                command=self._restablecer_eventos,
                 radiobutton_height=12,
                 radiobutton_width=12,
                 border_width_unchecked=3,
@@ -55,23 +54,21 @@ class VistaBusqueda(VistaPrincipal):
         frame_entry_box.pack()
 
         self.entry_box = ctk.CTkEntry(frame_entry_box, placeholder_text="Tu busqueda")
+        self.entry_box.bind("<Button>", self._restablecer_eventos)
         self.entry_box.pack_configure(side='left', **self.default_padding)
         self.entry_box.pack()
 
-        boton_busqueda = ctk.CTkButton(
-            frame_entry_box, text="Buscar", command=self._buscar_eventos, **self.default_button_color)
+        boton_busqueda = ctk.CTkButton(frame_entry_box, text="Buscar", command=self._buscar_eventos, **self.default_button_color)
         boton_busqueda.pack_configure(side='right', **self.default_padding)
         boton_busqueda.pack()
 
-        instrucciones = ctk.CTkLabel(
-            self, text="Haz doble clic en un evento para mas detalles")
+        instrucciones = ctk.CTkLabel(self, text="Haz doble clic en un evento para mas detalles")
         instrucciones.pack_configure(**self.default_padding)
         instrucciones.pack()
 
         self.listbox = tk.Listbox(self)
         self.listbox.bind("<Double-Button-1>", self._seleccionar_evento)
-        self.listbox.pack_configure(
-            **self.default_padding, fill="both", expand="true")
+        self.listbox.pack_configure(**self.default_padding, fill="both", expand="true")
         self.listbox.pack()
 
         self._actualizar_eventos()
@@ -79,7 +76,7 @@ class VistaBusqueda(VistaPrincipal):
         self.boton_atras.pack_configure(side='bottom', **self.default_padding)
         self.boton_atras.pack()
 
-    def _restablecer_eventos(self):
+    def _restablecer_eventos(self, *args):
         self.controlador.restablecer_eventos()
         self._actualizar_eventos()
 
