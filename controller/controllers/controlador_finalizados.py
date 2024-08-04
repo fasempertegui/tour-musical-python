@@ -1,5 +1,5 @@
 from controller.controlador_principal import ControladorPrincipal
-from model.sesion import Sesion
+from auth.sesion import Sesion
 
 from view.views.vista_reviews import VistaReviews
 from controller.controllers.controlador_reviews import ControladorReviews
@@ -29,8 +29,7 @@ class ControladorFinalizados(ControladorPrincipal):
 
     def confirmar_asistencia(self):
         id_evento = self.obtener_evento_actual()._id
-        cliente = self.app.cliente
-        Sesion.actualizar_eventos_asistidos(cliente, id_evento)
+        Sesion.actualizar_eventos_asistidos(self.app.cliente, id_evento)
         self.app.event_generate("<<actualizar_botones>>")
         self.app.event_generate("<<actualizar_asistidos>>")
 

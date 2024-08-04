@@ -2,14 +2,12 @@ from model.evento import Evento
 from model.ubicacion import Ubicacion
 from model.review import Review
 from model.usuario import Usuario
-from model.sesion import Sesion
+from auth.sesion import Sesion
 
 
 class ControladorPrincipal:
     def __init__(self, app):
         self.app = app
-
-    # Getters
 
     def obtener_eventos(self):
         return Evento.obtener_eventos(self.app.cliente)
@@ -45,12 +43,10 @@ class ControladorPrincipal:
         return Usuario.obtener_usuario_nombre_usuario(self.app.cliente, nombre_usuario)
 
     def obtener_usuario_actual(self):
-        return Sesion.obtener_usuario_actual()
-    
-    def obtener_configuracion_usuario(self):
-        return Sesion.obtener_usuario_actual().obtener_configuracion_usuario()
+        return Sesion.obtener_usuario_actual(self.app.cliente)
 
-    # Navegacion
+    def obtener_configuracion_usuario(self):
+        return Sesion.obtener_usuario_actual(self.app.cliente).obtener_configuracion_usuario()
 
     def regresar(self):
         self.app.volver_frame_anterior()

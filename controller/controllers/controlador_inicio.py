@@ -1,5 +1,6 @@
 from controller.controlador_principal import ControladorPrincipal
-from model.sesion import Sesion
+
+from auth.sesion import Sesion
 
 from view.views.vista_ajustes import VistaAjustes
 from controller.controllers.controlador_ajustes import ControladorAjustes
@@ -13,13 +14,14 @@ from controller.controllers.controlador_busqueda import ControladorBusqueda
 from view.views.vista_asistidos import VistaAsistidos
 from controller.controllers.controlador_asistidos import ControladorAsistidos
 
+
 class ControladorInicio(ControladorPrincipal):
     def __init__(self, app):
         super().__init__(app)
 
     def cerrar_sesion(self):
+        Sesion.eliminar_sesion(self.app.cliente)
         self.app.event_generate("<<logout>>")
-        Sesion.cerrar_sesion()
 
     def ir_a_ajustes(self):
         controlador_ajustes = ControladorAjustes(self.app)
