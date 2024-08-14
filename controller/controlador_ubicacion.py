@@ -9,6 +9,9 @@ class ControladorUbicacion():
 
     # Publicos
 
+    def obtener_coordenadas(self):
+        return self.coordenadas
+
     def establecer_coordenadas(self, coordenadas):
         self.coordenadas = coordenadas
 

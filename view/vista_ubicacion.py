@@ -41,7 +41,8 @@ class VistaUbicacion(ctk.CTkFrame):
         self.controlador.establecer_coordenadas(coordenadas)
 
     def guardar_cambios(self):
-        self.controlador.guardar_cambios()
+        if self.controlador.obtener_coordenadas():
+            self.controlador.guardar_cambios()
         self.controlador.regresar()
 
     def regresar(self):

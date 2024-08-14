@@ -15,9 +15,6 @@ from view.vista_inicio import VistaInicio
 
 from database.database import Conexion
 
-# Agregar controles:
-# click en aceptar cuando no se selecciono ninguna ubicacion
-
 # Agregar:
 # roles
 # usuario puede eliminar sus reviews
