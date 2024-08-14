@@ -8,7 +8,7 @@ class VistaInicio(ctk.CTkFrame):
         super().__init__(master)
         self.controlador = controlador
 
-        self.titulo_label = VistaUtils.crear_titulo(self, texto_titulo="Tu ubicacion")
+        self.titulo_label = VistaUtils.crear_titulo(self, texto_titulo="Tour Musical")
         self.titulo_label.pack()
 
         fuente_descripcion = ctk.CTkFont(size=12)

@@ -8,7 +8,7 @@ class VistaFinalizados(ctk.CTkFrame):
         super().__init__(master)
         self.controlador = controlador
 
-        self.titulo_label = VistaUtils.crear_titulo(self, texto_titulo="Tu ubicacion")
+        self.titulo_label = VistaUtils.crear_titulo(self, texto_titulo="")
         self.titulo_label.pack()
 
         self.descripcion_label = ctk.CTkLabel(self, wraplength=250)

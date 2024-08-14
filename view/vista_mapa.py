@@ -10,7 +10,7 @@ class VistaMapa(ctk.CTkFrame):
         super().__init__(master)
         self.controlador = controlador
 
-        self.titulo_label = VistaUtils.crear_titulo(self, texto_titulo="Tu ubicacion")
+        self.titulo_label = VistaUtils.crear_titulo(self, texto_titulo="Ubicacion del evento")
         self.titulo_label.pack()
 
         self.mapa = TkinterMapView(self, corner_radius=0)
