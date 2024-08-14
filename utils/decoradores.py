@@ -1,11 +1,11 @@
 from functools import wraps
-from utils.utils_sesion import SesionUtils
+from auth.sesion import Sesion
 
 
 def requiere_sesion_valida(func):
     @wraps(func)
     def wrapper(instancia, *args, **kwargs):
-        if SesionUtils.validar_sesion(instancia.app.cliente):
+        if Sesion.validar_sesion(instancia.app.cliente):
             return func(instancia, *args, **kwargs)
         else:
             print("Sesión inválida o no existe. Redirigiendo al login.")

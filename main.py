@@ -1,12 +1,12 @@
 import customtkinter as ctk
 from dotenv import load_dotenv
 
+from auth.sesion import Sesion
+
 from controller.controlador_finalizados import ControladorFinalizados
 from controller.controlador_futuros import ControladorFuturos
 from controller.controlador_login import ControladorLogin
 from controller.controlador_inicio import ControladorInicio
-
-from utils.utils_sesion import SesionUtils
 
 from view.views.vista_finalizados import VistaFinalizados
 from view.views.vista_futuros import VistaFuturos
@@ -35,7 +35,7 @@ class Aplicacion(ctk.CTk):
         self.rowconfigure(0, weight=1)
         self.columnconfigure(0, weight=1)
 
-        if SesionUtils.validar_sesion(self.cliente):
+        if Sesion.validar_sesion(self.cliente):
             self.ir_a_inicio()
         else:
             self.ir_a_login()

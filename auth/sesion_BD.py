@@ -9,7 +9,12 @@ class SesionBD:
         return sesion and sesion["expiracion"] > datetime.datetime.utcnow()
 
     @staticmethod
-    def guardar_sesion(cliente, sesion):
+    def guardar_sesion(cliente, id_sesion, id_usuario):
+        sesion = {
+            "_id": id_sesion,
+            "id_usuario": id_usuario,
+            "expiracion": datetime.datetime.utcnow() + datetime.timedelta(hours=1)
+        }
         cliente[os.getenv("BD_SESIONES")].insert_one(sesion)
 
     @staticmethod

@@ -8,14 +8,14 @@ class SesionLocal:
         return os.path.exists('sesion.json')
 
     @staticmethod
-    def obtener_sesion_local():
+    def obtener_id_sesion_local():
         if os.path.exists('sesion.json'):
             with open('sesion.json', 'r') as file:
                 data = json.load(file)
                 return data.get("id_sesion")
 
     @staticmethod
-    def guardar_sesion_local(id_sesion):
+    def guardar_id_sesion_local(id_sesion):
         with open('sesion.json', 'w') as file:
             json.dump({"id_sesion": id_sesion}, file)
 
