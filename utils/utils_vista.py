@@ -20,3 +20,9 @@ class VistaUtils:
         boton_atras = ctk.CTkButton(contenedor, text="Volver", **cls.estilo_boton)
         boton_atras.pack_configure(**pack_config)
         return boton_atras
+
+    @staticmethod
+    def obtener_evento_seleccionado(event, funcion, listbox):
+        eventos = funcion()
+        indice = listbox.curselection()
+        return eventos[indice[0]] if indice else None

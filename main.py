@@ -87,9 +87,3 @@ class Aplicacion(ctk.CTk):
 if __name__ == "__main__":
     aplicacion = Aplicacion()
     aplicacion.mainloop()
-
-
-@staticmethod
-def obtener_seleccion(listbox):
-    indice = listbox.curselection()
-    return indice[0] if indice else None

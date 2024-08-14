@@ -10,7 +10,7 @@ class ControladorEventos():
 
     # Metodos comunes de las subclases
 
-    def seleccionar_evento(self, evento):
+    def ir_evento_seleccionado(self, evento):
         if evento is not None:
             id_ubicacion = evento.id_ubicacion
             ubicacion = Ubicacion.obtener_ubicacion_id(self.app.cliente, id_ubicacion)

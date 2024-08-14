@@ -9,7 +9,7 @@ class VistaBusqueda(ctk.CTkFrame):
         super().__init__(master)
         self.controlador = controlador
 
-        self.titulo_label = VistaUtils.crear_titulo(self, texto_titulo="Tu ubicacion")
+        self.titulo_label = VistaUtils.crear_titulo(self, texto_titulo="Busqueda de eventos")
         self.titulo_label.pack()
 
         frame_principal_opciones = ctk.CTkFrame(self)
@@ -65,7 +65,7 @@ class VistaBusqueda(ctk.CTkFrame):
         instrucciones.pack()
 
         self.listbox = tk.Listbox(self)
-        self.listbox.bind("<Double-Button-1>", self._seleccionar_evento)
+        self.listbox.bind("<Double-Button-1>", lambda event: self._ir_evento_seleccionado(event, self._obtener_eventos_busqueda, self.listbox))
         self.listbox.pack_configure(**VistaUtils.padding, fill="both", expand="true")
         self.listbox.pack()
 
@@ -82,31 +82,23 @@ class VistaBusqueda(ctk.CTkFrame):
         self.controlador.restablecer_eventos()
         self._actualizar_eventos()
 
+    def _buscar_eventos(self):
+        criterio = self.opcion_elegida.get().lower()
+        texto_busqueda = self.entry_box.get().lower()
+        eventos_filtrados = self.controlador.buscar_eventos(criterio, texto_busqueda)
+        self.listbox.delete(0, tk.END)
+        for evento in eventos_filtrados:
+            self.listbox.insert(tk.END, evento.nombre)
+
+    def _ir_evento_seleccionado(self, event, funcion, listbox):
+        evento = VistaUtils.obtener_evento_seleccionado(event, funcion, listbox)
+        self.controlador.ir_evento_seleccionado(evento)
+
+    def _obtener_eventos_busqueda(self):
+        return self.controlador.obtener_eventos_busqueda()
+
     def _actualizar_eventos(self):
         eventos = self.controlador.obtener_eventos_busqueda()
         self.listbox.delete(0, tk.END)
         for evento in eventos:
-            self.listbox.insert(tk.END, evento.nombre)
-
-    def _obtener_evento_seleccionado(self):
-        indice = self.listbox.curselection()
-        if indice:
-            return indice[0]
-        else:
-            return None
-
-    def _seleccionar_evento(self, event):
-        lista = self.controlador.obtener_eventos_busqueda()
-        indice = self._obtener_evento_seleccionado()
-        evento = lista[indice]
-        self.controlador.seleccionar_evento(evento)
-
-    def _buscar_eventos(self):
-        criterio = self.opcion_elegida.get().lower()
-        texto_busqueda = self.entry_box.get().lower()
-        # Filtra la lista de todos los eventos
-        eventos_filtrados = self.controlador.buscar_eventos(criterio, texto_busqueda)
-        # Actualiza la listbox con los resultados de la busqueda
-        self.listbox.delete(0, tk.END)
-        for evento in eventos_filtrados:
             self.listbox.insert(tk.END, evento.nombre)

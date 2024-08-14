@@ -9,7 +9,7 @@ class VistaExplorar(ctk.CTkFrame):
         super().__init__(master)
         self.controlador = controlador
 
-        self.titulo_label = VistaUtils.crear_titulo(self, texto_titulo="Tu ubicacion")
+        self.titulo_label = VistaUtils.crear_titulo(self, texto_titulo="Explorar eventos")
         self.titulo_label.pack()
 
         instrucciones = ctk.CTkLabel(self, text="Haz doble clic en un evento para mas detalles")
@@ -21,17 +21,17 @@ class VistaExplorar(ctk.CTkFrame):
         tab_finalizados = tab.add("Finalizados")
 
         self.listbox_todos = tk.Listbox(tab_todos)
-        self.listbox_todos.bind("<Double-Button-1>", self._seleccionar_evento_todos)
+        self.listbox_todos.bind("<Double-Button-1>", lambda event: self._ir_evento_seleccionado(event, self._obtener_eventos_todos, self.listbox_todos))
         self.listbox_todos.pack_configure(**VistaUtils.padding, fill="both", expand="true")
         self.listbox_todos.pack()
 
         self.listbox_futuros = tk.Listbox(tab_futuros)
-        self.listbox_futuros.bind("<Double-Button-1>", self._seleccionar_evento_futuros)
+        self.listbox_futuros.bind("<Double-Button-1>", lambda event: self._ir_evento_seleccionado(event, self._obtener_eventos_futuros, self.listbox_futuros))
         self.listbox_futuros.pack_configure(**VistaUtils.padding, fill="both", expand="true")
         self.listbox_futuros.pack()
 
         self.listbox_finalizados = tk.Listbox(tab_finalizados)
-        self.listbox_finalizados.bind("<Double-Button-1>", self._seleccionar_evento_finalizados)
+        self.listbox_finalizados.bind("<Double-Button-1>", lambda event: self._ir_evento_seleccionado(event, self._obtener_eventos_finalizados, self.listbox_finalizados))
         self.listbox_finalizados.pack_configure(**VistaUtils.padding, fill="both", expand="true")
         self.listbox_finalizados.pack()
 
@@ -44,8 +44,18 @@ class VistaExplorar(ctk.CTkFrame):
         self.boton_atras.configure(command=self.regresar)
         self.boton_atras.pack()
 
-    def regresar(self):
-        self.controlador.regresar()
+    def _ir_evento_seleccionado(self, event, funcion, listbox):
+        evento = VistaUtils.obtener_evento_seleccionado(event, funcion, listbox)
+        self.controlador.ir_evento_seleccionado(evento)
+
+    def _obtener_eventos_todos(self):
+        return self.controlador.obtener_eventos()
+
+    def _obtener_eventos_futuros(self):
+        return self.controlador.obtener_eventos_futuros()
+
+    def _obtener_eventos_finalizados(self):
+        return self.controlador.obtener_eventos_finalizados()
 
     def _actualizar_eventos(self):
         eventos_todos = self.controlador.obtener_eventos()
@@ -61,27 +71,5 @@ class VistaExplorar(ctk.CTkFrame):
         for evento in eventos_finalizados:
             self.listbox_finalizados.insert(tk.END, evento.nombre)
 
-    def _obtener_evento_seleccionado(self, lista):
-        indice = lista.curselection()
-        if indice:
-            return indice[0]
-        else:
-            return None
-
-    def _seleccionar_evento_todos(self, event):
-        eventos = self.controlador.obtener_eventos()
-        indice = self._obtener_evento_seleccionado(self.listbox_todos)
-        evento = eventos[indice]
-        self.controlador.seleccionar_evento(evento)
-
-    def _seleccionar_evento_futuros(self, event):
-        eventos = self.controlador.obtener_eventos_futuros()
-        indice = self._obtener_evento_seleccionado(self.listbox_futuros)
-        evento = eventos[indice]
-        self.controlador.seleccionar_evento(evento)
-
-    def _seleccionar_evento_finalizados(self, event):
-        eventos = self.controlador.obtener_eventos_finalizados()
-        indice = self._obtener_evento_seleccionado(self.listbox_finalizados)
-        evento = eventos[indice]
-        self.controlador.seleccionar_evento(evento)
+    def regresar(self):
+        self.controlador.regresar()
