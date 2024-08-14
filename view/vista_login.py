@@ -1,31 +1,26 @@
-from view.vista_principal import VistaPrincipal
 import customtkinter as ctk
 
+from utils.utils_vista import VistaUtils
 
-class VistaLogin(VistaPrincipal):
 
+class VistaLogin(ctk.CTkFrame):
     def __init__(self, master=None, controlador=None):
+        super().__init__(master)
+        self.controlador = controlador
 
-        super().__init__(master, controlador)
-
-        self.titulo_label.configure(text="Tour Musical")
-        self.titulo_label.pack_configure(side="top", **self.default_padding)
+        self.titulo_label = VistaUtils.crear_titulo(self, texto_titulo="Tour Musical")
         self.titulo_label.pack()
 
-        frame_principal = ctk.CTkFrame(self)
-        frame_principal.pack_configure(padx=10, pady=10, expand=True, fill="both")
-        frame_principal.pack()
-
         sesion_fuente = ctk.CTkFont(size=16, weight="bold")
-        self.sesion_label = ctk.CTkLabel(frame_principal, font=sesion_fuente)
+        self.sesion_label = ctk.CTkLabel(self, font=sesion_fuente)
         self.sesion_label.configure(text="Iniciar sesion")
-        self.sesion_label.pack_configure(**self.default_padding)
+        self.sesion_label.pack_configure(**VistaUtils.padding)
         self.sesion_label.pack()
 
         alerta_fuente = ctk.CTkFont(size=12)
-        self.alerta_label = ctk.CTkLabel(frame_principal, font=alerta_fuente, text_color="red")
+        self.alerta_label = ctk.CTkLabel(self, font=alerta_fuente, text_color="red")
 
-        self.frame_datos = ctk.CTkFrame(frame_principal, fg_color="transparent")
+        self.frame_datos = ctk.CTkFrame(self, fg_color="transparent")
         self.frame_datos.rowconfigure(0, weight=1)
         self.frame_datos.columnconfigure(0, weight=1)
         self.frame_datos.pack()
@@ -46,16 +41,17 @@ class VistaLogin(VistaPrincipal):
         self.contrasena_entry.grid_configure(row=1, column=1, padx=5, pady=5)
         self.contrasena_entry.grid()
 
-        frame_botones = ctk.CTkFrame(frame_principal, fg_color="transparent")
+        frame_botones = ctk.CTkFrame(self, fg_color="transparent")
         frame_botones.rowconfigure(0, weight=1)
         frame_botones.columnconfigure(0, weight=1)
+        # frame_botones.pack_configure(side="bottom")
         frame_botones.pack()
 
-        self.boton_login = ctk.CTkButton(frame_botones, text="Iniciar sesión", command=self._autenticar_usuario, **self.default_button_color)
+        self.boton_login = ctk.CTkButton(frame_botones, text="Iniciar sesión", command=self._autenticar_usuario, **VistaUtils.estilo_boton)
         self.boton_login.grid_configure(row=0, column=0, padx=5, pady=10)
         self.boton_login.grid()
 
-        self.boton_registro = ctk.CTkButton(frame_botones, text="Registrarse", command=self._registrar_usuario, **self.default_button_color)
+        self.boton_registro = ctk.CTkButton(frame_botones, text="Registrarse", command=self._registrar_usuario, **VistaUtils.estilo_boton)
         self.boton_registro.grid_configure(row=0, column=1, padx=5, pady=10)
         self.boton_registro.grid()
 
@@ -63,10 +59,12 @@ class VistaLogin(VistaPrincipal):
         label_tema = ctk.CTkLabel(frame_tema, text="Tema")
         label_tema.grid_configure(row=0, column=0, padx=5)
         label_tema.grid()
+
         self.opcion = ctk.StringVar(value=ctk.get_appearance_mode())
         self.menu = ctk.CTkOptionMenu(frame_tema, values=["Light", "Dark"], variable=self.opcion, command=self._cambiar_tema)
         self.menu.grid_configure(row=0, column=1)
         self.menu.grid()
+
         frame_tema.pack_configure(side="bottom", padx=5, pady=5)
         frame_tema.pack()
 
@@ -84,12 +82,14 @@ class VistaLogin(VistaPrincipal):
         username = self.nombre_usuario_entry.get()
         password = self.contrasena_entry.get()
         if self.controlador.autenticar_usuario(username, password):
+            self.controlador.crear_sesion(username)
             self.controlador.ir_a_inicio()
 
     def _registrar_usuario(self, *args):
         username = self.nombre_usuario_entry.get()
         password = self.contrasena_entry.get()
         if self.controlador.registrar_usuario(username, password):
+            self.controlador.crear_sesion(username)
             self.controlador.ir_a_inicio()
 
     def _alerta_datos_invalidos(self, *args):

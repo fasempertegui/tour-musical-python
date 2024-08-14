@@ -1,92 +1,46 @@
 import os
+import bcrypt
+import secrets
+
 
 class Usuario:
 
-    def __init__(self, _id, nombre_usuario, contrasena, historial_eventos, configuracion_usuario):
-        self._id = _id
+    def __init__(self, nombre_usuario, contrasena, _id=None, historial_eventos=None, configuracion_usuario=None):
+        self._id = _id if _id is not None else secrets.randbits(60)
         self.nombre_usuario = nombre_usuario
         self.contrasena = contrasena
-        self.historial_eventos = historial_eventos
-        self.configuracion_usuario = configuracion_usuario
+        self.historial_eventos = historial_eventos if historial_eventos is not None else []
+        self.configuracion_usuario = configuracion_usuario if configuracion_usuario is not None else {"ubicacion": None}
+
+    # Metodos de clase
 
     @classmethod
-    def obtener_usuarios(cls, cliente):
-        coleccion = cliente[os.getenv("BD_USUARIOS")]
-        data = list(coleccion.find())
-        return [cls(**usuario) for usuario in data]
+    def crear_usuario(cls, cliente, nombre_usuario, contrasena):
+        hash = bcrypt.hashpw(contrasena.encode('utf-8'), bcrypt.gensalt())
+        usuario = cls(nombre_usuario, hash)
+        cliente[os.getenv("BD_USUARIOS")].insert_one(usuario.__dict__)
 
     @classmethod
     def obtener_usuario_id(cls, cliente, id):
-        coleccion = cliente[os.getenv("BD_USUARIOS")]
-        usuario = coleccion.find_one({"_id": id})
-        return cls(**usuario)
-    
+        bd_usuarios = os.getenv("BD_USUARIOS")
+        usuario = cliente[bd_usuarios].find_one({"_id": id})
+        return cls(**usuario) if usuario else None
+
     @classmethod
     def obtener_usuario_nombre_usuario(cls, cliente, nombre_usuario):
-        coleccion = cliente[os.getenv("BD_USUARIOS")]
-        usuario = coleccion.find_one({"nombre_usuario": nombre_usuario})
-        if usuario is not None:
-            return cls(**usuario)
-        else:
-            return usuario
+        bd_usuarios = os.getenv("BD_USUARIOS")
+        usuario = cliente[bd_usuarios].find_one({"nombre_usuario": nombre_usuario})
+        return cls(**usuario) if usuario else None
 
-    def validar_credenciales(self, usuario, contrasena):
-        return self.nombre_usuario == usuario and self.contrasena == contrasena
-    
+    # Metodos de instancia
+
+    def actualizar_usuario(self, cliente, actualizacion):
+        filtro = {"_id": self._id}
+        bd_usuarios = os.getenv("BD_USUARIOS")
+        cliente[bd_usuarios].update_one(filtro, actualizacion)
+
+    def validar_credenciales(self, contrasena):
+        return bcrypt.checkpw(contrasena.encode('utf-8'), self.contrasena)
+
     def obtener_configuracion_usuario(self):
         return self.configuracion_usuario
-
-class Sesion:
-
-    usuario_actual = None
-
-    @classmethod
-    def autenticar_usuario(cls, cliente, nombre_usuario, contrasena):
-        usuarios = Usuario.obtener_usuarios(cliente)
-        for usuario in usuarios:
-            if usuario.validar_credenciales(nombre_usuario, contrasena):
-                cls.usuario_actual = usuario
-                return True
-        return False
-
-    def _generar_id(cliente):
-        usuarios = Usuario.obtener_usuarios(cliente)
-        if len(usuarios) > 0:
-            id_generada = usuarios[-1]._id + 1
-        else:
-            id_generada = 1000
-        return id_generada
-
-    @classmethod
-    def registrar_usuario(cls, cliente, nombre_usuario, contrasena):
-        id_generada = cls._generar_id(cliente)
-        nuevo_usuario = Usuario(id_generada, nombre_usuario, contrasena, [], {"ubicacion": None})
-        coleccion = cliente[os.getenv("BD_USUARIOS")]
-        coleccion.insert_one(nuevo_usuario.__dict__)
-        cls.usuario_actual = nuevo_usuario
-
-    @classmethod
-    def actualizar_eventos_asistidos(cls, cliente, id_evento):
-        usuario_actual = cls.obtener_usuario_actual()
-        usuario_actual.historial_eventos.append(id_evento)
-        filtro = {"_id": usuario_actual._id}
-        actualizacion = {"$set": {"historial_eventos": usuario_actual.historial_eventos}}
-        coleccion = cliente[os.getenv("BD_USUARIOS")]
-        coleccion.update_one(filtro, actualizacion)
-
-    @classmethod
-    def actualizar_configuracion_ubicacion(cls, cliente, coordenadas):
-        usuario_actual = cls.obtener_usuario_actual()
-        usuario_actual.configuracion_usuario = {"ubicacion": coordenadas}
-        filtro = {"_id": usuario_actual._id}
-        actualizacion = {"$set": {"configuracion_usuario": {"ubicacion": coordenadas}}}
-        coleccion = cliente[os.getenv("BD_USUARIOS")]
-        coleccion.update_one(filtro, actualizacion)
-
-    @classmethod
-    def cerrar_sesion(cls):
-        cls.usuario_actual = None
-
-    @classmethod
-    def obtener_usuario_actual(cls):
-        return cls.usuario_actual
