@@ -1,6 +1,6 @@
 from controller.controlador_eventos import ControladorEventos
 from controller.controlador_mapa import ControladorMapa
-from view.views.vista_mapa import VistaMapa
+from view.vista_mapa import VistaMapa
 
 
 class ControladorFuturos(ControladorEventos):

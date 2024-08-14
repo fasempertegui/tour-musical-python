@@ -1,4 +1,4 @@
-from view.views.vista_ubicacion import VistaUbicacion
+from view.vista_ubicacion import VistaUbicacion
 from controller.controlador_ubicacion import ControladorUbicacion
 
 

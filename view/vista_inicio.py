@@ -1,16 +1,14 @@
-from view.vista_principal import VistaPrincipal
+from utils.utils_vista import VistaUtils
 
 import customtkinter as ctk
 
 
-class VistaInicio(VistaPrincipal):
-
+class VistaInicio(ctk.CTkFrame):
     def __init__(self, master=None, controlador=None):
+        super().__init__(master)
+        self.controlador = controlador
 
-        super().__init__(master, controlador)
-
-        self.titulo_label.configure(text="Tour Musical")
-        self.titulo_label.pack_configure(side="top", **self.default_padding)
+        self.titulo_label = VistaUtils.crear_titulo(self, texto_titulo="Tu ubicacion")
         self.titulo_label.pack()
 
         fuente_descripcion = ctk.CTkFont(size=12)
@@ -21,33 +19,33 @@ class VistaInicio(VistaPrincipal):
 
         frame_navegacion = ctk.CTkFrame(self, fg_color="transparent")
 
-        boton_explorar = ctk.CTkButton(frame_navegacion, text="Explorar eventos", command=self.ir_a_explorar, **self.default_button_color)
-        boton_explorar.grid(row=0, column=0, **self.default_padding)
+        boton_explorar = ctk.CTkButton(frame_navegacion, text="Explorar eventos", command=self.ir_a_explorar, **VistaUtils.estilo_boton)
+        boton_explorar.grid(row=0, column=0, **VistaUtils.padding)
 
-        boton_buscar = ctk.CTkButton(frame_navegacion, text="Buscar eventos", command=self.ir_a_busqueda, **self.default_button_color)
-        boton_buscar.grid(row=1, column=0, **self.default_padding)
+        boton_buscar = ctk.CTkButton(frame_navegacion, text="Buscar eventos", command=self.ir_a_busqueda, **VistaUtils.estilo_boton)
+        boton_buscar.grid(row=1, column=0, **VistaUtils.padding)
 
-        boton_asistidos = ctk.CTkButton(frame_navegacion, text="Eventos asistidos", command=self.ir_a_asistidos, **self.default_button_color)
-        boton_asistidos.grid(row=2, column=0, **self.default_padding)
+        boton_asistidos = ctk.CTkButton(frame_navegacion, text="Eventos asistidos", command=self.ir_a_asistidos, **VistaUtils.estilo_boton)
+        boton_asistidos.grid(row=2, column=0, **VistaUtils.padding)
 
         frame_navegacion.pack(padx=10, pady=15)
 
         frame_opciones = ctk.CTkFrame(self, fg_color="transparent")
 
-        boton_ajustes = ctk.CTkButton(frame_opciones, text="Ajustes", **self.default_button_color, command=self.ir_a_ajustes)
-        boton_ajustes.pack_configure(side='left', **self.default_padding)
+        boton_ajustes = ctk.CTkButton(frame_opciones, text="Ajustes", **VistaUtils.estilo_boton, command=self.ir_a_ajustes)
+        boton_ajustes.pack_configure(side='left', **VistaUtils.padding)
         boton_ajustes.pack()
 
-        boton_salir = ctk.CTkButton(frame_opciones, text="Cerrar sesion", **self.default_button_color, command=self.cerrar_sesion)
-        boton_salir.pack_configure(side='right', **self.default_padding)
+        boton_salir = ctk.CTkButton(frame_opciones, text="Cerrar sesion", **VistaUtils.estilo_boton, command=self.cerrar_sesion)
+        boton_salir.pack_configure(side='right', **VistaUtils.padding)
         boton_salir.pack()
 
-        frame_opciones.pack_configure(side="bottom", **self.default_padding)
+        frame_opciones.pack_configure(side="bottom", **VistaUtils.padding)
         frame_opciones.pack()
 
         fuente_sesion = ctk.CTkFont(size=12)
         self.sesion = ctk.CTkLabel(self, font=fuente_sesion, wraplength=250)
-        self.sesion.pack_configure(side='bottom', **self.default_padding)
+        self.sesion.pack_configure(side='bottom', **VistaUtils.padding)
         self.sesion.pack()
 
         self._establecer_nombre_usuario()

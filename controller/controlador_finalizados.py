@@ -7,8 +7,8 @@ from model.review import Review
 from utils.decoradores import requiere_sesion_valida
 from utils.utils_sesion import SesionUtils
 
-from view.views.vista_escribir_review import VistaEscribirReview
-from view.views.vista_reviews import VistaReviews
+from view.vista_escribir_review import VistaEscribirReview
+from view.vista_reviews import VistaReviews
 
 
 class ControladorFinalizados(ControladorEventos):

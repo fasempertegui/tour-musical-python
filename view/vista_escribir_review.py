@@ -1,20 +1,19 @@
-from view.vista_principal import VistaPrincipal
+from utils.utils_vista import VistaUtils
 
 import tkinter as tk
 import customtkinter as ctk
 
 
-class VistaEscribirReview(VistaPrincipal):
-
+class VistaEscribirReview(ctk.CTkFrame):
     def __init__(self, master=None, controlador=None):
-        super().__init__(master, controlador)
+        super().__init__(master)
+        self.controlador = controlador
 
-        self.titulo_label.configure(text="Escribir review")
-        self.titulo_label.pack_configure(side="top", **self.default_padding)
+        self.titulo_label = VistaUtils.crear_titulo(self, texto_titulo="Tu ubicacion")
         self.titulo_label.pack()
 
         self.descripcion_review = ctk.CTkLabel(self)
-        self.descripcion_review.pack_configure(**self.default_padding)
+        self.descripcion_review.pack_configure(**VistaUtils.padding)
         self.descripcion_review.pack()
 
         frame_calificacion = ctk.CTkFrame(self, fg_color="transparent")
@@ -34,7 +33,7 @@ class VistaEscribirReview(VistaPrincipal):
 
         self.option_menu = ctk.CTkOptionMenu(frame_calificacion, values=OPCIONES)
         self.option_menu.set(OPCIONES[0])
-        self.option_menu.pack_configure(**self.default_padding)
+        self.option_menu.pack_configure(**VistaUtils.padding)
         self.option_menu.pack()
 
         frame_comentario = ctk.CTkFrame(self, fg_color="transparent")
@@ -49,14 +48,18 @@ class VistaEscribirReview(VistaPrincipal):
         self.textbox.pack_configure(fill="both", expand=True, padx=10)
         self.textbox.pack()
 
-        self.boton_enviar = ctk.CTkButton(frame_comentario, text="Enviar review", command=self._enviar_review, **self.default_button_color)
-        self.boton_enviar.pack_configure(side="bottom", **self.default_padding)
+        self.boton_enviar = ctk.CTkButton(frame_comentario, text="Enviar review", command=self._enviar_review, **VistaUtils.estilo_boton)
+        self.boton_enviar.pack_configure(side="bottom", **VistaUtils.padding)
         self.boton_enviar.pack()
 
         self._inicializar()
 
-        self.boton_atras.pack_configure(side='bottom', **self.default_padding)
+        self.boton_atras = VistaUtils.crear_boton_atras(self)
+        self.boton_atras.configure(command=self.regresar)
         self.boton_atras.pack()
+
+    def regresar(self):
+        self.controlador.regresar()
 
     def _inicializar(self, *args):
         evento = self.controlador.obtener_evento_actual()

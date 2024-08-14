@@ -1,20 +1,19 @@
-from view.vista_principal import VistaPrincipal
+from utils.utils_vista import VistaUtils
 
 import tkinter as tk
 import customtkinter as ctk
 
 
-class VistaExplorar(VistaPrincipal):
+class VistaExplorar(ctk.CTkFrame):
     def __init__(self, master=None, controlador=None):
+        super().__init__(master)
+        self.controlador = controlador
 
-        super().__init__(master, controlador)
-
-        self.titulo_label.configure(text="Explorar eventos")
-        self.titulo_label.pack_configure(side="top", **self.default_padding)
+        self.titulo_label = VistaUtils.crear_titulo(self, texto_titulo="Tu ubicacion")
         self.titulo_label.pack()
 
         instrucciones = ctk.CTkLabel(self, text="Haz doble clic en un evento para mas detalles")
-        instrucciones.pack(**self.default_padding)
+        instrucciones.pack(**VistaUtils.padding)
 
         tab = ctk.CTkTabview(self, text_color="#2F242C", segmented_button_selected_color="#A1A892", segmented_button_selected_hover_color="#9ca686")
         tab_todos = tab.add("Todos")
@@ -23,26 +22,30 @@ class VistaExplorar(VistaPrincipal):
 
         self.listbox_todos = tk.Listbox(tab_todos)
         self.listbox_todos.bind("<Double-Button-1>", self._seleccionar_evento_todos)
-        self.listbox_todos.pack_configure(**self.default_padding, fill="both", expand="true")
+        self.listbox_todos.pack_configure(**VistaUtils.padding, fill="both", expand="true")
         self.listbox_todos.pack()
 
         self.listbox_futuros = tk.Listbox(tab_futuros)
         self.listbox_futuros.bind("<Double-Button-1>", self._seleccionar_evento_futuros)
-        self.listbox_futuros.pack_configure(**self.default_padding, fill="both", expand="true")
+        self.listbox_futuros.pack_configure(**VistaUtils.padding, fill="both", expand="true")
         self.listbox_futuros.pack()
 
         self.listbox_finalizados = tk.Listbox(tab_finalizados)
         self.listbox_finalizados.bind("<Double-Button-1>", self._seleccionar_evento_finalizados)
-        self.listbox_finalizados.pack_configure(**self.default_padding, fill="both", expand="true")
+        self.listbox_finalizados.pack_configure(**VistaUtils.padding, fill="both", expand="true")
         self.listbox_finalizados.pack()
 
-        tab.pack_configure(**self.default_padding, fill="both", expand="true")
+        tab.pack_configure(**VistaUtils.padding, fill="both", expand="true")
         tab.pack()
 
         self._actualizar_eventos()
 
-        self.boton_atras.pack_configure(side='bottom', **self.default_padding)
+        self.boton_atras = VistaUtils.crear_boton_atras(self)
+        self.boton_atras.configure(command=self.regresar)
         self.boton_atras.pack()
+
+    def regresar(self):
+        self.controlador.regresar()
 
     def _actualizar_eventos(self):
         eventos_todos = self.controlador.obtener_eventos()

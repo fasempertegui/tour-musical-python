@@ -8,15 +8,15 @@ from controller.controlador_futuros import ControladorFuturos
 from controller.controlador_login import ControladorLogin
 from controller.controlador_inicio import ControladorInicio
 
-from view.views.vista_finalizados import VistaFinalizados
-from view.views.vista_futuros import VistaFuturos
-from view.views.vista_login import VistaLogin
-from view.views.vista_inicio import VistaInicio
+from view.vista_finalizados import VistaFinalizados
+from view.vista_futuros import VistaFuturos
+from view.vista_login import VistaLogin
+from view.vista_inicio import VistaInicio
 
 from database.database import Conexion
 
 # Agregar controles:
-# sesiones validas para usuarios que no existen
+# click en aceptar cuando no se selecciono ninguna
 
 # Agregar:
 # roles
@@ -87,3 +87,9 @@ class Aplicacion(ctk.CTk):
 if __name__ == "__main__":
     aplicacion = Aplicacion()
     aplicacion.mainloop()
+
+
+@staticmethod
+def obtener_seleccion(listbox):
+    indice = listbox.curselection()
+    return indice[0] if indice else None

@@ -1,38 +1,38 @@
-from view.vista_principal import VistaPrincipal
+from utils.utils_vista import VistaUtils
 
 import tkinter as tk
 import customtkinter as ctk
 from tkintermapview import TkinterMapView
 
 
-class VistaMapa(VistaPrincipal):
-
+class VistaMapa(ctk.CTkFrame):
     def __init__(self, master=None, controlador=None):
+        super().__init__(master)
+        self.controlador = controlador
 
-        super().__init__(master, controlador)
-
-        self.titulo_label.configure(text="Ubicacion del evento")
-        self.titulo_label.pack_configure(side="top", **self.default_padding)
+        self.titulo_label = VistaUtils.crear_titulo(self, texto_titulo="Tu ubicacion")
         self.titulo_label.pack()
 
-        self.frame_principal = ctk.CTkFrame(self, fg_color="transparent")
-        self.frame_principal.pack_configure(fill="both", expand=True)
-        self.frame_principal.pack()
+        self.mapa = TkinterMapView(self, corner_radius=0)
+        self.mapa.pack(**VistaUtils.padding, fill="both", expand=True)
 
-        self.mapa = TkinterMapView(self.frame_principal, corner_radius=0)
-        self.mapa.pack(**self.default_padding, fill="both", expand=True)
+        self.label_alerta = ctk.CTkLabel(self, text="Establece una ubicacion en ajustes para ver la ruta", text_color="red")
 
         self.check_var = tk.BooleanVar()
 
         self.check_agregar_ruta = ctk.CTkCheckBox(
-            self.frame_principal, variable=self.check_var, command=self._on_check, checkbox_width=12,
+            self, variable=self.check_var, command=self._on_check, checkbox_width=12,
             checkbox_height=12)
         self.check_agregar_ruta.pack()
 
         self._inicializar()
 
-        self.boton_atras.pack_configure(side='bottom', **self.default_padding)
+        self.boton_atras = VistaUtils.crear_boton_atras(self)
+        self.boton_atras.configure(command=self.regresar)
         self.boton_atras.pack()
+
+    def regresar(self):
+        self.controlador.regresar()
 
     def _inicializar(self, *args):
         self.mapa.delete_all_marker()
@@ -49,12 +49,10 @@ class VistaMapa(VistaPrincipal):
                 coordenadas_evento[0], coordenadas_evento[1]
             )
         else:
-            label_alerta = ctk.CTkLabel(self.frame_principal, text="Establece una ubicacion en ajustes para ver la ruta", text_color="red")
-            label_alerta.pack(after=self.check_agregar_ruta)
+            self.label_alerta.pack(after=self.check_agregar_ruta)
             self.check_agregar_ruta.configure(state=tk.DISABLED)
 
     def _establecer_vista(self, coordenadas_evento):
-        # coordenadas[0] -> latitud | coordenadas[1] -> longitud
         self.mapa.set_position(coordenadas_evento[0], coordenadas_evento[1])
         self.mapa.set_marker(coordenadas_evento[0], coordenadas_evento[1])
         self.mapa.set_zoom(15)

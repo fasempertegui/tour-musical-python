@@ -1,19 +1,18 @@
-from view.vista_principal import VistaPrincipal
+from utils.utils_vista import VistaUtils
 
 import customtkinter as ctk
 
 
-class VistaFuturos(VistaPrincipal):
-
+class VistaFuturos(ctk.CTkFrame):
     def __init__(self, master=None, controlador=None):
+        super().__init__(master)
+        self.controlador = controlador
 
-        super().__init__(master, controlador)
-
-        self.titulo_label.pack_configure(side="top", **self.default_padding)
+        self.titulo_label = VistaUtils.crear_titulo(self, texto_titulo="Tu ubicacion")
         self.titulo_label.pack()
 
         self.descripcion_label = ctk.CTkLabel(self, wraplength=250)
-        self.descripcion_label.pack_configure(**self.default_padding)
+        self.descripcion_label.pack_configure(**VistaUtils.padding)
         self.descripcion_label.pack()
 
         frame_info_evento = ctk.CTkFrame(self, fg_color="transparent")
@@ -21,7 +20,7 @@ class VistaFuturos(VistaPrincipal):
         frame_info_evento.pack()
 
         self.info_evento_label = ctk.CTkLabel(frame_info_evento)
-        self.info_evento_label.pack_configure(side="bottom", **self.default_padding)
+        self.info_evento_label.pack_configure(side="bottom", **VistaUtils.padding)
         self.info_evento_label.pack()
 
         frame_principal_direccion = ctk.CTkFrame(self, fg_color="transparent")
@@ -29,7 +28,7 @@ class VistaFuturos(VistaPrincipal):
         frame_principal_direccion.pack()
 
         frame_direccion = ctk.CTkFrame(frame_principal_direccion, fg_color="transparent")
-        frame_direccion.pack_configure(side="bottom", **self.default_padding)
+        frame_direccion.pack_configure(side="bottom", **VistaUtils.padding)
         frame_direccion.pack()
 
         nombre_ubicacion_fuente = ctk.CTkFont(weight="bold")
@@ -39,14 +38,18 @@ class VistaFuturos(VistaPrincipal):
         self.direccion_ubicacion_label = ctk.CTkLabel(frame_direccion)
         self.direccion_ubicacion_label.pack()
 
-        boton_ver_mapa = ctk.CTkButton(frame_direccion, text="Ver en mapa", command=self.ir_a_mapa, **self.default_button_color)
-        boton_ver_mapa.pack_configure(**self.default_padding)
+        boton_ver_mapa = ctk.CTkButton(frame_direccion, text="Ver en mapa", command=self.ir_a_mapa, **VistaUtils.estilo_boton)
+        boton_ver_mapa.pack_configure(**VistaUtils.padding)
         boton_ver_mapa.pack()
 
         self._inicializar()
 
-        self.boton_atras.pack_configure(side='bottom', **self.default_padding)
+        self.boton_atras = VistaUtils.crear_boton_atras(self)
+        self.boton_atras.configure(command=self.regresar)
         self.boton_atras.pack()
+
+    def regresar(self):
+        self.controlador.regresar()
 
     def _inicializar(self, *args):
         evento = self.controlador.obtener_evento_actual()

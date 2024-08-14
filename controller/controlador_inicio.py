@@ -7,10 +7,10 @@ from controller.controlador_explorar import ControladorExplorar
 
 from utils.utils_sesion import SesionUtils
 
-from view.views.vista_ajustes import VistaAjustes
-from view.views.vista_asistidos import VistaAsistidos
-from view.views.vista_busqueda import VistaBusqueda
-from view.views.vista_explorar import VistaExplorar
+from view.vista_ajustes import VistaAjustes
+from view.vista_asistidos import VistaAsistidos
+from view.vista_busqueda import VistaBusqueda
+from view.vista_explorar import VistaExplorar
 
 
 class ControladorInicio():
