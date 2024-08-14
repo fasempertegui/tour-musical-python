@@ -53,7 +53,7 @@ class VistaEscribirReview(VistaPrincipal):
         self.boton_enviar.pack_configure(side="bottom", **self.default_padding)
         self.boton_enviar.pack()
 
-        self.master.bind("<<ir_escribir_review>>", self._inicializar)
+        self._inicializar()
 
         self.boton_atras.pack_configure(side='bottom', **self.default_padding)
         self.boton_atras.pack()
@@ -62,7 +62,7 @@ class VistaEscribirReview(VistaPrincipal):
         evento = self.controlador.obtener_evento_actual()
         texto_descripcion = f"{evento.nombre} por {evento.artista}"
         self.descripcion_review.configure(text=texto_descripcion)
-    
+
     def _enviar_review(self):
         calificacion = int(self.option_menu.get().split(" ")[0])
         comentario = self.textbox.get("1.0", tk.END).strip()

@@ -5,24 +5,26 @@ import secrets
 
 class Usuario:
 
-    def __init__(self, _id, nombre_usuario, contrasena, historial_eventos, configuracion_usuario):
-        self._id = _id
+    def __init__(self, nombre_usuario, contrasena, _id=None, historial_eventos=None, configuracion_usuario=None):
+        self._id = _id if _id is not None else secrets.randbits(60)
         self.nombre_usuario = nombre_usuario
         self.contrasena = contrasena
-        self.historial_eventos = historial_eventos
-        self.configuracion_usuario = configuracion_usuario
+        self.historial_eventos = historial_eventos if historial_eventos is not None else []
+        self.configuracion_usuario = configuracion_usuario if configuracion_usuario is not None else {"ubicacion": None}
+
+    # Metodos de clase
 
     @classmethod
-    def obtener_usuarios(cls, cliente):
-        bd_usuarios = os.getenv("BD_USUARIOS")
-        data = list(cliente[bd_usuarios].find())
-        return [cls(**usuario) for usuario in data]
+    def crear_usuario(cls, cliente, nombre_usuario, contrasena):
+        hash = bcrypt.hashpw(contrasena.encode('utf-8'), bcrypt.gensalt())
+        usuario = cls(nombre_usuario, hash)
+        cliente[os.getenv("BD_USUARIOS")].insert_one(usuario.__dict__)
 
     @classmethod
     def obtener_usuario_id(cls, cliente, id):
         bd_usuarios = os.getenv("BD_USUARIOS")
         usuario = cliente[bd_usuarios].find_one({"_id": id})
-        return cls(**usuario)
+        return cls(**usuario) if usuario else None
 
     @classmethod
     def obtener_usuario_nombre_usuario(cls, cliente, nombre_usuario):
@@ -30,29 +32,10 @@ class Usuario:
         usuario = cliente[bd_usuarios].find_one({"nombre_usuario": nombre_usuario})
         return cls(**usuario) if usuario else None
 
-    @classmethod
-    def crear_usuario(cls, cliente, nombre_usuario, contrasena):
-        hashed_password = bcrypt.hashpw(contrasena.encode('utf-8'), bcrypt.gensalt())
-        id_generada = secrets.randbits(56)
-        nuevo_usuario = Usuario(id_generada, nombre_usuario, hashed_password, [], {"ubicacion": None})
-        bd_usuarios = os.getenv("BD_USUARIOS")
-        cliente[bd_usuarios].insert_one(nuevo_usuario.__dict__)
-        return nuevo_usuario
+    # Metodos de instancia
 
-    @classmethod
-    def actualizar_eventos(cls, cliente, id_usuario, id_evento):
-        filtro = {"_id": id_usuario}
-        usuario = cls.obtener_usuario_id(cliente, id_usuario)
-        if usuario:
-            usuario.historial_eventos.append(id_evento)
-            actualizacion = {"$set": {"historial_eventos": usuario.historial_eventos}}
-            bd_usuarios = os.getenv("BD_USUARIOS")
-            cliente[bd_usuarios].update_one(filtro, actualizacion)
-
-    @classmethod
-    def actualizar_configuracion(cls, cliente, id_usuario, coordenadas):
-        filtro = {"_id": id_usuario}
-        actualizacion = {"$set": {"configuracion_usuario": {"ubicacion": coordenadas}}}
+    def actualizar_usuario(self, cliente, actualizacion):
+        filtro = {"_id": self._id}
         bd_usuarios = os.getenv("BD_USUARIOS")
         cliente[bd_usuarios].update_one(filtro, actualizacion)
 

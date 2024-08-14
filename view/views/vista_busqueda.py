@@ -81,7 +81,7 @@ class VistaBusqueda(VistaPrincipal):
         self._actualizar_eventos()
 
     def _actualizar_eventos(self):
-        eventos = self.controlador.obtener_eventos()
+        eventos = self.controlador.obtener_eventos_busqueda()
         self.listbox.delete(0, tk.END)
         for evento in eventos:
             self.listbox.insert(tk.END, evento.nombre)
@@ -94,7 +94,7 @@ class VistaBusqueda(VistaPrincipal):
             return None
 
     def _seleccionar_evento(self, event):
-        lista = self.controlador.obtener_eventos()
+        lista = self.controlador.obtener_eventos_busqueda()
         indice = self._obtener_evento_seleccionado()
         evento = lista[indice]
         self.controlador.seleccionar_evento(evento)

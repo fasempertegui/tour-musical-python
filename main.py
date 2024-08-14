@@ -1,67 +1,87 @@
 import customtkinter as ctk
 from dotenv import load_dotenv
 
-from controller.controllers.controlador_login import ControladorLogin
-from controller.controllers.controlador_inicio import ControladorInicio
+from controller.controlador_finalizados import ControladorFinalizados
+from controller.controlador_futuros import ControladorFuturos
+from controller.controlador_login import ControladorLogin
+from controller.controlador_inicio import ControladorInicio
+
+from utils.utils_sesion import SesionUtils
+
+from view.views.vista_finalizados import VistaFinalizados
+from view.views.vista_futuros import VistaFuturos
 from view.views.vista_login import VistaLogin
 from view.views.vista_inicio import VistaInicio
 
 from database.database import Conexion
-from auth.sesion import Sesion
+
+# Agregar controles:
+# sesiones validas para usuarios que no existen
+
+# Agregar:
+# roles
+# usuario puede eliminar sus reviews
 
 
 class Aplicacion(ctk.CTk):
-
     def __init__(self):
         super().__init__()
 
         load_dotenv()
-
-        conexion = Conexion()
-        self.cliente = conexion.obtener_cliente()
+        self.cliente = self._obtener_cliente()
 
         self.title("Tour musical")
         self.geometry("450x450")
         self.rowconfigure(0, weight=1)
         self.columnconfigure(0, weight=1)
 
-        if self._validar_sesion():
+        if SesionUtils.validar_sesion(self.cliente):
             self.ir_a_inicio()
         else:
-            self._limpiar_sesion()
             self.ir_a_login()
 
-        self.bind("<<logout>>", self.ir_a_login)
+    # Publicos
 
-    def _validar_sesion(self):
-        return Sesion.validar_sesion(self.cliente)
+    '''Para evitar el circular import'''
 
-    def _limpiar_sesion(self):
-        Sesion.eliminar_sesion(self.cliente)
+    def ir_a_login(self):
+        self._inicializar_historial_vistas()
+        self.cambiar_vista(ControladorLogin, VistaLogin)
 
-    def ir_a_login(self, *args):
-        self.historial_vistas = []
-        controlador_login = ControladorLogin(self)
-        self.vista_login = VistaLogin(self, controlador_login)
-        self.cambiar_frame(self.vista_login)
+    def ir_a_inicio(self):
+        self._inicializar_historial_vistas()
+        self.cambiar_vista(ControladorInicio, VistaInicio)
 
-    def ir_a_inicio(self, *args):
-        self.historial_vistas = []
-        controlador_inicio = ControladorInicio(self)
-        vista_inicio = VistaInicio(self, controlador_inicio)
-        self.cambiar_frame(vista_inicio)
+    def ir_a_futuros(self, evento, ubicacion):
+        self.cambiar_vista(ControladorFuturos, VistaFuturos, evento, ubicacion)
 
-    def cambiar_frame(self, frame_destino):
-        if frame_destino not in self.historial_vistas:
-            self.historial_vistas.append(frame_destino)
-        frame_destino.grid(row=0, column=0, sticky='nsew')
-        frame_destino.tkraise()
+    def ir_a_finalizados(self, evento):
+        self.cambiar_vista(ControladorFinalizados, VistaFinalizados, evento)
 
-    def volver_frame_anterior(self):
+    '''Estos metodos deben centralizarse aqui'''
+
+    def cambiar_vista(self, controlador_cls, vista_cls, *args, **kwargs):
+        controlador = controlador_cls(self, *args, **kwargs)
+        vista = vista_cls(self, controlador)
+        if vista not in self.historial_vistas:
+            self.historial_vistas.append(vista)
+        vista.grid(row=0, column=0, sticky='nsew')
+        vista.tkraise()
+
+    def volver_vista_anterior(self):
         if len(self.historial_vistas) > 1:
             self.historial_vistas.pop()
             vista_anterior = self.historial_vistas[-1]
-            self.cambiar_frame(vista_anterior)
+            vista_anterior.tkraise()
+
+    # Privados
+
+    @staticmethod
+    def _obtener_cliente():
+        return Conexion().obtener_cliente()
+
+    def _inicializar_historial_vistas(self):
+        self.historial_vistas = []
 
 
 if __name__ == "__main__":

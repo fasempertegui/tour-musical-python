@@ -52,6 +52,8 @@ class VistaFinalizados(VistaPrincipal):
         self.boton_escribir_review.pack_configure(side="right", padx=3, pady=3)
         self.boton_escribir_review.pack()
 
+        self._inicializar()
+
         self.master.bind("<<inicializar_finalizados>>", self._inicializar)
         self.master.bind("<<actualizar_botones>>", self._inicializar)
 
@@ -62,7 +64,8 @@ class VistaFinalizados(VistaPrincipal):
         evento = self.controlador.obtener_evento_actual()
         self.titulo_label.configure(text=evento.nombre)
         self.descripcion_label.configure(text=evento.descripcion)
-        (fecha, hora_inicio) = evento.hora_inicio.split("T")
+        fecha = evento.hora_inicio.date().strftime("%d-%m-%Y")
+        hora_inicio = evento.hora_inicio.time().strftime("%H:%M:%S")
         info = f"Artista: {evento.artista}\nGenero: {evento.genero}\nFecha: {fecha} {hora_inicio}"
         self.info_evento_label.configure(text=info)
 

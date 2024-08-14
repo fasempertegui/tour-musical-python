@@ -1,5 +1,4 @@
 from view.vista_principal import VistaPrincipal
-from utils.ruta import obtener_coordenadas_ruta
 
 import tkinter as tk
 import customtkinter as ctk
@@ -30,7 +29,7 @@ class VistaMapa(VistaPrincipal):
             checkbox_height=12)
         self.check_agregar_ruta.pack()
 
-        self.master.bind("<<inicializar_mapa>>", self._inicializar)
+        self._inicializar()
 
         self.boton_atras.pack_configure(side='bottom', **self.default_padding)
         self.boton_atras.pack()
@@ -45,7 +44,7 @@ class VistaMapa(VistaPrincipal):
         configuracion_usuario = self.controlador.obtener_configuracion_usuario()
         if configuracion_usuario["ubicacion"] is not None:
             coordenadas_origen = configuracion_usuario["ubicacion"]
-            self.ruta = obtener_coordenadas_ruta(
+            self.ruta = self.controlador.obtener_ruta(
                 coordenadas_origen[0], coordenadas_origen[1],
                 coordenadas_evento[0], coordenadas_evento[1]
             )
@@ -53,7 +52,7 @@ class VistaMapa(VistaPrincipal):
             label_alerta = ctk.CTkLabel(self.frame_principal, text="Establece una ubicacion en ajustes para ver la ruta", text_color="red")
             label_alerta.pack(after=self.check_agregar_ruta)
             self.check_agregar_ruta.configure(state=tk.DISABLED)
-            
+
     def _establecer_vista(self, coordenadas_evento):
         # coordenadas[0] -> latitud | coordenadas[1] -> longitud
         self.mapa.set_position(coordenadas_evento[0], coordenadas_evento[1])

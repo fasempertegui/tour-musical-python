@@ -3,7 +3,7 @@ from view.vista_principal import VistaPrincipal
 import customtkinter as ctk
 
 
-class VistaProximos(VistaPrincipal):
+class VistaFuturos(VistaPrincipal):
 
     def __init__(self, master=None, controlador=None):
 
@@ -43,25 +43,23 @@ class VistaProximos(VistaPrincipal):
         boton_ver_mapa.pack_configure(**self.default_padding)
         boton_ver_mapa.pack()
 
-        self.master.bind("<<inicializar_proximos>>", self._inicializar)
-        
+        self._inicializar()
+
         self.boton_atras.pack_configure(side='bottom', **self.default_padding)
         self.boton_atras.pack()
 
-    def _establecer_info_evento(self):
+    def _inicializar(self, *args):
         evento = self.controlador.obtener_evento_actual()
         ubicacion = self.controlador.obtener_ubicacion_actual()
         self.titulo_label.configure(text=evento.nombre)
         self.descripcion_label.configure(text=evento.descripcion)
         self.nombre_ubicacion_label.configure(text=ubicacion.nombre)
         self.direccion_ubicacion_label.configure(text=ubicacion.direccion)
-        (fecha, hora_inicio) = evento.hora_inicio.split("T")
+        fecha = evento.hora_inicio.date().strftime("%d-%m-%Y")
+        hora_inicio = evento.hora_inicio.time().strftime("%H:%M:%S")
         info = f"Artista: {evento.artista}\nGenero: {evento.genero}\nFecha: {fecha} {hora_inicio}"
         self.info_evento_label.configure(text=info)
 
-    def _inicializar(self, *args):
-        self._establecer_info_evento()
-    
     # Navegacion
 
     def ir_a_mapa(self):

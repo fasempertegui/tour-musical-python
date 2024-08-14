@@ -14,7 +14,9 @@ class VistaInicio(VistaPrincipal):
         self.titulo_label.pack()
 
         fuente_descripcion = ctk.CTkFont(size=12)
-        descripcion = ctk.CTkLabel(self, text="Descubre eventos musicales, planifica rutas y comparte tu experiencia de manera eficiente y agradable con esta app", font=fuente_descripcion, wraplength=250)
+        descripcion = ctk.CTkLabel(
+            self, text="Descubre eventos musicales, planifica rutas y comparte tu experiencia de manera eficiente y agradable con esta app",
+            font=fuente_descripcion, wraplength=250)
         descripcion.pack(padx=10, pady=15)
 
         frame_navegacion = ctk.CTkFrame(self, fg_color="transparent")
@@ -43,6 +45,13 @@ class VistaInicio(VistaPrincipal):
         frame_opciones.pack_configure(side="bottom", **self.default_padding)
         frame_opciones.pack()
 
+        fuente_sesion = ctk.CTkFont(size=12)
+        self.sesion = ctk.CTkLabel(self, font=fuente_sesion, wraplength=250)
+        self.sesion.pack_configure(side='bottom', **self.default_padding)
+        self.sesion.pack()
+
+        self._establecer_nombre_usuario()
+
     def cerrar_sesion(self):
         self.controlador.cerrar_sesion()
 
@@ -57,3 +66,7 @@ class VistaInicio(VistaPrincipal):
 
     def ir_a_asistidos(self):
         self.controlador.ir_a_asistidos()
+
+    def _establecer_nombre_usuario(self, *args):
+        nombre_usuario = self.controlador.obtener_nombre_usuario()
+        self.sesion.configure(text=f"Has iniciado sesión como {nombre_usuario}")

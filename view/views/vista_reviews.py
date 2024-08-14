@@ -26,7 +26,7 @@ class VistaReviews(VistaPrincipal):
         frame_reviews.pack_configure(fill="both", expand=True)
         frame_reviews.pack()
 
-        self.master.bind("<<ir_reviews>>", self._inicializar)
+        self._inicializar()
 
         self.boton_atras.pack(side='bottom', **self.default_padding)
 
@@ -40,5 +40,5 @@ class VistaReviews(VistaPrincipal):
         self.texto.delete("1.0", tk.END)
         texto_reviews = self.controlador.recuperar_reviews()
         self.texto.insert(tk.END, texto_reviews)
-        # Deshabilito la edicion del widget de texto   
+        # Deshabilito la edicion del widget de texto
         self.texto.configure(state="disabled")
