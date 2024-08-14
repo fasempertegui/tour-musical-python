@@ -14,9 +14,12 @@ class ControladorUbicacion():
 
     @requiere_sesion_valida
     def guardar_cambios(self):
-        usuario = SesionUtils.obtener_usuario_sesion(self.app.cliente)
-        actualizacion = {"$set": {"configuracion_usuario": {"ubicacion": self.coordenadas}}}
-        usuario.actualizar_usuario(self.app.cliente, actualizacion)
+        usuario_actual = SesionUtils.obtener_usuario_sesion(self.app.cliente)
+        if usuario_actual:
+            actualizacion = {"$set": {"configuracion_usuario": {"ubicacion": self.coordenadas}}}
+            usuario_actual.actualizar_usuario(self.app.cliente, actualizacion)
+        else:
+            print("El usuario no existe o la sesion es invalida")
 
     def regresar(self):
         self.app.volver_vista_anterior()

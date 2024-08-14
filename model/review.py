@@ -1,4 +1,5 @@
 import os
+import secrets
 
 
 class Review:
@@ -11,7 +12,8 @@ class Review:
         self.calificacion = calificacion
 
     @classmethod
-    def crear_review(cls, cliente, id_review, id_evento, id_usuario_actual, calificacion, comentario):
+    def crear_review(cls, cliente, id_evento, id_usuario_actual, calificacion, comentario):
+        id_review = secrets.randbits(60)
         review = cls(id_review, id_evento, id_usuario_actual, calificacion, comentario)
         coleccion = cliente[os.getenv("BD_REVIEWS")]
         coleccion.insert_one(review.__dict__)

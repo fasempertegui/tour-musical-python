@@ -14,9 +14,13 @@ class Sesion:
     # Metodos de clase
 
     @classmethod
-    def obtener_sesion_id(cls, cliente, id_sesion):
-        sesion = cliente[os.getenv("BD_SESIONES")].find_one({"_id": id_sesion})
-        return cls(**sesion) if sesion else None
+    def obtener_sesion(cls, cliente):
+        if SesionLocal.existe_sesion_local():
+            id_sesion = SesionLocal.obtener_id_sesion_local()
+            sesion = cliente[os.getenv("BD_SESIONES")].find_one({"_id": id_sesion})
+            if sesion:
+                return cls(**sesion)
+        return None
 
     # Metodos estaticos
 

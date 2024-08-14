@@ -18,11 +18,13 @@ class ControladorEscribirReview():
 
     @requiere_sesion_valida
     def enviar_review(self, calificacion, comentario):
-        id_usuario_actual = SesionUtils.obtener_usuario_sesion(self.app.cliente)._id
-        id_evento = self.obtener_evento_actual()._id
-        id_review = secrets.randbits(60)
-        Review.crear_review(self.app.cliente, id_review, id_evento, id_usuario_actual, calificacion, comentario)
-        self._generar_evento_actualizar_botones()
+        usuario_actual = SesionUtils.obtener_usuario_sesion(self.app.cliente)
+        if usuario_actual:
+            id_evento = self.obtener_evento_actual()._id
+            Review.crear_review(self.app.cliente, id_evento, usuario_actual._id, calificacion, comentario)
+            self._generar_evento_actualizar_botones()
+        else:
+            print("El usuario no existe o la sesion es invalida")
 
     def regresar(self):
         self.app.volver_vista_anterior()

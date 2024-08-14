@@ -16,8 +16,12 @@ class ControladorMapa():
         return MapaUtils.obtener_ruta(lat_origen, lon_origen, lat_destino, lon_destino)
 
     def obtener_configuracion_usuario(self):
-        usuario = SesionUtils.obtener_usuario_sesion(self.app.cliente)
-        return usuario.configuracion_usuario
+        usuario_actual = SesionUtils.obtener_usuario_sesion(self.app.cliente)
+        if usuario_actual:
+            return usuario_actual.configuracion_usuario
+        else:
+            print("El usuario no existe o la sesion es invalida")
+            return None
 
     def regresar(self):
         self.app.volver_vista_anterior()

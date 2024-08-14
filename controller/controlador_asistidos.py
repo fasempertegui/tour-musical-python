@@ -11,8 +11,13 @@ class ControladorAsistidos(ControladorEventos):
         super().__init__(app)
 
     def obtener_eventos_asistidos(self):
-        eventos_asistidos = SesionUtils.obtener_usuario_sesion(self.app.cliente).historial_eventos
-        return [self._obtener_evento_id(id_evento) for id_evento in eventos_asistidos]
+        usuario_actual = SesionUtils.obtener_usuario_sesion(self.app.cliente)
+        if usuario_actual:
+            eventos_asistidos = usuario_actual.historial_eventos
+            return [self._obtener_evento_id(id_evento) for id_evento in eventos_asistidos]
+        else:
+            print("El usuario no existe o la sesion es invalida")
+            return None
 
     # Privados
 

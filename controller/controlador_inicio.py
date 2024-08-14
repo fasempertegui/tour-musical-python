@@ -20,12 +20,17 @@ class ControladorInicio():
     # Publicos
 
     def cerrar_sesion(self):
-        id_sesion = Sesion.obtener_sesion_local()
-        Sesion.eliminar_sesion(self.app.cliente, id_sesion)
+        sesion = Sesion.obtener_sesion(self.app.cliente)
+        Sesion.eliminar_sesion(self.app.cliente, sesion._id)
         self.app.ir_a_login()
 
     def obtener_nombre_usuario(self):
-        return SesionUtils.obtener_usuario_sesion(self.app.cliente).nombre_usuario
+        usuario_actual = SesionUtils.obtener_usuario_sesion(self.app.cliente)
+        if usuario_actual:
+            return usuario_actual.nombre_usuario
+        else:
+            print("El usuario no existe o la sesion es invalida")
+            return None
 
     def ir_a_ajustes(self):
         self.app.cambiar_vista(ControladorAjustes, VistaAjustes)
