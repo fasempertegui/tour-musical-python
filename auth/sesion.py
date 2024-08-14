@@ -15,12 +15,19 @@ class Sesion:
 
     @classmethod
     def obtener_sesion(cls, cliente):
-        if SesionLocal.existe_sesion_local():
-            id_sesion = SesionLocal.obtener_id_sesion_local()
+        id_sesion = cls._obtener_id_sesion_local()
+        if id_sesion:
             sesion = cliente[os.getenv("BD_SESIONES")].find_one({"_id": id_sesion})
             if sesion:
                 return cls(**sesion)
         return None
+
+    @classmethod
+    def validar_sesion(cls, cliente):
+        id_sesion = cls._obtener_id_sesion_local()
+        if id_sesion:
+            return SesionBD.validar_sesion(cliente, id_sesion)
+        return False
 
     # Metodos estaticos
 
@@ -35,10 +42,10 @@ class Sesion:
         SesionLocal.eliminar_sesion_local()
         SesionBD.eliminar_sesion(cliente, id_sesion)
 
+    # Metodos privados
+
     @staticmethod
-    def validar_sesion(cliente):
+    def _obtener_id_sesion_local():
         if SesionLocal.existe_sesion_local():
-            id_sesion = SesionLocal.obtener_id_sesion_local()
-            if SesionBD.validar_sesion(cliente, id_sesion):
-                return True
-        return False
+            return SesionLocal.obtener_id_sesion_local()
+        return None
