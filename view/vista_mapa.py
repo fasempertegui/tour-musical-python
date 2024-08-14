@@ -28,11 +28,10 @@ class VistaMapa(ctk.CTkFrame):
         self._inicializar()
 
         self.boton_atras = VistaUtils.crear_boton_atras(self)
-        self.boton_atras.configure(command=self.regresar)
+        self.boton_atras.configure(command=self._regresar)
         self.boton_atras.pack()
 
-    def regresar(self):
-        self.controlador.regresar()
+    # Privados
 
     def _inicializar(self, *args):
         self.mapa.delete_all_marker()
@@ -64,3 +63,6 @@ class VistaMapa(ctk.CTkFrame):
         else:
             self.check_agregar_ruta.configure(text="Mostrar ruta")
             self.mapa.delete_all_path()
+
+    def _regresar(self):
+        self.controlador.regresar()

@@ -72,11 +72,10 @@ class VistaBusqueda(ctk.CTkFrame):
         self._actualizar_eventos()
 
         self.boton_atras = VistaUtils.crear_boton_atras(self)
-        self.boton_atras.configure(command=self.regresar)
+        self.boton_atras.configure(command=self._regresar)
         self.boton_atras.pack()
 
-    def regresar(self):
-        self.controlador.regresar()
+    # Privados
 
     def _restablecer_eventos(self, *args):
         self.controlador.restablecer_eventos()
@@ -90,10 +89,6 @@ class VistaBusqueda(ctk.CTkFrame):
         for evento in eventos_filtrados:
             self.listbox.insert(tk.END, evento.nombre)
 
-    def _ir_evento_seleccionado(self, event, funcion, listbox):
-        evento = VistaUtils.obtener_evento_seleccionado(event, funcion, listbox)
-        self.controlador.ir_evento_seleccionado(evento)
-
     def _obtener_eventos_busqueda(self):
         return self.controlador.obtener_eventos_busqueda()
 
@@ -102,3 +97,12 @@ class VistaBusqueda(ctk.CTkFrame):
         self.listbox.delete(0, tk.END)
         for evento in eventos:
             self.listbox.insert(tk.END, evento.nombre)
+
+    # Navegacion
+
+    def _ir_evento_seleccionado(self, event, funcion, listbox):
+        evento = VistaUtils.obtener_evento_seleccionado(event, funcion, listbox)
+        self.controlador.ir_evento_seleccionado(evento)
+
+    def _regresar(self):
+        self.controlador.regresar()

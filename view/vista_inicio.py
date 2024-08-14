@@ -19,24 +19,24 @@ class VistaInicio(ctk.CTkFrame):
 
         frame_navegacion = ctk.CTkFrame(self, fg_color="transparent")
 
-        boton_explorar = ctk.CTkButton(frame_navegacion, text="Explorar eventos", command=self.ir_a_explorar, **VistaUtils.estilo_boton)
+        boton_explorar = ctk.CTkButton(frame_navegacion, text="Explorar eventos", command=self._ir_a_explorar, **VistaUtils.estilo_boton)
         boton_explorar.grid(row=0, column=0, **VistaUtils.padding)
 
-        boton_buscar = ctk.CTkButton(frame_navegacion, text="Buscar eventos", command=self.ir_a_busqueda, **VistaUtils.estilo_boton)
+        boton_buscar = ctk.CTkButton(frame_navegacion, text="Buscar eventos", command=self._ir_a_busqueda, **VistaUtils.estilo_boton)
         boton_buscar.grid(row=1, column=0, **VistaUtils.padding)
 
-        boton_asistidos = ctk.CTkButton(frame_navegacion, text="Eventos asistidos", command=self.ir_a_asistidos, **VistaUtils.estilo_boton)
+        boton_asistidos = ctk.CTkButton(frame_navegacion, text="Eventos asistidos", command=self._ir_a_asistidos, **VistaUtils.estilo_boton)
         boton_asistidos.grid(row=2, column=0, **VistaUtils.padding)
 
         frame_navegacion.pack(padx=10, pady=15)
 
         frame_opciones = ctk.CTkFrame(self, fg_color="transparent")
 
-        boton_ajustes = ctk.CTkButton(frame_opciones, text="Ajustes", **VistaUtils.estilo_boton, command=self.ir_a_ajustes)
+        boton_ajustes = ctk.CTkButton(frame_opciones, text="Ajustes", **VistaUtils.estilo_boton, command=self._ir_a_ajustes)
         boton_ajustes.pack_configure(side='left', **VistaUtils.padding)
         boton_ajustes.pack()
 
-        boton_salir = ctk.CTkButton(frame_opciones, text="Cerrar sesion", **VistaUtils.estilo_boton, command=self.cerrar_sesion)
+        boton_salir = ctk.CTkButton(frame_opciones, text="Cerrar sesion", **VistaUtils.estilo_boton, command=self._cerrar_sesion)
         boton_salir.pack_configure(side='right', **VistaUtils.padding)
         boton_salir.pack()
 
@@ -50,21 +50,25 @@ class VistaInicio(ctk.CTkFrame):
 
         self._establecer_nombre_usuario()
 
-    def cerrar_sesion(self):
-        self.controlador.cerrar_sesion()
+    # Privados
 
-    def ir_a_ajustes(self):
-        self.controlador.ir_a_ajustes()
-
-    def ir_a_explorar(self):
-        self.controlador.ir_a_explorar()
-
-    def ir_a_busqueda(self):
-        self.controlador.ir_a_busqueda()
-
-    def ir_a_asistidos(self):
-        self.controlador.ir_a_asistidos()
-
-    def _establecer_nombre_usuario(self, *args):
+    def _establecer_nombre_usuario(self):
         nombre_usuario = self.controlador.obtener_nombre_usuario()
         self.sesion.configure(text=f"Has iniciado sesión como {nombre_usuario}")
+
+    def _cerrar_sesion(self):
+        self.controlador.cerrar_sesion()
+
+    # Navegacion
+
+    def _ir_a_explorar(self):
+        self.controlador.ir_a_explorar()
+
+    def _ir_a_busqueda(self):
+        self.controlador.ir_a_busqueda()
+
+    def _ir_a_asistidos(self):
+        self.controlador.ir_a_asistidos()
+
+    def _ir_a_ajustes(self):
+        self.controlador.ir_a_ajustes()

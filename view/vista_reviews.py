@@ -28,21 +28,20 @@ class VistaReviews(ctk.CTkFrame):
         self._inicializar()
 
         self.boton_atras = VistaUtils.crear_boton_atras(self)
-        self.boton_atras.configure(command=self.regresar)
+        self.boton_atras.configure(command=self._regresar)
         self.boton_atras.pack()
 
-    def regresar(self):
-        self.controlador.regresar()
+    # Privados
 
     def _inicializar(self, *args):
         evento = self.controlador.obtener_evento_actual()
         texto_descripcion = f"{evento.nombre} por {evento.artista}"
         self.descripcion_review.configure(text=texto_descripcion)
-        # Habilito la edicion del widget de texto
         self.texto.configure(state="normal")
-        # Borro el contenido del widget de texto
         self.texto.delete("1.0", tk.END)
         texto_reviews = self.controlador.recuperar_reviews()
         self.texto.insert(tk.END, texto_reviews)
-        # Deshabilito la edicion del widget de texto
         self.texto.configure(state="disabled")
+
+    def _regresar(self):
+        self.controlador.regresar()

@@ -41,8 +41,10 @@ class VistaExplorar(ctk.CTkFrame):
         self._actualizar_eventos()
 
         self.boton_atras = VistaUtils.crear_boton_atras(self)
-        self.boton_atras.configure(command=self.regresar)
+        self.boton_atras.configure(command=self._regresar)
         self.boton_atras.pack()
+
+    # Privados
 
     def _ir_evento_seleccionado(self, event, funcion, listbox):
         evento = VistaUtils.obtener_evento_seleccionado(event, funcion, listbox)
@@ -71,5 +73,7 @@ class VistaExplorar(ctk.CTkFrame):
         for evento in eventos_finalizados:
             self.listbox_finalizados.insert(tk.END, evento.nombre)
 
-    def regresar(self):
+    # Navegacion
+
+    def _regresar(self):
         self.controlador.regresar()

@@ -55,19 +55,23 @@ class VistaEscribirReview(ctk.CTkFrame):
         self._inicializar()
 
         self.boton_atras = VistaUtils.crear_boton_atras(self)
-        self.boton_atras.configure(command=self.regresar)
+        self.boton_atras.configure(command=self._regresar)
         self.boton_atras.pack()
 
-    def regresar(self):
-        self.controlador.regresar()
-
-    def _inicializar(self, *args):
-        evento = self.controlador.obtener_evento_actual()
-        texto_descripcion = f"{evento.nombre} por {evento.artista}"
-        self.descripcion_review.configure(text=texto_descripcion)
+    # Privados
 
     def _enviar_review(self):
         calificacion = int(self.option_menu.get().split(" ")[0])
         comentario = self.textbox.get("1.0", tk.END).strip()
         self.controlador.enviar_review(calificacion, comentario)
+        self.controlador.regresar()
+
+    def _inicializar(self):
+        evento = self.controlador.obtener_evento_actual()
+        texto_descripcion = f"{evento.nombre} por {evento.artista}"
+        self.descripcion_review.configure(text=texto_descripcion)
+
+    # Navegacion
+
+    def _regresar(self):
         self.controlador.regresar()

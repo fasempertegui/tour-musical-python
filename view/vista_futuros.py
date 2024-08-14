@@ -38,18 +38,17 @@ class VistaFuturos(ctk.CTkFrame):
         self.direccion_ubicacion_label = ctk.CTkLabel(frame_direccion)
         self.direccion_ubicacion_label.pack()
 
-        boton_ver_mapa = ctk.CTkButton(frame_direccion, text="Ver en mapa", command=self.ir_a_mapa, **VistaUtils.estilo_boton)
+        boton_ver_mapa = ctk.CTkButton(frame_direccion, text="Ver en mapa", command=self._ir_a_mapa, **VistaUtils.estilo_boton)
         boton_ver_mapa.pack_configure(**VistaUtils.padding)
         boton_ver_mapa.pack()
 
         self._inicializar()
 
         self.boton_atras = VistaUtils.crear_boton_atras(self)
-        self.boton_atras.configure(command=self.regresar)
+        self.boton_atras.configure(command=self._regresar)
         self.boton_atras.pack()
 
-    def regresar(self):
-        self.controlador.regresar()
+    # Privados
 
     def _inicializar(self, *args):
         evento = self.controlador.obtener_evento_actual()
@@ -65,5 +64,8 @@ class VistaFuturos(ctk.CTkFrame):
 
     # Navegacion
 
-    def ir_a_mapa(self):
+    def _ir_a_mapa(self):
         self.controlador.ir_a_mapa()
+
+    def _regresar(self):
+        self.controlador.regresar()

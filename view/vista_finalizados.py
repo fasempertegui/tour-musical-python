@@ -52,17 +52,19 @@ class VistaFinalizados(ctk.CTkFrame):
         self.boton_escribir_review.pack_configure(side="right", padx=3, pady=3)
         self.boton_escribir_review.pack()
 
-        self._inicializar()
+        self._establecer_info_evento()
+        self._configurar_botones()
 
-        self.master.bind("<<inicializar_finalizados>>", self._inicializar)
-        self.master.bind("<<actualizar_botones>>", self._inicializar)
+        self.master.bind("<<actualizar_botones>>", self._configurar_botones)
 
         self.boton_atras = VistaUtils.crear_boton_atras(self)
-        self.boton_atras.configure(command=self.regresar)
+        self.boton_atras.configure(command=self._regresar)
         self.boton_atras.pack()
 
-    def regresar(self):
-        self.controlador.regresar()
+    # Privados
+
+    def _confirmar_asistencia(self, *args):
+        self.controlador.confirmar_asistencia()
 
     def _establecer_info_evento(self):
         evento = self.controlador.obtener_evento_actual()
@@ -73,22 +75,16 @@ class VistaFinalizados(ctk.CTkFrame):
         info = f"Artista: {evento.artista}\nGenero: {evento.genero}\nFecha: {fecha} {hora_inicio}"
         self.info_evento_label.configure(text=info)
 
-    def _inicializar(self, *args):
-        self._establecer_info_evento()
+    def _configurar_botones(self, *args):
         if self.controlador.determinar_usuario_asistio():
-            self.boton_confirmar_asistencia.configure(
-                state="disabled", text="Marcado como asistido")
+            self.boton_confirmar_asistencia.configure(state="disabled", text="Marcado como asistido")
             if self.controlador.determinar_usuario_puede_opinar():
                 self.boton_escribir_review.configure(state="normal")
             else:
                 self.boton_escribir_review.configure(state="disabled")
         else:
-            self.boton_confirmar_asistencia.configure(
-                state="normal", text="Marcar como asistido")
+            self.boton_confirmar_asistencia.configure(state="normal", text="Marcar como asistido")
             self.boton_escribir_review.configure(state="disabled")
-
-    def _confirmar_asistencia(self, *args):
-        self.controlador.confirmar_asistencia()
 
     # Navegacion
 
@@ -97,3 +93,6 @@ class VistaFinalizados(ctk.CTkFrame):
 
     def ir_a_escribir_review(self):
         self.controlador.ir_a_escribir_review()
+
+    def _regresar(self):
+        self.controlador.regresar()

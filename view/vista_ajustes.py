@@ -19,10 +19,13 @@ class VistaAjustes(ctk.CTkFrame):
         self.boton_establecer_ubicacion.pack()
 
         self.boton_atras = VistaUtils.crear_boton_atras(self)
-        self.boton_atras.configure(command=self.regresar)
+        self.boton_atras.configure(command=self._regresar)
         self.boton_atras.pack()
 
-    def regresar(self):
+    # Privados
+    # Navegacion
+
+    def _regresar(self):
         self.controlador.regresar()
 
     def ir_a_ubicacion(self, *args):

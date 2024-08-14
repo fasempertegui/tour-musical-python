@@ -25,15 +25,10 @@ class VistaAsistidos(ctk.CTkFrame):
         self.master.bind("<<actualizar_asistidos>>", self._actualizar_eventos)
 
         self.boton_atras = VistaUtils.crear_boton_atras(self)
-        self.boton_atras.configure(command=self.regresar)
+        self.boton_atras.configure(command=self._regresar)
         self.boton_atras.pack()
 
-    def regresar(self):
-        self.controlador.regresar()
-
-    def _ir_evento_seleccionado(self, event, funcion, listbox):
-        evento = VistaUtils.obtener_evento_seleccionado(event, funcion, listbox)
-        self.controlador.ir_evento_seleccionado(evento)
+    # Privados
 
     def _obtener_eventos_asistidos(self):
         return self.controlador.obtener_eventos_asistidos()
@@ -43,3 +38,12 @@ class VistaAsistidos(ctk.CTkFrame):
         self.listbox.delete(0, tk.END)
         for evento in eventos:
             self.listbox.insert(tk.END, evento.nombre)
+
+    # Navegacion
+
+    def _regresar(self):
+        self.controlador.regresar()
+
+    def _ir_evento_seleccionado(self, event, funcion, listbox):
+        evento = VistaUtils.obtener_evento_seleccionado(event, funcion, listbox)
+        self.controlador.ir_evento_seleccionado(evento)

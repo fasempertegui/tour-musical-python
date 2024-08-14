@@ -42,7 +42,7 @@ class Sesion:
         SesionLocal.eliminar_sesion_local()
         SesionBD.eliminar_sesion(cliente, id_sesion)
 
-    # Metodos privados
+    # Privados
 
     @staticmethod
     def _obtener_id_sesion_local():
